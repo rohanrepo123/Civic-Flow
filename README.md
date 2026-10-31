@@ -21,7 +21,7 @@ The agent uses Ollama by default, with your cloud model `nemotron-3-super:cloud`
 1. Install Ollama and start its local service.
 2. Sign in to Ollama: `ollama signin`.
 3. Pull the configured cloud model once: `ollama pull nemotron-3-super:cloud`.
-4. Install Python dependencies: `python -m pip install -e '.[dev,rag,embeddings,browser]'`.
+4. Install Python dependencies: `python -m pip install -r requirements.txt`.
 5. Cache BGE-M3 once: `python -m backend.app.agent.services.embeddings --download-model`.
 6. Copy `.env.example` to `.env`. For running Python directly, keep `OLLAMA_BASE_URL=http://localhost:11434`.
 7. Run the preserved Member 2 app directly with the commands in Local development below.
@@ -63,7 +63,7 @@ scripts\setup-local.cmd
 scripts\run-local.cmd
 ```
 
-The setup reuses an active Python virtual environment when one is activated in the terminal. Otherwise it creates `.venv` and reuses compatible system packages, reducing duplicate disk use. Missing service dependencies are installed into the selected environment.
+The setup reuses an active Python virtual environment when one is activated in the terminal. Otherwise it creates `.venv` and reuses compatible system packages, reducing duplicate disk use. Missing service dependencies are installed into the selected environment. If you install manually, use `python -m pip install -r requirements.txt` from the repository root.
 
 The launcher prints the frontend link and all service health links after they become ready. It prefers frontend port 3001 and service ports 8000-8002, and automatically selects free fallback ports when Windows has reserved the defaults. Use the printed frontend link to open the app. Stop the background services cleanly with:
 
