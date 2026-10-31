@@ -1,0 +1,35 @@
+[
+  {
+    "chunk_id": "mh_domicile_checklist:html:0",
+    "source_id": "mh_domicile_checklist",
+    "service_id": "maharashtra_domicile_certificate",
+    "source_title": "Fees, Procedure and Document Checklist for Age, Nationality and Domicile Certificate",
+    "source_url": "https://aaplesarkar.mahaonline.gov.in/pdf/Fees%2C%20Procedure%2C%20Checklist_Domicile%20Certificate.pdf",
+    "page_number": null,
+    "chunk_index": 0,
+    "text": "Government of Maharashtra Revenue Department. Checklist for the Age, Nationality and Domicile Certificate. The PDF lists one proof of identity from its accepted list, one proof of address from its accepted list, one additional supporting document, and residence proof from an authorized local officer. For minors, it lists one age proof. It also lists self-declaration as mandatory. The PDF states a service fee of INR 20 and a notified delivery period of 15 days. This checklist is an older publication and should be reconfirmed on the live service page before use.",
+    "verification_status": "stale"
+  },
+  {
+    "chunk_id": "mh_rts_service_list:html:0",
+    "source_id": "mh_rts_service_list",
+    "service_id": "maharashtra_domicile_certificate",
+    "source_title": "Maharashtra Right to Public Services: Notified Services",
+    "source_url": "https://aaplesarkar.mahaonline.gov.in/en/CommonForm/CitizenServices_RTS",
+    "page_number": null,
+    "chunk_index": 0,
+    "text": "The current Maharashtra Right to Public Services listing includes Age, Nationality and Domicile Certificate. It identifies the Tahsildar as the designated officer, lists 15 days as the service timeline, and names the Sub-Divisional Officer and Additional Collector as first and second appellate authorities. The portal describes itself as a beta citizen services portal; check the live page for current access and document requirements.",
+    "verification_status": "verified"
+  },
+  {
+    "chunk_id": "mh_mahadbt_faq:html:0",
+    "source_id": "mh_mahadbt_faq",
+    "service_id": "maharashtra_scholarship",
+    "source_title": "MahaDBT Scheme FAQs and Portal Notice",
+    "source_url": "https://mahadbt.maharashtra.gov.in/home/faq",
+    "page_number": null,
+    "chunk_index": 0,
+    "text": "MahaDBT lists multiple scholarship schemes across departments; the correct requirements depend on the exact scheme. Its current portal notice says fresh and renewal applications for academic year 2026-27 are accepted through MahaDBT 2.0. The FAQs describe eligibility as scheme-specific and offer a Find Eligible Schemes flow. Ask the citizen to identify the scholarship scheme before assessing eligibility or documents.",
+    "verification_status": "verified"
+  }
+]

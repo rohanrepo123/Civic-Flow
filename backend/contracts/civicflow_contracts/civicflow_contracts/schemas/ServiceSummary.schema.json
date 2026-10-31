@@ -1,0 +1,56 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "service_id": {
+      "title": "Service Id",
+      "type": "string"
+    },
+    "name": {
+      "title": "Name",
+      "type": "string"
+    },
+    "category": {
+      "title": "Category",
+      "type": "string"
+    },
+    "description": {
+      "default": "",
+      "title": "Description",
+      "type": "string"
+    },
+    "jurisdiction": {
+      "default": "",
+      "title": "Jurisdiction",
+      "type": "string"
+    },
+    "portal_url": {
+      "anyOf": [
+        {
+          "format": "uri",
+          "maxLength": 2083,
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Portal Url"
+    },
+    "allowed_domains": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Allowed Domains",
+      "type": "array"
+    }
+  },
+  "required": [
+    "service_id",
+    "name",
+    "category"
+  ],
+  "title": "ServiceSummary",
+  "type": "object"
+}

@@ -1,0 +1,1444 @@
+[
+  {
+    "state_code": "AN",
+    "name": "Andaman and Nicobar Islands",
+    "jurisdiction_type": "UT",
+    "primary_portal": {
+      "name": "ANI e-Seva",
+      "url": "https://anieseva.andamannicobar.gov.in/",
+      "purpose": "Primary citizen-service discovery/application gateway"
+    },
+    "service_examples": [
+      "Income, local/resident, OBC, valuation, non-encumbrance, senior citizen, marriage, EWS, ST certificates",
+      "Pensions and social-welfare assistance",
+      "Labour registration and financial assistance",
+      "Electricity, fisheries, agriculture and tourism services"
+    ],
+    "department_examples": [
+      "Revenue",
+      "Social Welfare",
+      "Labour",
+      "Electricity",
+      "Agriculture",
+      "Fisheries"
+    ],
+    "additional_portals": [
+      {
+        "name": "A&N eDistrict services listing",
+        "url": "https://andamannicobar.gov.in/applyservices.php",
+        "purpose": "Service listing and application entry links"
+      },
+      {
+        "name": "A&N eServices (ServicePlus)",
+        "url": "https://eservices.andamannicobar.gov.in/",
+        "purpose": "Departmental service applications"
+      }
+    ],
+    "catalog_status": "seed_candidate",
+    "verification_status": "official_portal_identified",
+    "notes": "The administration lists separate eDistrict and eServices entry points; select the service-specific portal rather than assuming one portal handles every service."
+  },
+  {
+    "state_code": "AP",
+    "name": "Andhra Pradesh",
+    "jurisdiction_type": "State",
+    "primary_portal": {
+      "name": "AP Seva / MeeSeva",
+      "url": "https://vswsonline.ap.gov.in/",
+      "purpose": "Primary citizen-service discovery/application gateway"
+    },
+    "service_examples": [
+      "Integrated caste/nativity/date-of-birth certificate",
+      "Income, OBC and family-member certificates",
+      "Birth/death registrations and corrections",
+      "Revenue, land, municipal and utility services"
+    ],
+    "department_examples": [
+      "Revenue",
+      "Village/Ward Secretariat",
+      "Municipal Administration",
+      "Registration",
+      "Transport"
+    ],
+    "additional_portals": [
+      {
+        "name": "AP MeeSeva Citizen Portal",
+        "url": "https://onlineap.meeseva.gov.in/CitizenPortal/userinterface/citizen/Home.aspx",
+        "purpose": "MeeSeva citizen service access"
+      },
+      {
+        "name": "MeeBhoomi land records",
+        "url": "https://meebhoomi.ap.gov.in/",
+        "purpose": "Records of Rights and land information"
+      },
+      {
+        "name": "AP Registration & Stamps",
+        "url": "https://registration.ap.gov.in/igrs",
+        "purpose": "Property registration"
+      }
+    ],
+    "catalog_status": "seed_candidate",
+    "verification_status": "official_portal_identified",
+    "notes": "AP Seva/Village-Ward Secretariat and MeeSeva are related but not identical channels. Verify the current service owner and application route."
+  },
+  {
+    "state_code": "AR",
+    "name": "Arunachal Pradesh",
+    "jurisdiction_type": "State",
+    "primary_portal": {
+      "name": "Arunachal e-Services / ServicePlus",
+      "url": "https://eservice.arunachal.gov.in/",
+      "purpose": "Primary citizen-service discovery/application gateway"
+    },
+    "service_examples": [
+      "Permanent/temporary residence certificates",
+      "Scheduled Tribe and income certificates",
+      "Character, senior-citizen and police-clearance certificates",
+      "Marriage and other district/revenue services"
+    ],
+    "department_examples": [
+      "Deputy Commissioner / Revenue",
+      "Home / Police",
+      "Social Welfare",
+      "Local Administration"
+    ],
+    "additional_portals": [
+      {
+        "name": "Service directory",
+        "url": "https://eservice.arunachal.gov.in/resources/homePage/12/services.html",
+        "purpose": "Service catalogue"
+      }
+    ],
+    "catalog_status": "seed_candidate",
+    "verification_status": "official_portal_identified",
+    "notes": "ServicePlus portal includes a state service directory; exact list may vary by district and issuing authority."
+  },
+  {
+    "state_code": "AS",
+    "name": "Assam",
+    "jurisdiction_type": "State",
+    "primary_portal": {
+      "name": "Sewa Setu (formerly RTPS)",
+      "url": "https://sewasetu.assam.gov.in/",
+      "purpose": "Primary citizen-service discovery/application gateway"
+    },
+    "service_examples": [
+      "Caste/SC/ST/OBC/MOBC and non-creamy-layer certificates",
+      "Income, residence and marriage certificates",
+      "Employment and labour services",
+      "Business approvals and utility services"
+    ],
+    "department_examples": [
+      "Revenue & Disaster Management",
+      "Social Justice",
+      "Labour",
+      "Industries",
+      "Transport"
+    ],
+    "additional_portals": [
+      {
+        "name": "ILRMS / Mission Basundhara",
+        "url": "https://ilrms.assam.gov.in/",
+        "purpose": "Land records and revenue services"
+      },
+      {
+        "name": "Assam NGDRS",
+        "url": "https://ngdrs.assam.gov.in/",
+        "purpose": "Property registration"
+      }
+    ],
+    "catalog_status": "seed_candidate",
+    "verification_status": "official_portal_identified",
+    "notes": "Sewa Setu is the state-wide service gateway; Mission Basundhara/ILRMS and NGDRS are separate specialist portals."
+  },
+  {
+    "state_code": "BR",
+    "name": "Bihar",
+    "jurisdiction_type": "State",
+    "primary_portal": {
+      "name": "RTPS Bihar / ServicePlus",
+      "url": "https://serviceonline.bihar.gov.in/",
+      "purpose": "Primary citizen-service discovery/application gateway"
+    },
+    "service_examples": [
+      "Residential certificate: Circle, Sub-Division and District levels",
+      "Caste certificate: Circle, Sub-Division and District levels",
+      "Income certificate: Circle, Sub-Division and District levels",
+      "State/central non-creamy-layer and EWS income-and-asset certificates",
+      "Birth/death, character, labour, ration and other departmental services"
+    ],
+    "department_examples": [
+      "General Administration",
+      "Revenue & Land Reforms",
+      "Planning & Development",
+      "Labour Resources",
+      "Food & Consumer Protection",
+      "Home"
+    ],
+    "additional_portals": [
+      {
+        "name": "Bihar Bhumi",
+        "url": "https://biharbhumi.bihar.gov.in/",
+        "purpose": "Land records, mutation and land-possession services"
+      },
+      {
+        "name": "Bihar BhuNaksha",
+        "url": "https://bhunaksha.bihar.gov.in/",
+        "purpose": "Cadastral maps"
+      },
+      {
+        "name": "Bihar Registration / Nibandhan",
+        "url": "https://nibandhan.bihar.gov.in/",
+        "purpose": "Property and document registration"
+      },
+      {
+        "name": "Bihar Ration Card Online",
+        "url": "https://rconline.bihar.gov.in/",
+        "purpose": "Ration-card applications"
+      }
+    ],
+    "catalog_status": "seed_candidate",
+    "verification_status": "official_portal_identified",
+    "notes": "The public RTPS catalogue explicitly lists residential, caste, income, NCL and EWS certificates at multiple administrative levels. The page does not provide one universal document checklist; follow the relevant service-level detail/application step."
+  },
+  {
+    "state_code": "CH",
+    "name": "Chandigarh",
+    "jurisdiction_type": "UT",
+    "primary_portal": {
+      "name": "Chandigarh Administration citizen services",
+      "url": "https://chandigarh.gov.in/how-do-i",
+      "purpose": "Primary citizen-service discovery/application gateway"
+    },
+    "service_examples": [
+      "Birth, death and marriage services",
+      "Driving licence and vehicle services",
+      "Property/land and registration services",
+      "Water/electricity, tenant verification, grievance and RTI"
+    ],
+    "department_examples": [
+      "Revenue",
+      "Health",
+      "Transport",
+      "Municipal Corporation",
+      "Police",
+      "Registration"
+    ],
+    "additional_portals": [
+      {
+        "name": "Chandigarh NGDRS",
+        "url": "https://ngdrs.chd.gov.in/NGDRS_CH/",
+        "purpose": "Property registration"
+      },
+      {
+        "name": "Chandigarh Revenue",
+        "url": "https://revenue.chd.gov.in/",
+        "purpose": "Revenue records and services"
+      }
+    ],
+    "catalog_status": "seed_candidate",
+    "verification_status": "official_portal_identified",
+    "notes": "The Chandigarh Administration “How do I” page is a government service index; verify the destination portal for each task."
+  },
+  {
+    "state_code": "CG",
+    "name": "Chhattisgarh",
+    "jurisdiction_type": "State",
+    "primary_portal": {
+      "name": "Sewa Setu Chhattisgarh",
+      "url": "https://sewasetu.cgstate.gov.in/home?lang=en",
+      "purpose": "Primary citizen-service discovery/application gateway"
+    },
+    "service_examples": [
+      "Income, domicile and marriage certificates",
+      "SC/ST and OBC certificates",
+      "Trade licence and land-use information",
+      "Application status and grievance"
+    ],
+    "department_examples": [
+      "Revenue",
+      "Urban Administration",
+      "Panchayat & Rural Development",
+      "Industries",
+      "Social Welfare"
+    ],
+    "additional_portals": [
+      {
+        "name": "Bhuiyan land records",
+        "url": "https://bhuiyan.cg.nic.in/",
+        "purpose": "Land records"
+      },
+      {
+        "name": "BhuNaksha Chhattisgarh",
+        "url": "https://bhunaksha.cg.nic.in/",
+        "purpose": "Land maps"
+      }
+    ],
+    "catalog_status": "seed_candidate",
+    "verification_status": "official_portal_identified",
+    "notes": "The live Sewa Setu directory shows Income, Domicile, Trade Licence, Marriage, OBC, SC/ST and Land Use Information services."
+  },
+  {
+    "state_code": "DN",
+    "name": "Dadra and Nagar Haveli and Daman and Diu",
+    "jurisdiction_type": "UT",
+    "primary_portal": {
+      "name": "DNHDD Administration services",
+      "url": "https://ddd.gov.in/services/",
+      "purpose": "Primary citizen-service discovery/application gateway"
+    },
+    "service_examples": [
+      "Revenue and certificate services",
+      "Electricity and water services",
+      "Transport, labour and police services",
+      "Fire, pollution control, fisheries and tourism services"
+    ],
+    "department_examples": [
+      "Revenue",
+      "Transport",
+      "Labour",
+      "Electricity",
+      "Health",
+      "Police",
+      "Tourism"
+    ],
+    "additional_portals": [
+      {
+        "name": "DNH NGDRS",
+        "url": "https://ngdrs.dnh.gov.in/",
+        "purpose": "Property registration"
+      },
+      {
+        "name": "Single Window Portal",
+        "url": "https://swp.dddgov.in/",
+        "purpose": "Business and departmental approvals"
+      }
+    ],
+    "catalog_status": "seed_candidate",
+    "verification_status": "official_portal_identified",
+    "notes": "This UT uses multiple department and single-window systems; do not assume all services share one application portal."
+  },
+  {
+    "state_code": "DL",
+    "name": "Delhi",
+    "jurisdiction_type": "UT",
+    "primary_portal": {
+      "name": "Delhi e-District",
+      "url": "https://edistrict.delhi.gov.in/",
+      "purpose": "Primary citizen-service discovery/application gateway"
+    },
+    "service_examples": [
+      "SC/ST/OBC/EWS certificates",
+      "Income, domicile/residence and other revenue certificates",
+      "Food & Supply/ration services",
+      "Labour, social-welfare, education and women/child services"
+    ],
+    "department_examples": [
+      "Revenue",
+      "Food & Civil Supplies",
+      "Social Welfare",
+      "SC/ST Welfare",
+      "Labour",
+      "Higher Education",
+      "Women & Child Development"
+    ],
+    "additional_portals": [
+      {
+        "name": "Delhi NGDRS",
+        "url": "https://ngdrs.delhi.gov.in/NGDRS_DL",
+        "purpose": "Property registration"
+      },
+      {
+        "name": "Delhi voter services",
+        "url": "https://voters.eci.gov.in/",
+        "purpose": "National voter application service"
+      }
+    ],
+    "catalog_status": "seed_candidate",
+    "verification_status": "official_portal_identified",
+    "notes": "e-District is the citizen service gateway; department-specific systems may be linked out."
+  },
+  {
+    "state_code": "GA",
+    "name": "Goa",
+    "jurisdiction_type": "State",
+    "primary_portal": {
+      "name": "Goa Online Citizen Services",
+      "url": "https://goaonline.gov.in/CitizenServices",
+      "purpose": "Primary citizen-service discovery/application gateway"
+    },
+    "service_examples": [
+      "Revenue certificates and services",
+      "Birth/death/marriage and local-government services",
+      "Citizen services, payments and schemes",
+      "Ease-of-doing-business approvals and certificate verification"
+    ],
+    "department_examples": [
+      "Revenue",
+      "Civil Registration",
+      "Transport",
+      "Municipal Administration",
+      "Industries",
+      "Social Welfare"
+    ],
+    "additional_portals": [
+      {
+        "name": "Goa land records / DSLR",
+        "url": "https://dslr.goa.gov.in/",
+        "purpose": "Land records"
+      },
+      {
+        "name": "Goa NGDRS",
+        "url": "https://ngdrsgoa.gov.in/NGDRS_GA",
+        "purpose": "Property registration"
+      }
+    ],
+    "catalog_status": "seed_candidate",
+    "verification_status": "official_portal_identified",
+    "notes": "Goa Online exposes All Services, Citizen Services, EODB, payment, service wizard, tracking and certificate verification."
+  },
+  {
+    "state_code": "GJ",
+    "name": "Gujarat",
+    "jurisdiction_type": "State",
+    "primary_portal": {
+      "name": "Digital Gujarat",
+      "url": "https://www.digitalgujarat.gov.in/",
+      "purpose": "Primary citizen-service discovery/application gateway"
+    },
+    "service_examples": [
+      "SC/ST/OBC and non-creamy-layer certificates",
+      "Income, domicile and other revenue services",
+      "Scholarship and social-welfare services",
+      "Digital citizen services and certificates"
+    ],
+    "department_examples": [
+      "Revenue",
+      "Social Justice & Empowerment",
+      "Education",
+      "Women & Child Development",
+      "Labour"
+    ],
+    "additional_portals": [
+      {
+        "name": "AnyRoR Gujarat",
+        "url": "https://anyror.gujarat.gov.in/",
+        "purpose": "Land records"
+      },
+      {
+        "name": "GARVI Gujarat registration",
+        "url": "https://garvi.gujarat.gov.in/",
+        "purpose": "Property registration"
+      }
+    ],
+    "catalog_status": "seed_candidate",
+    "verification_status": "official_portal_identified",
+    "notes": "Digital Gujarat is the common citizen portal; land-record and property-registration workflows use specialist sites."
+  },
+  {
+    "state_code": "HR",
+    "name": "Haryana",
+    "jurisdiction_type": "State",
+    "primary_portal": {
+      "name": "SARAL Haryana",
+      "url": "https://saralharyana.gov.in/",
+      "purpose": "Primary citizen-service discovery/application gateway"
+    },
+    "service_examples": [
+      "Certificates and revenue services",
+      "Social-welfare pensions and schemes",
+      "Departmental licences and approvals",
+      "Application tracking across departments"
+    ],
+    "department_examples": [
+      "Revenue",
+      "Social Justice & Empowerment",
+      "Food & Supplies",
+      "Labour",
+      "Transport",
+      "Urban Local Bodies"
+    ],
+    "additional_portals": [
+      {
+        "name": "Jamabandi Haryana",
+        "url": "https://jamabandi.nic.in/",
+        "purpose": "Land records and revenue services"
+      },
+      {
+        "name": "Haryana property registration links",
+        "url": "https://ngdrs.gov.in/NGDRS_Website/state_ut_links.php?lang=en",
+        "purpose": "Official state registration directory; Haryana portal listed there"
+      }
+    ],
+    "catalog_status": "seed_candidate",
+    "verification_status": "official_portal_identified",
+    "notes": "SARAL is the state single-window portal; Jamabandi is a separate revenue/land-record site."
+  },
+  {
+    "state_code": "HP",
+    "name": "Himachal Pradesh",
+    "jurisdiction_type": "State",
+    "primary_portal": {
+      "name": "HimSeva / e-District",
+      "url": "https://himseva.hp.gov.in/",
+      "purpose": "Primary citizen-service discovery/application gateway"
+    },
+    "service_examples": [
+      "Caste (SC/ST), income and Bonafide Himachali certificates",
+      "Rural-area, backward-area, legal-heir and agriculturist certificates",
+      "Character and minority certificates",
+      "Other revenue and citizen services"
+    ],
+    "department_examples": [
+      "Revenue",
+      "Rural Development",
+      "Social Justice",
+      "Home / Police"
+    ],
+    "additional_portals": [
+      {
+        "name": "HimSeva service list",
+        "url": "https://himseva.hp.gov.in/pages/staticSite/serviceList.xhtml",
+        "purpose": "Department and service catalogue"
+      },
+      {
+        "name": "Himbhoomi",
+        "url": "https://himbhoomilmk.nic.in/viewlandrecords.aspx",
+        "purpose": "Land records"
+      }
+    ],
+    "catalog_status": "seed_candidate",
+    "verification_status": "official_portal_identified",
+    "notes": "The official HimSeva list identifies Caste (SC/ST), Income, Bonafide Himachali and other Revenue Department services."
+  },
+  {
+    "state_code": "JK",
+    "name": "Jammu and Kashmir",
+    "jurisdiction_type": "UT",
+    "primary_portal": {
+      "name": "e-UNNAT / J&K e-Services",
+      "url": "https://eunnat.jk.gov.in/",
+      "purpose": "Primary citizen-service discovery/application gateway"
+    },
+    "service_examples": [
+      "Domicile and residence certificates",
+      "Income, SC/ST, OBC, EWS, character and dependency certificates",
+      "Land/revenue and social-welfare services",
+      "District-level e-services"
+    ],
+    "department_examples": [
+      "Revenue",
+      "Social Welfare",
+      "Home / Police",
+      "Labour",
+      "Rural Development"
+    ],
+    "additional_portals": [
+      {
+        "name": "Jansugam J&K",
+        "url": "https://jansugam.jk.gov.in/",
+        "purpose": "Government service access"
+      },
+      {
+        "name": "J&K RevenuePlus",
+        "url": "https://jkrevenue.nic.in/revenueplus/",
+        "purpose": "Revenue and land services"
+      },
+      {
+        "name": "J&K land records",
+        "url": "https://landrecords.jk.gov.in/Dashboard/Home",
+        "purpose": "Record of Rights"
+      }
+    ],
+    "catalog_status": "seed_candidate",
+    "verification_status": "official_portal_identified",
+    "notes": "J&K has multiple citizen service entry points. Confirm which current portal owns each service before deep-linking."
+  },
+  {
+    "state_code": "JH",
+    "name": "Jharkhand",
+    "jurisdiction_type": "State",
+    "primary_portal": {
+      "name": "JharSewa",
+      "url": "https://jharsewa.jharkhand.gov.in/",
+      "purpose": "Primary citizen-service discovery/application gateway"
+    },
+    "service_examples": [
+      "Caste, income and residential certificates",
+      "Social-welfare pensions and benefits",
+      "Land records and mutation",
+      "Other district/e-District services"
+    ],
+    "department_examples": [
+      "Revenue, Registration & Land Reforms",
+      "Social Security",
+      "Labour",
+      "Panchayati Raj"
+    ],
+    "additional_portals": [
+      {
+        "name": "Jharbhoomi",
+        "url": "https://jharbhoomi.jharkhand.gov.in/",
+        "purpose": "Land records"
+      },
+      {
+        "name": "JharBhuNaksha",
+        "url": "https://jharbhunaksha.jharkhand.gov.in/",
+        "purpose": "Land maps"
+      },
+      {
+        "name": "JharNibandhan",
+        "url": "https://jharnibandhan.gov.in/",
+        "purpose": "Property registration"
+      }
+    ],
+    "catalog_status": "seed_candidate",
+    "verification_status": "official_portal_identified",
+    "notes": "JharSewa is the eDistrict entry point; Jharbhoomi and JharNibandhan are separate specialist portals."
+  },
+  {
+    "state_code": "KA",
+    "name": "Karnataka",
+    "jurisdiction_type": "State",
+    "primary_portal": {
+      "name": "Seva Sindhu",
+      "url": "https://sevasindhu.karnataka.gov.in/",
+      "purpose": "Primary citizen-service discovery/application gateway"
+    },
+    "service_examples": [
+      "Revenue certificates and Nadakacheri services",
+      "Caste, income and residence certificates",
+      "Social-welfare, labour and pension services",
+      "Transport, municipal and utility services"
+    ],
+    "department_examples": [
+      "Revenue",
+      "Atalji Jana Snehi Kendra / Nadakacheri",
+      "Social Welfare",
+      "Transport",
+      "Labour",
+      "Urban Development"
+    ],
+    "additional_portals": [
+      {
+        "name": "Karnataka Registration Department",
+        "url": "https://igr.karnataka.gov.in/",
+        "purpose": "Property registration"
+      },
+      {
+        "name": "Karnataka Seva One",
+        "url": "https://sevaone.karnataka.gov.in/services/",
+        "purpose": "Additional service access"
+      }
+    ],
+    "catalog_status": "seed_candidate",
+    "verification_status": "official_portal_identified",
+    "notes": "Seva Sindhu integrates multiple assisted and online service channels. Verify if individual services route to Nadakacheri or other systems."
+  },
+  {
+    "state_code": "KL",
+    "name": "Kerala",
+    "jurisdiction_type": "State",
+    "primary_portal": {
+      "name": "eSevanam",
+      "url": "https://services.kerala.gov.in/",
+      "purpose": "Primary citizen-service discovery/application gateway"
+    },
+    "service_examples": [
+      "Income, caste, community, nativity and residence certificates",
+      "Possession, family membership, legal-heir and solvency certificates",
+      "Pensions, welfare and local-government services",
+      "Departmental and utility services"
+    ],
+    "department_examples": [
+      "Revenue",
+      "Local Self Government",
+      "Social Justice",
+      "Civil Supplies",
+      "Transport",
+      "Labour"
+    ],
+    "additional_portals": [
+      {
+        "name": "Kerala eDistrict certificate services",
+        "url": "https://edistrict.kerala.gov.in/services.html",
+        "purpose": "Certificate service list"
+      },
+      {
+        "name": "Kerala Registration Department",
+        "url": "https://keralaregistration.gov.in/",
+        "purpose": "Property registration"
+      }
+    ],
+    "catalog_status": "seed_candidate",
+    "verification_status": "official_portal_identified",
+    "notes": "eSevanam is the state service catalogue; eDistrict has a detailed certificate-service list."
+  },
+  {
+    "state_code": "LA",
+    "name": "Ladakh",
+    "jurisdiction_type": "UT",
+    "primary_portal": {
+      "name": "Ladakh eSeva",
+      "url": "https://eseva.ladakh.gov.in/",
+      "purpose": "Primary citizen-service discovery/application gateway"
+    },
+    "service_examples": [
+      "Trade licences and labour registration",
+      "Social-welfare assistance and NGO grants",
+      "Revenue and citizen services",
+      "RTI and public grievance"
+    ],
+    "department_examples": [
+      "Revenue",
+      "Labour",
+      "Social Welfare",
+      "Industries",
+      "Administration"
+    ],
+    "additional_portals": [
+      {
+        "name": "Ladakh official online citizen services page",
+        "url": "https://ladakh.gov.in/online-citizen-services/",
+        "purpose": "Official directory and portal links"
+      },
+      {
+        "name": "Ladakh NGDRS",
+        "url": "https://ngdrs.ladakh.gov.in/",
+        "purpose": "Property registration"
+      }
+    ],
+    "catalog_status": "seed_candidate",
+    "verification_status": "official_portal_identified",
+    "notes": "The official Ladakh administration page is a reliable discovery index for the eSeva and departmental links."
+  },
+  {
+    "state_code": "LD",
+    "name": "Lakshadweep",
+    "jurisdiction_type": "UT",
+    "primary_portal": {
+      "name": "Lakshadweep Administration online services",
+      "url": "https://lakshadweep.gov.in/service/revenue-servicen/",
+      "purpose": "Primary citizen-service discovery/application gateway"
+    },
+    "service_examples": [
+      "ST, domicile/residential, nativity and income certificates",
+      "Dependency, marriage and resident ID services",
+      "Trade licences and entry permits",
+      "Revenue/land and local administration services"
+    ],
+    "department_examples": [
+      "Revenue",
+      "Panchayat",
+      "Police",
+      "Transport",
+      "Social Welfare"
+    ],
+    "additional_portals": [
+      {
+        "name": "Lakshadweep state portal",
+        "url": "https://lakshadweep.gov.in/",
+        "purpose": "Department and service directory"
+      },
+      {
+        "name": "NFSA state/UT ration portal index",
+        "url": "https://nfsa.gov.in/portal/Ration_Card_State_Portals",
+        "purpose": "Ration-card state portal discovery"
+      }
+    ],
+    "catalog_status": "seed_candidate",
+    "verification_status": "official_portal_identified",
+    "notes": "No single unified service portal was confirmed in the government portal inventory reviewed; use the official administration directory and service-specific sites."
+  },
+  {
+    "state_code": "MP",
+    "name": "Madhya Pradesh",
+    "jurisdiction_type": "State",
+    "primary_portal": {
+      "name": "MP e-Service / MP eDistrict",
+      "url": "https://services.mp.gov.in/",
+      "purpose": "Primary citizen-service discovery/application gateway"
+    },
+    "service_examples": [
+      "Caste, income and domicile certificates",
+      "Land records and mutation",
+      "Pensions and social-welfare benefits",
+      "Public service guarantee and departmental services"
+    ],
+    "department_examples": [
+      "Revenue",
+      "Public Service Management",
+      "Social Justice",
+      "Food & Civil Supplies",
+      "Labour"
+    ],
+    "additional_portals": [
+      {
+        "name": "MP eDistrict",
+        "url": "https://mpedistrict.gov.in/",
+        "purpose": "Certificate and district service portal"
+      },
+      {
+        "name": "MPOnline",
+        "url": "https://mponline.gov.in/portal/",
+        "purpose": "Citizen service and application gateway"
+      },
+      {
+        "name": "MP land registration",
+        "url": "https://www.mpigr.gov.in/",
+        "purpose": "Property registration"
+      }
+    ],
+    "catalog_status": "seed_candidate",
+    "verification_status": "official_portal_identified",
+    "notes": "MP has several linked portals; MP e-Service is the broad discovery entry while eDistrict and MPOnline handle distinct workflows."
+  },
+  {
+    "state_code": "MH",
+    "name": "Maharashtra",
+    "jurisdiction_type": "State",
+    "primary_portal": {
+      "name": "Aaple Sarkar (RTS)",
+      "url": "https://aaplesarkar.mahaonline.gov.in/en/CommonForm/CitizenServices_RTS",
+      "purpose": "Primary citizen-service discovery/application gateway"
+    },
+    "service_examples": [
+      "Age/nationality/domicile, income and temporary-residence certificates",
+      "Caste and non-creamy-layer services (availability may be through other authorised channels)",
+      "Birth, death and marriage certificates",
+      "Labour, shop/factory licences and other department services"
+    ],
+    "department_examples": [
+      "Revenue",
+      "Rural Development & Panchayat Raj",
+      "Labour",
+      "Social Justice",
+      "Education",
+      "Transport"
+    ],
+    "additional_portals": [
+      {
+        "name": "MahaDBT",
+        "url": "https://mahadbt.maharashtra.gov.in/",
+        "purpose": "Scholarships and DBT schemes"
+      },
+      {
+        "name": "MahaBhulekh",
+        "url": "https://bhulekh.mahabhumi.gov.in/",
+        "purpose": "7/12, 8A and land records"
+      },
+      {
+        "name": "Maharashtra IGR / e-Registration",
+        "url": "https://isarita.igrmaharashtra.gov.in/PDE_2_0",
+        "purpose": "Property registration"
+      },
+      {
+        "name": "Aaple Sarkar notified services table",
+        "url": "https://aaplesarkar.mahaonline.gov.in/en/CommonForm/CitizenServices_RTS",
+        "purpose": "Service availability, time limits and designated officers"
+      }
+    ],
+    "catalog_status": "seed_candidate",
+    "verification_status": "official_portal_identified",
+    "notes": "Important: Maharashtra RTS page lists Caste Certificate with a 21-day statutory timeline but shows “No” under services available in Aaple Sarkar, while several other certificates are marked Yes. Do not assume every notified service is directly online in this portal."
+  },
+  {
+    "state_code": "MN",
+    "name": "Manipur",
+    "jurisdiction_type": "State",
+    "primary_portal": {
+      "name": "Manipur eDistrict",
+      "url": "https://eservicesmanipur.gov.in/eda/our_service.xhtml",
+      "purpose": "Primary citizen-service discovery/application gateway"
+    },
+    "service_examples": [
+      "Permanent Resident, domicile, income and OBC certificates",
+      "SC/ST certificates and land valuation/ownership certificates",
+      "Birth/death, RTI and grievance services",
+      "Employment exchange and social-welfare pensions"
+    ],
+    "department_examples": [
+      "Revenue",
+      "Education",
+      "Rural Development",
+      "Youth Affairs & Sports",
+      "RTI",
+      "Employment Exchange",
+      "Social Welfare"
+    ],
+    "additional_portals": [
+      {
+        "name": "Manipur USP / state portal",
+        "url": "https://uspmanipur.mn.gov.in/",
+        "purpose": "State-wide service discovery"
+      },
+      {
+        "name": "Manipur NGDRS",
+        "url": "https://ngdrsmanipur.nic.in/NGDRS_MN",
+        "purpose": "Property registration"
+      }
+    ],
+    "catalog_status": "seed_candidate",
+    "verification_status": "official_portal_identified",
+    "notes": "The eDistrict service list explicitly shows the certificate, land, civil-registration, employment and social-welfare services listed here."
+  },
+  {
+    "state_code": "ML",
+    "name": "Meghalaya",
+    "jurisdiction_type": "State",
+    "primary_portal": {
+      "name": "Meghalaya eDistrict",
+      "url": "https://www.megedistrict.gov.in/",
+      "purpose": "Primary citizen-service discovery/application gateway"
+    },
+    "service_examples": [
+      "SC/ST, PRC, residence and income certificates",
+      "Armed/Police/Paramilitary certificates",
+      "Marriage and senior-citizen certificates",
+      "Farmer ID and other department services"
+    ],
+    "department_examples": [
+      "Revenue",
+      "Social Welfare",
+      "Transport",
+      "Labour",
+      "Agriculture",
+      "Police"
+    ],
+    "additional_portals": [
+      {
+        "name": "Meghalaya state service directory",
+        "url": "https://meghalaya.gov.in/services/",
+        "purpose": "Other department services"
+      },
+      {
+        "name": "Meghalaya NGDRS",
+        "url": "https://ngdrs.meghalaya.gov.in/NGDRS_ML",
+        "purpose": "Property registration"
+      }
+    ],
+    "catalog_status": "seed_candidate",
+    "verification_status": "official_portal_identified",
+    "notes": "Meghalaya eDistrict service pages include detailed service conditions and document sections; verify each service separately."
+  },
+  {
+    "state_code": "MZ",
+    "name": "Mizoram",
+    "jurisdiction_type": "State",
+    "primary_portal": {
+      "name": "DC Online (e-District V2)",
+      "url": "https://dconline.mizoram.gov.in/",
+      "purpose": "Primary citizen-service discovery/application gateway"
+    },
+    "service_examples": [
+      "Income, residence and tribal/community certificates",
+      "Character, dependency and no-income certificates",
+      "Inner Line Permit and tax-exemption services",
+      "District Commissioner services"
+    ],
+    "department_examples": [
+      "Revenue / District Administration",
+      "Home",
+      "Tribal Affairs",
+      "Tourism"
+    ],
+    "additional_portals": [],
+    "catalog_status": "seed_candidate",
+    "verification_status": "official_url_identified_manual_check_required",
+    "notes": "The official portal URL was identified but automated page access was blocked during research. Manually verify availability and exact service links before enabling live actions."
+  },
+  {
+    "state_code": "NL",
+    "name": "Nagaland",
+    "jurisdiction_type": "State",
+    "primary_portal": {
+      "name": "Nagaland Unified Services Portal",
+      "url": "https://services.nagaland.gov.in/",
+      "purpose": "Primary citizen-service discovery/application gateway"
+    },
+    "service_examples": [
+      "Birth/death and domicile certificates",
+      "Scheduled Tribe certificates",
+      "Inner Line Permit",
+      "Scholarships and employment services"
+    ],
+    "department_examples": [
+      "Revenue",
+      "Home",
+      "Education",
+      "Labour & Employment",
+      "Social Welfare"
+    ],
+    "additional_portals": [
+      {
+        "name": "Nagaland e-Services directory",
+        "url": "https://nagaland.gov.in/e-services",
+        "purpose": "Government e-service links"
+      },
+      {
+        "name": "Nagaland scholarship portal",
+        "url": "https://scholarship.nagaland.gov.in/",
+        "purpose": "Scholarship services"
+      },
+      {
+        "name": "Nagaland ILP portal",
+        "url": "https://ilp.nagaland.gov.in/",
+        "purpose": "Inner Line Permit"
+      }
+    ],
+    "catalog_status": "seed_candidate",
+    "verification_status": "official_portal_identified",
+    "notes": "The unified portal lists internal and external services; some services route to independent department sites."
+  },
+  {
+    "state_code": "OD",
+    "name": "Odisha",
+    "jurisdiction_type": "State",
+    "primary_portal": {
+      "name": "Odisha eDistrict / Odisha One",
+      "url": "https://edistrict.odisha.gov.in/",
+      "purpose": "Primary citizen-service discovery/application gateway"
+    },
+    "service_examples": [
+      "Residence, income, OBC, SC, ST and SEBC certificates",
+      "Income & asset, legal-heir and solvency certificates",
+      "Certified Record of Rights and guardianship services",
+      "Utility, municipal and other citizen services"
+    ],
+    "department_examples": [
+      "Revenue & Disaster Management",
+      "Food Supplies & Consumer Welfare",
+      "Social Security",
+      "Labour",
+      "Transport",
+      "Local Government"
+    ],
+    "additional_portals": [
+      {
+        "name": "Odisha One citizen portal",
+        "url": "https://www.odishaone.gov.in/citizen/",
+        "purpose": "Multi-department citizen services"
+      },
+      {
+        "name": "Odisha Registration Department",
+        "url": "https://igrodisha.gov.in/",
+        "purpose": "Property registration"
+      }
+    ],
+    "catalog_status": "seed_candidate",
+    "verification_status": "official_portal_identified",
+    "notes": "The official eDistrict portal uses ServicePlus and publishes service requirements; Odisha One is an additional integrated citizen entry point."
+  },
+  {
+    "state_code": "PY",
+    "name": "Puducherry",
+    "jurisdiction_type": "UT",
+    "primary_portal": {
+      "name": "Puducherry Revenue Services / eDistrict",
+      "url": "https://revenueservices.py.gov.in/",
+      "purpose": "Primary citizen-service discovery/application gateway"
+    },
+    "service_examples": [
+      "Residence/nativity, caste and EWS certificates",
+      "Income certificate and legal-heir certificate",
+      "Patta transfer and revenue services",
+      "Marriage, solvency and other eDistrict services"
+    ],
+    "department_examples": [
+      "Revenue",
+      "Local Administration",
+      "Social Welfare",
+      "Registration",
+      "Civil Supplies"
+    ],
+    "additional_portals": [
+      {
+        "name": "Puducherry eDistrict",
+        "url": "https://edistrict.py.gov.in/",
+        "purpose": "District/citizen service portal"
+      },
+      {
+        "name": "Puducherry Registration Department",
+        "url": "https://regnec.py.gov.in/",
+        "purpose": "Property/document registration"
+      }
+    ],
+    "catalog_status": "seed_candidate",
+    "verification_status": "official_portal_identified",
+    "notes": "The Revenue Services site and eDistrict are separate but related entry points; choose the exact service-level workflow."
+  },
+  {
+    "state_code": "PB",
+    "name": "Punjab",
+    "jurisdiction_type": "State",
+    "primary_portal": {
+      "name": "Punjab eServices / ServicePlus",
+      "url": "https://eservices.punjab.gov.in/",
+      "purpose": "Primary citizen-service discovery/application gateway"
+    },
+    "service_examples": [
+      "Income, residence, caste/community and other certificates",
+      "Police/tenant verification and local service requests",
+      "Land and revenue-related services",
+      "Licences, employment and welfare schemes"
+    ],
+    "department_examples": [
+      "Revenue",
+      "Local Government",
+      "Police",
+      "Social Security",
+      "Labour",
+      "Industries"
+    ],
+    "additional_portals": [
+      {
+        "name": "Connect Punjab",
+        "url": "https://connect.punjab.gov.in/",
+        "purpose": "Sewa Kendra appointment and status access"
+      },
+      {
+        "name": "Punjab Easy Registry",
+        "url": "https://easyregistry.punjab.gov.in/",
+        "purpose": "Property registration"
+      }
+    ],
+    "catalog_status": "seed_candidate",
+    "verification_status": "official_portal_identified",
+    "notes": "Punjab eServices is the primary application catalogue; Connect Punjab/Sewa Kendra is a related assisted-service channel."
+  },
+  {
+    "state_code": "RJ",
+    "name": "Rajasthan",
+    "jurisdiction_type": "State",
+    "primary_portal": {
+      "name": "eMitra Rajasthan",
+      "url": "https://emitra.rajasthan.gov.in/emitra/",
+      "purpose": "Primary citizen-service discovery/application gateway"
+    },
+    "service_examples": [
+      "Caste, income, domicile and other certificates",
+      "Birth/death and civil services",
+      "Utility bill payments and citizen services",
+      "Pensions, scholarships and welfare applications"
+    ],
+    "department_examples": [
+      "Revenue",
+      "Social Justice & Empowerment",
+      "Local Self Government",
+      "Education",
+      "Energy",
+      "Transport"
+    ],
+    "additional_portals": [
+      {
+        "name": "Apna Khata Rajasthan",
+        "url": "https://apnakhata.rajasthan.gov.in/",
+        "purpose": "Land records"
+      },
+      {
+        "name": "e-Panjiyan Rajasthan",
+        "url": "https://epanjiyan.rajasthan.gov.in/",
+        "purpose": "Property registration"
+      }
+    ],
+    "catalog_status": "seed_candidate",
+    "verification_status": "official_portal_identified",
+    "notes": "eMitra includes online services and assisted eMitra kiosks. Track which services are fully online versus kiosk-assisted."
+  },
+  {
+    "state_code": "SK",
+    "name": "Sikkim",
+    "jurisdiction_type": "State",
+    "primary_portal": {
+      "name": "Sikkim eServices / SSO",
+      "url": "https://eservices.sikkim.gov.in/",
+      "purpose": "Primary citizen-service discovery/application gateway"
+    },
+    "service_examples": [
+      "ST/SC/OBC, income and property certificates",
+      "Senior-citizen and marriage-related certificates",
+      "Application tracking",
+      "Other state department services"
+    ],
+    "department_examples": [
+      "Revenue",
+      "Social Welfare",
+      "Home",
+      "Transport",
+      "Education"
+    ],
+    "additional_portals": [
+      {
+        "name": "Sikkim SSO",
+        "url": "https://sso.sikkim.gov.in/",
+        "purpose": "Single sign-on and service access"
+      }
+    ],
+    "catalog_status": "seed_candidate",
+    "verification_status": "official_portal_identified",
+    "notes": "Some services may require state SSO; verify which portal is the current citizen launch point for each service."
+  },
+  {
+    "state_code": "TN",
+    "name": "Tamil Nadu",
+    "jurisdiction_type": "State",
+    "primary_portal": {
+      "name": "Tamil Nadu e-Sevai (TNeGA)",
+      "url": "https://www.tnesevai.tn.gov.in/",
+      "purpose": "Primary citizen-service discovery/application gateway"
+    },
+    "service_examples": [
+      "Community, nativity and income certificates",
+      "First graduate, widow, unemployment and agricultural-income certificates",
+      "Legal heir, OBC, residence and small/marginal farmer certificates",
+      "Pawn broker and money-lender licences"
+    ],
+    "department_examples": [
+      "Revenue Administration",
+      "TNeGA",
+      "Social Welfare",
+      "Labour",
+      "Registration",
+      "Transport"
+    ],
+    "additional_portals": [
+      {
+        "name": "TNREGINET",
+        "url": "https://tnreginet.gov.in/",
+        "purpose": "Property registration and encumbrance certificate"
+      },
+      {
+        "name": "TNeGA official service listing",
+        "url": "https://www.tnesevai.tn.gov.in/Default.aspx",
+        "purpose": "Published e-Sevai service list"
+      }
+    ],
+    "catalog_status": "seed_candidate",
+    "verification_status": "official_portal_identified",
+    "notes": "The official TNeGA page confirms community, nativity, income, first-graduate, legal-heir, OBC, residence and other services; it also notes CSC-assisted delivery. Portal maintenance messages can occur."
+  },
+  {
+    "state_code": "TS",
+    "name": "Telangana",
+    "jurisdiction_type": "State",
+    "primary_portal": {
+      "name": "Telangana MeeSeva",
+      "url": "https://ts.meeseva.telangana.gov.in/TSDeptPortal/UserInterface/Services.html",
+      "purpose": "Primary citizen-service discovery/application gateway"
+    },
+    "service_examples": [
+      "Income and integrated caste-nativity-DOB certificates",
+      "OBC and residence certificates",
+      "ROR, land mutation and revenue services",
+      "Scholarships, welfare, transport and registration services"
+    ],
+    "department_examples": [
+      "Revenue",
+      "Social Welfare",
+      "Education",
+      "Registration & Stamps",
+      "Transport",
+      "Municipal Administration"
+    ],
+    "additional_portals": [
+      {
+        "name": "Telangana state services index",
+        "url": "https://www.telangana.gov.in/services/state-services/",
+        "purpose": "Government service directory"
+      },
+      {
+        "name": "Telangana Registration & Stamps",
+        "url": "https://registration.telangana.gov.in/",
+        "purpose": "Property registration"
+      }
+    ],
+    "catalog_status": "seed_candidate",
+    "verification_status": "official_portal_identified",
+    "notes": "MeeSeva is the service gateway; revenue, registration and transport workflows may open separate systems."
+  },
+  {
+    "state_code": "TR",
+    "name": "Tripura",
+    "jurisdiction_type": "State",
+    "primary_portal": {
+      "name": "Tripura eDistrict",
+      "url": "https://edistrict.tripura.gov.in/",
+      "purpose": "Primary citizen-service discovery/application gateway"
+    },
+    "service_examples": [
+      "PR Tripura, ST/SC/OBC certificates",
+      "Income and marriage certificates",
+      "Survival, land valuation and other revenue certificates",
+      "Food-stuff licences, RTI and grievances"
+    ],
+    "department_examples": [
+      "Revenue",
+      "Social Welfare",
+      "Food & Civil Supplies",
+      "Home",
+      "Transport"
+    ],
+    "additional_portals": [
+      {
+        "name": "Jami Tripura",
+        "url": "https://jami.tripura.gov.in/",
+        "purpose": "Land records"
+      },
+      {
+        "name": "Tripura BhuNaksha",
+        "url": "https://bhunaksha.tripura.gov.in/bhunaksha/",
+        "purpose": "Cadastral maps"
+      },
+      {
+        "name": "Tripura NGDRS",
+        "url": "https://ngdrs.tripura.gov.in/NGDRS_TR/",
+        "purpose": "Property registration"
+      }
+    ],
+    "catalog_status": "seed_candidate",
+    "verification_status": "official_portal_identified",
+    "notes": "eDistrict lists revenue certificate services while land and property registration use specialist portals."
+  },
+  {
+    "state_code": "UP",
+    "name": "Uttar Pradesh",
+    "jurisdiction_type": "State",
+    "primary_portal": {
+      "name": "UP eDistrict",
+      "url": "https://edistrict.up.gov.in/edistrictup/",
+      "purpose": "Primary citizen-service discovery/application gateway"
+    },
+    "service_examples": [
+      "Caste, income and residence certificates",
+      "Birth/death and other civil services",
+      "Pension, ration, revenue and municipal services",
+      "Business approvals through Nivesh Mitra"
+    ],
+    "department_examples": [
+      "Revenue",
+      "Social Welfare",
+      "Food & Civil Supplies",
+      "Urban Development",
+      "Industries",
+      "Labour"
+    ],
+    "additional_portals": [
+      {
+        "name": "UP Bhulekh",
+        "url": "https://upbhulekh.gov.in/",
+        "purpose": "Land records"
+      },
+      {
+        "name": "UP BhuNaksha",
+        "url": "https://upbhunaksha.gov.in/",
+        "purpose": "Land maps"
+      },
+      {
+        "name": "IGRSUP",
+        "url": "https://igrsup.gov.in/",
+        "purpose": "Property registration"
+      },
+      {
+        "name": "Nivesh Mitra",
+        "url": "https://niveshmitra.up.nic.in/",
+        "purpose": "Business approvals"
+      }
+    ],
+    "catalog_status": "seed_candidate",
+    "verification_status": "official_portal_identified",
+    "notes": "The eDistrict portal is the main citizen-services entry; Nivesh Mitra, Bhulekh and IGRSUP are separate specialist platforms."
+  },
+  {
+    "state_code": "UK",
+    "name": "Uttarakhand",
+    "jurisdiction_type": "State",
+    "primary_portal": {
+      "name": "Apuni Sarkar",
+      "url": "https://eservices.uk.gov.in/",
+      "purpose": "Primary citizen-service discovery/application gateway"
+    },
+    "service_examples": [
+      "Caste, domicile, income and employment certificates",
+      "Social-welfare pension and benefit services",
+      "Land/revenue and business licences",
+      "Grievances and utility services"
+    ],
+    "department_examples": [
+      "Revenue",
+      "Social Welfare",
+      "Labour",
+      "Industries",
+      "Transport",
+      "Urban Development"
+    ],
+    "additional_portals": [
+      {
+        "name": "Uttarakhand Bhulekh",
+        "url": "https://bhulekh.uk.gov.in/",
+        "purpose": "Land records"
+      },
+      {
+        "name": "Uttarakhand BhuNaksha",
+        "url": "https://bhunaksha.uk.gov.in/",
+        "purpose": "Land maps"
+      },
+      {
+        "name": "Uttarakhand e-Registration",
+        "url": "https://eregistrationukgov.in/",
+        "purpose": "Property registration"
+      }
+    ],
+    "catalog_status": "seed_candidate",
+    "verification_status": "official_portal_identified",
+    "notes": "Apuni Sarkar is the state single-window service portal; land records and registration have specialist links."
+  },
+  {
+    "state_code": "WB",
+    "name": "West Bengal",
+    "jurisdiction_type": "State",
+    "primary_portal": {
+      "name": "West Bengal eDistrict",
+      "url": "https://edistrict.wb.gov.in/",
+      "purpose": "Primary citizen-service discovery/application gateway"
+    },
+    "service_examples": [
+      "Caste certificates (SC/ST/OBC)",
+      "Income, residence and other certificates",
+      "Licences, NOCs, renewals and approvals",
+      "Land records and property registration"
+    ],
+    "department_examples": [
+      "Backward Classes Welfare",
+      "Revenue",
+      "Land & Land Reforms",
+      "Industries",
+      "Local Government",
+      "Transport"
+    ],
+    "additional_portals": [
+      {
+        "name": "West Bengal caste certificate portal",
+        "url": "https://castcertificatewb.gov.in/",
+        "purpose": "SC/ST/OBC certificate applications"
+      },
+      {
+        "name": "BanglarBhumi",
+        "url": "https://banglarbhumi.gov.in/",
+        "purpose": "Land records"
+      },
+      {
+        "name": "WB Registration",
+        "url": "https://wbregistration.gov.in/",
+        "purpose": "Property registration"
+      },
+      {
+        "name": "Bangla Sahayata Kendra",
+        "url": "https://bsk.wb.gov.in/",
+        "purpose": "Assisted citizen service centres"
+      }
+    ],
+    "catalog_status": "seed_candidate",
+    "verification_status": "official_portal_identified",
+    "notes": "The eDistrict portal is the general citizen entry; caste-certificate, land-record and registration workflows have dedicated portals."
+  }
+]

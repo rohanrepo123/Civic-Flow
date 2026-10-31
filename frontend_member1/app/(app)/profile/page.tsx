@@ -1,0 +1,5 @@
+"use client"
+import { useState } from "react"
+import { useCivicFlow } from "@/lib/civicflow-store"
+import { Button, Card, PageHeader } from "@/components/page-primitives"
+export default function ProfilePage() { const { state, update } = useCivicFlow(); const [saved, setSaved] = useState(false); return <><PageHeader title="Profile" description="Keep your personal details up to date." /><Card className="max-w-2xl"><div className="grid gap-5">{([["Full name", "name"], ["Email", "email"], ["Phone", "phone"], ["Location", "location"]] as const).map(([label, key]) => <label className="text-sm font-semibold" key={key}>{label}<input value={state.user[key]} onChange={(e) => update({ user: { ...state.user, [key]: e.target.value } })} className="mt-2 w-full rounded-xl border border-slate-200 px-3 py-3 font-normal outline-none focus:border-blue-500" /></label>)}</div><div className="mt-6 flex items-center gap-3"><Button onClick={() => setSaved(true)}>Save changes</Button>{saved && <span className="text-sm text-emerald-600">Profile saved</span>}</div></Card></> }

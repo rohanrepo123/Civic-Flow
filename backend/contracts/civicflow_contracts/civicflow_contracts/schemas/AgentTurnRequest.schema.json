@@ -1,0 +1,277 @@
+{
+  "$defs": {
+    "AgentMessage": {
+      "additionalProperties": false,
+      "properties": {
+        "role": {
+          "pattern": "^(user|assistant|system)$",
+          "title": "Role",
+          "type": "string"
+        },
+        "content": {
+          "maxLength": 12000,
+          "title": "Content",
+          "type": "string"
+        }
+      },
+      "required": [
+        "role",
+        "content"
+      ],
+      "title": "AgentMessage",
+      "type": "object"
+    },
+    "ApplicantContext": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "additionalProperties": true,
+          "title": "Attributes",
+          "type": "object"
+        },
+        "known_fields": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Known Fields",
+          "type": "array"
+        }
+      },
+      "title": "ApplicantContext",
+      "type": "object"
+    },
+    "ApplicationContext": {
+      "additionalProperties": false,
+      "properties": {
+        "application_id": {
+          "format": "uuid",
+          "title": "Application Id",
+          "type": "string"
+        },
+        "service_id": {
+          "title": "Service Id",
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/ApplicationStatus"
+        },
+        "sanitized_data": {
+          "additionalProperties": true,
+          "title": "Sanitized Data",
+          "type": "object"
+        },
+        "applicant": {
+          "$ref": "#/$defs/ApplicantContext"
+        }
+      },
+      "required": [
+        "application_id",
+        "service_id",
+        "status"
+      ],
+      "title": "ApplicationContext",
+      "type": "object"
+    },
+    "ApplicationStatus": {
+      "enum": [
+        "draft",
+        "prepared",
+        "validation_complete",
+        "waiting_for_approval",
+        "approved_for_submission",
+        "submission_in_progress",
+        "submitted",
+        "failed",
+        "uncertain"
+      ],
+      "title": "ApplicationStatus",
+      "type": "string"
+    },
+    "ServiceContext": {
+      "additionalProperties": false,
+      "properties": {
+        "service": {
+          "$ref": "#/$defs/ServiceSummary"
+        },
+        "eligibility_rules": {
+          "additionalProperties": true,
+          "title": "Eligibility Rules",
+          "type": "object"
+        },
+        "required_documents": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Required Documents",
+          "type": "array"
+        },
+        "source_urls": {
+          "items": {
+            "format": "uri",
+            "maxLength": 2083,
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Source Urls",
+          "type": "array"
+        }
+      },
+      "required": [
+        "service"
+      ],
+      "title": "ServiceContext",
+      "type": "object"
+    },
+    "ServiceSummary": {
+      "additionalProperties": false,
+      "properties": {
+        "service_id": {
+          "title": "Service Id",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "category": {
+          "title": "Category",
+          "type": "string"
+        },
+        "description": {
+          "default": "",
+          "title": "Description",
+          "type": "string"
+        },
+        "jurisdiction": {
+          "default": "",
+          "title": "Jurisdiction",
+          "type": "string"
+        },
+        "portal_url": {
+          "anyOf": [
+            {
+              "format": "uri",
+              "maxLength": 2083,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Portal Url"
+        },
+        "allowed_domains": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Allowed Domains",
+          "type": "array"
+        }
+      },
+      "required": [
+        "service_id",
+        "name",
+        "category"
+      ],
+      "title": "ServiceSummary",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "contract_version": {
+      "default": "1.0.0",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "title": "Contract Version",
+      "type": "string"
+    },
+    "correlation_id": {
+      "format": "uuid",
+      "title": "Correlation Id",
+      "type": "string"
+    },
+    "request_id": {
+      "format": "uuid",
+      "title": "Request Id",
+      "type": "string"
+    },
+    "timestamp": {
+      "format": "date-time",
+      "title": "Timestamp",
+      "type": "string"
+    },
+    "idempotency_key": {
+      "anyOf": [
+        {
+          "maxLength": 128,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Idempotency Key"
+    },
+    "user_id": {
+      "format": "uuid",
+      "title": "User Id",
+      "type": "string"
+    },
+    "conversation_id": {
+      "title": "Conversation Id",
+      "type": "string"
+    },
+    "message": {
+      "maxLength": 12000,
+      "minLength": 1,
+      "title": "Message",
+      "type": "string"
+    },
+    "selected_service_context": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ServiceContext"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "sanitized_application_context": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ApplicationContext"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "allowed_actions": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Allowed Actions",
+      "type": "array"
+    },
+    "history": {
+      "items": {
+        "$ref": "#/$defs/AgentMessage"
+      },
+      "title": "History",
+      "type": "array"
+    }
+  },
+  "required": [
+    "user_id",
+    "conversation_id",
+    "message"
+  ],
+  "title": "AgentTurnRequest",
+  "type": "object"
+}

@@ -1,0 +1,397 @@
+{
+  "$defs": {
+    "AgentActionRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "action_type": {
+          "$ref": "#/$defs/AgentActionType"
+        },
+        "parameters": {
+          "additionalProperties": true,
+          "title": "Parameters",
+          "type": "object"
+        },
+        "requires_user_approval": {
+          "default": true,
+          "title": "Requires User Approval",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "action_type"
+      ],
+      "title": "AgentActionRequest",
+      "type": "object"
+    },
+    "AgentActionType": {
+      "enum": [
+        "ask_user",
+        "evaluate_eligibility",
+        "prepare_form",
+        "create_browser_session",
+        "inspect_portal",
+        "fill_non_sensitive",
+        "request_approval"
+      ],
+      "title": "AgentActionType",
+      "type": "string"
+    },
+    "DocumentRequirement": {
+      "additionalProperties": false,
+      "properties": {
+        "document_type": {
+          "title": "Document Type",
+          "type": "string"
+        },
+        "required": {
+          "default": true,
+          "title": "Required",
+          "type": "boolean"
+        },
+        "reason": {
+          "default": "",
+          "title": "Reason",
+          "type": "string"
+        },
+        "source_citations": {
+          "items": {
+            "$ref": "#/$defs/SourceCitation"
+          },
+          "title": "Source Citations",
+          "type": "array"
+        }
+      },
+      "required": [
+        "document_type"
+      ],
+      "title": "DocumentRequirement",
+      "type": "object"
+    },
+    "EligibilityOutcome": {
+      "enum": [
+        "eligible",
+        "ineligible",
+        "needs_information",
+        "unknown"
+      ],
+      "title": "EligibilityOutcome",
+      "type": "string"
+    },
+    "EligibilityResult": {
+      "additionalProperties": false,
+      "properties": {
+        "eligible": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Eligible"
+        },
+        "outcome": {
+          "$ref": "#/$defs/EligibilityOutcome"
+        },
+        "reasons": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Reasons",
+          "type": "array"
+        },
+        "missing_information": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Missing Information",
+          "type": "array"
+        },
+        "confidence": {
+          "default": 0.0,
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "source_citations": {
+          "items": {
+            "$ref": "#/$defs/SourceCitation"
+          },
+          "title": "Source Citations",
+          "type": "array"
+        }
+      },
+      "required": [
+        "outcome"
+      ],
+      "title": "EligibilityResult",
+      "type": "object"
+    },
+    "ServiceContext": {
+      "additionalProperties": false,
+      "properties": {
+        "service": {
+          "$ref": "#/$defs/ServiceSummary"
+        },
+        "eligibility_rules": {
+          "additionalProperties": true,
+          "title": "Eligibility Rules",
+          "type": "object"
+        },
+        "required_documents": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Required Documents",
+          "type": "array"
+        },
+        "source_urls": {
+          "items": {
+            "format": "uri",
+            "maxLength": 2083,
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Source Urls",
+          "type": "array"
+        }
+      },
+      "required": [
+        "service"
+      ],
+      "title": "ServiceContext",
+      "type": "object"
+    },
+    "ServiceSummary": {
+      "additionalProperties": false,
+      "properties": {
+        "service_id": {
+          "title": "Service Id",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "category": {
+          "title": "Category",
+          "type": "string"
+        },
+        "description": {
+          "default": "",
+          "title": "Description",
+          "type": "string"
+        },
+        "jurisdiction": {
+          "default": "",
+          "title": "Jurisdiction",
+          "type": "string"
+        },
+        "portal_url": {
+          "anyOf": [
+            {
+              "format": "uri",
+              "maxLength": 2083,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Portal Url"
+        },
+        "allowed_domains": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Allowed Domains",
+          "type": "array"
+        }
+      },
+      "required": [
+        "service_id",
+        "name",
+        "category"
+      ],
+      "title": "ServiceSummary",
+      "type": "object"
+    },
+    "SourceCitation": {
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "url": {
+          "title": "Url",
+          "type": "string"
+        },
+        "excerpt": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Excerpt"
+        },
+        "retrieved_at": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Retrieved At"
+        }
+      },
+      "required": [
+        "title",
+        "url"
+      ],
+      "title": "SourceCitation",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "contract_version": {
+      "default": "1.0.0",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "title": "Contract Version",
+      "type": "string"
+    },
+    "correlation_id": {
+      "format": "uuid",
+      "title": "Correlation Id",
+      "type": "string"
+    },
+    "request_id": {
+      "format": "uuid",
+      "title": "Request Id",
+      "type": "string"
+    },
+    "timestamp": {
+      "format": "date-time",
+      "title": "Timestamp",
+      "type": "string"
+    },
+    "idempotency_key": {
+      "anyOf": [
+        {
+          "maxLength": 128,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Idempotency Key"
+    },
+    "run_id": {
+      "title": "Run Id",
+      "type": "string"
+    },
+    "assistant_message": {
+      "title": "Assistant Message",
+      "type": "string"
+    },
+    "intent": {
+      "title": "Intent",
+      "type": "string"
+    },
+    "selected_service": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ServiceContext"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "eligibility_result": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/EligibilityResult"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "missing_information": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Missing Information",
+      "type": "array"
+    },
+    "document_requirements": {
+      "items": {
+        "$ref": "#/$defs/DocumentRequirement"
+      },
+      "title": "Document Requirements",
+      "type": "array"
+    },
+    "proposed_next_action": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/AgentActionRequest"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "source_citations": {
+      "items": {
+        "$ref": "#/$defs/SourceCitation"
+      },
+      "title": "Source Citations",
+      "type": "array"
+    },
+    "confidence": {
+      "default": 0.0,
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "title": "Confidence",
+      "type": "number"
+    },
+    "uncertainty": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Uncertainty",
+      "type": "array"
+    },
+    "mode": {
+      "default": "deterministic_mock",
+      "title": "Mode",
+      "type": "string"
+    }
+  },
+  "required": [
+    "run_id",
+    "assistant_message",
+    "intent"
+  ],
+  "title": "AgentTurnResponse",
+  "type": "object"
+}

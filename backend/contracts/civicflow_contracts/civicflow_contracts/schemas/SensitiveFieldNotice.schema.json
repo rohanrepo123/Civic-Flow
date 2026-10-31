@@ -1,0 +1,46 @@
+{
+  "$defs": {
+    "SensitiveFieldType": {
+      "enum": [
+        "password",
+        "otp",
+        "captcha",
+        "authentication_secret",
+        "unknown"
+      ],
+      "title": "SensitiveFieldType",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "field_id": {
+      "title": "Field Id",
+      "type": "string"
+    },
+    "label": {
+      "default": "Sensitive field",
+      "title": "Label",
+      "type": "string"
+    },
+    "sensitive_type": {
+      "$ref": "#/$defs/SensitiveFieldType"
+    },
+    "user_entry_required": {
+      "default": true,
+      "title": "User Entry Required",
+      "type": "boolean"
+    },
+    "value_redacted": {
+      "default": true,
+      "title": "Value Redacted",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "field_id",
+    "sensitive_type"
+  ],
+  "title": "SensitiveFieldNotice",
+  "type": "object"
+}

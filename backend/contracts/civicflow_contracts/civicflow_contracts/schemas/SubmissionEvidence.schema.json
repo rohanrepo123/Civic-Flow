@@ -1,0 +1,64 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "evidence_id": {
+      "format": "uuid",
+      "title": "Evidence Id",
+      "type": "string"
+    },
+    "captured_at": {
+      "title": "Captured At",
+      "type": "string"
+    },
+    "evidence_type": {
+      "title": "Evidence Type",
+      "type": "string"
+    },
+    "portal_domain": {
+      "title": "Portal Domain",
+      "type": "string"
+    },
+    "confirmation_text": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Confirmation Text"
+    },
+    "reference_number": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Reference Number"
+    },
+    "verified": {
+      "default": false,
+      "title": "Verified",
+      "type": "boolean"
+    },
+    "evidence_digest": {
+      "title": "Evidence Digest",
+      "type": "string"
+    }
+  },
+  "required": [
+    "evidence_id",
+    "captured_at",
+    "evidence_type",
+    "portal_domain",
+    "evidence_digest"
+  ],
+  "title": "SubmissionEvidence",
+  "type": "object"
+}

@@ -1,0 +1,22 @@
+{
+  "maharashtra_domicile_certificate": {
+    "service_id": "maharashtra_domicile_certificate",
+    "required_documents": [
+      {"document_type": "one accepted proof of identity", "mandatory": true, "acceptable_types": ["PAN card", "Passport", "RSBY card", "Aadhaar card", "Voter ID", "Driving licence", "MNREGA job card", "Applicant photo", "Applicant signature", "Government or semi-government identity card"], "source_reference": "mh_domicile_checklist:html:0"},
+      {"document_type": "one accepted proof of address", "mandatory": true, "acceptable_types": ["Passport", "Water bill", "Ration card", "Aadhaar card", "Voter ID"], "source_reference": "mh_domicile_checklist:html:0"},
+      {"document_type": "additional supporting document", "mandatory": true, "acceptable_types": ["Water bill", "Ration card", "Rent receipt", "Voter list record", "Telephone bill", "Electricity bill", "Marriage certificate", "Property tax receipt", "Property registration fee receipt", "Residence proof of husband", "7/12 and 8A extract"], "source_reference": "mh_domicile_checklist:html:0"},
+      {"document_type": "residence proof by an authorized local officer", "mandatory": true, "acceptable_types": ["Talathi", "Gram Sevak", "Bill Collector"], "source_reference": "mh_domicile_checklist:html:0"},
+      {"document_type": "self-declaration", "mandatory": true, "acceptable_types": ["Self-declaration"], "source_reference": "mh_domicile_checklist:html:0"},
+      {"document_type": "age proof for a minor", "mandatory": false, "acceptable_types": ["SFC certificate", "Bonafide certificate", "School leaving certificate", "Father's domicile certificate", "Primary school entry extract"], "source_reference": "mh_domicile_checklist:html:0"}
+    ],
+    "application_steps": [
+      {"step_id": "verify-current-timeline", "description": "The current notified service listing states a 15 day timeline; confirm the live service page before relying on it.", "order": 1, "source_reference": "mh_rts_service_list:html:0"}
+    ],
+    "fees": {"amount": "20", "currency": "INR", "source_reference": "mh_domicile_checklist:html:0"},
+    "uncertainties": ["The fee and document checklist comes from an older official PDF. Confirm both on the live portal before preparing an application.", "The source PDF lists a self-declaration, but CivicFlow will not draft or accept legal declarations on the citizen's behalf."]
+  },
+  "maharashtra_scholarship": {
+    "service_id": "maharashtra_scholarship",
+    "uncertainties": ["MahaDBT offers multiple scholarship schemes with different eligibility and documents. Select the exact scheme before assessing requirements.", "The official FAQ notice directs 2026-27 fresh and renewal applications to MahaDBT 2.0; confirm current portal availability before proceeding."]
+  }
+}

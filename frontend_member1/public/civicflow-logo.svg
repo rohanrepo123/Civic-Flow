@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 64" fill="none" role="img" aria-labelledby="title">
+  <title id="title">CivicFlow</title>
+  <rect x="2" y="4" width="56" height="56" rx="18" fill="#DDF3E7"/>
+  <path d="M43.4 15.2C35.7 8.7 23.5 8.6 15.7 15.9 7.2 23.9 7.6 37.3 16.6 44.8c3.3 2.8 7.4 4.2 11.5 4.2-6.5-3.5-10.2-10.6-8.7-17.8 1.8-8.5 10.2-14.1 18.8-12.7l5.2-3.3Z" fill="#006A55"/>
+  <path d="M25.1 30.9c6.2-8.8 15.8-12.7 25.1-10.8-1.1 9.8-7.1 18.9-16.6 23.1-5.3 2.4-10.7 2.7-15.5 1.1 2.8-3.5 5.1-8 7-13.4Z" fill="#269A68"/>
+  <path d="M17.2 38.5c5.1.6 9.5 3.4 12.4 7.6-4.3 3.1-10.3 3.2-14.6-.3-2.5-2-4.1-4.9-4.5-8 2.1.4 4.3.6 6.7.7Z" fill="#E58B2B"/>
+  <text x="72" y="42" font-family="Manrope, Inter, Arial, sans-serif" font-size="31" font-weight="800" fill="#10272B">Civic<tspan fill="#00785F">Flow</tspan></text>
+</svg>

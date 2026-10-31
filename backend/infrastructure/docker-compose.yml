@@ -1,0 +1,66 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment: { POSTGRES_DB: civicflow, POSTGRES_USER: civicflow, POSTGRES_PASSWORD: civicflow }
+    ports: ["5432:5432"]
+    volumes: ["postgres-data:/var/lib/postgresql/data"]
+    healthcheck: { test: ["CMD-SHELL", "pg_isready -U civicflow"], interval: 5s, timeout: 3s, retries: 10 }
+  redis:
+    image: redis:7-alpine
+    ports: ["6379:6379"]
+  minio:
+    image: minio/minio:latest
+    command: server /data --console-address ":9001"
+    environment: { MINIO_ROOT_USER: minioadmin, MINIO_ROOT_PASSWORD: minioadmin }
+    ports: ["9000:9000", "9001:9001"]
+    volumes: ["minio-data:/data"]
+  core-api:
+    build: { context: .., dockerfile: services/core_api/Dockerfile }
+    environment:
+      USE_MOCK_AI: "false"
+      USE_MOCK_BROWSER: "false"
+      AI_AGENT_URL: "http://ai-agent:8001"
+      BROWSER_AGENT_URL: "http://browser-agent:8002"
+      BROWSER_AGENT_API_TOKEN: "${BROWSER_AGENT_API_TOKEN:-local-development-browser-token}"
+      DATABASE_URL: "postgresql+asyncpg://civicflow:civicflow@postgres:5432/civicflow"
+      REDIS_URL: "redis://redis:6379/0"
+      OBJECT_STORAGE_URL: "http://minio:9000"
+      CORS_ORIGINS: '["http://localhost:3001","http://127.0.0.1:3001"]'
+    ports: ["8010:8000"]
+    depends_on: { postgres: { condition: service_healthy }, redis: { condition: service_started } }
+  ai-agent:
+    build: { context: .., dockerfile: services/ai_agent/Dockerfile }
+    environment:
+      LLM_PROVIDER: "${LLM_PROVIDER:-ollama}"
+      OLLAMA_BASE_URL: "${OLLAMA_BASE_URL:-http://host.docker.internal:11434}"
+      OLLAMA_CHAT_MODEL: "${OLLAMA_CHAT_MODEL:-nemotron-3-super:cloud}"
+      LLM_TIMEOUT_SECONDS: "${LLM_TIMEOUT_SECONDS:-120}"
+      LLM_TEMPERATURE: "${LLM_TEMPERATURE:-0}"
+      OPENAI_MODEL: ""
+      EMBEDDING_PROVIDER: "${EMBEDDING_PROVIDER:-sentence_transformers}"
+      EMBEDDING_MODEL: "${EMBEDDING_MODEL:-BAAI/bge-m3}"
+      EMBEDDING_ALLOW_DOWNLOAD: "${EMBEDDING_ALLOW_DOWNLOAD:-false}"
+    ports: ["8011:8001"]
+    volumes: ["ai-model-cache:/root/.cache/huggingface"]
+  browser-agent:
+    build: { context: .., dockerfile: services/browser_agent/Dockerfile }
+    environment:
+      REDIS_URL: "redis://redis:6379/0"
+      BROWSER_AGENT_API_TOKEN: "${BROWSER_AGENT_API_TOKEN:-local-development-browser-token}"
+      CIVICFLOW_BROWSER_RUNTIME: "playwright"
+      CIVICFLOW_ALLOW_LOCAL_MOCK: "true"
+    ports: ["8012:8002"]
+    depends_on: [redis]
+  frontend:
+    build:
+      context: ../..
+      dockerfile: frontend_member1/Dockerfile
+      args:
+        NEXT_PUBLIC_CORE_API_URL: "${NEXT_PUBLIC_CORE_API_URL:-http://localhost:8010}"
+        NEXT_PUBLIC_BROWSER_AGENT_URL: "${NEXT_PUBLIC_BROWSER_AGENT_URL:-http://localhost:8012}"
+    ports: ["3001:3000"]
+    depends_on: [core-api]
+volumes:
+  postgres-data:
+  minio-data:
+  ai-model-cache:

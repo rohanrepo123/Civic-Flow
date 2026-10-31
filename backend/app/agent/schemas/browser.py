@@ -1,0 +1,41 @@
+"""Agent-facing names for the shared browser worker contract models."""
+
+from backend.app.agent.legacy_contracts.browser import (
+    BrowserAction,
+    BrowserActionRequest,
+    BrowserActionResponse,
+    BrowserObservation,
+    BrowserSessionCreate,
+    BrowserSessionResponse,
+    ControlMode,
+    ControlModeRequest,
+    ControlModeResponse,
+    Acknowledgement,
+    ElementRole,
+    ObservedElement,
+    ObservedPage,
+    PageState,
+    UserInputEvent,
+    UserInputType,
+    Viewport,
+)
+
+__all__ = [
+    "BrowserAction",
+    "BrowserActionRequest",
+    "BrowserActionResponse",
+    "BrowserObservation",
+    "BrowserSessionCreate",
+    "BrowserSessionResponse",
+    "ControlMode",
+    "ControlModeRequest",
+    "ControlModeResponse",
+    "Acknowledgement",
+    "ElementRole",
+    "ObservedElement",
+    "ObservedPage",
+    "PageState",
+    "UserInputEvent",
+    "UserInputType",
+    "Viewport",
+]

@@ -1,0 +1,129 @@
+{
+  "$defs": {
+    "BrowserCapability": {
+      "enum": [
+        "navigate",
+        "inspect",
+        "fill_non_sensitive",
+        "screenshot",
+        "stream"
+      ],
+      "title": "BrowserCapability",
+      "type": "string"
+    },
+    "BrowserSessionPolicy": {
+      "additionalProperties": false,
+      "properties": {
+        "max_duration_seconds": {
+          "default": 1800,
+          "maximum": 7200,
+          "minimum": 60,
+          "title": "Max Duration Seconds",
+          "type": "integer"
+        },
+        "require_user_control_for_sensitive_fields": {
+          "default": true,
+          "title": "Require User Control For Sensitive Fields",
+          "type": "boolean"
+        },
+        "allow_downloads": {
+          "default": false,
+          "title": "Allow Downloads",
+          "type": "boolean"
+        },
+        "allow_uploads": {
+          "default": false,
+          "title": "Allow Uploads",
+          "type": "boolean"
+        }
+      },
+      "title": "BrowserSessionPolicy",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "contract_version": {
+      "default": "1.0.0",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "title": "Contract Version",
+      "type": "string"
+    },
+    "correlation_id": {
+      "format": "uuid",
+      "title": "Correlation Id",
+      "type": "string"
+    },
+    "request_id": {
+      "format": "uuid",
+      "title": "Request Id",
+      "type": "string"
+    },
+    "timestamp": {
+      "format": "date-time",
+      "title": "Timestamp",
+      "type": "string"
+    },
+    "idempotency_key": {
+      "anyOf": [
+        {
+          "maxLength": 128,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Idempotency Key"
+    },
+    "user_id": {
+      "format": "uuid",
+      "title": "User Id",
+      "type": "string"
+    },
+    "application_id": {
+      "format": "uuid",
+      "title": "Application Id",
+      "type": "string"
+    },
+    "service_id": {
+      "title": "Service Id",
+      "type": "string"
+    },
+    "approved_portal_url": {
+      "format": "uri",
+      "maxLength": 2083,
+      "minLength": 1,
+      "title": "Approved Portal Url",
+      "type": "string"
+    },
+    "allowed_domains": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Allowed Domains",
+      "type": "array"
+    },
+    "session_policy": {
+      "$ref": "#/$defs/BrowserSessionPolicy"
+    },
+    "requested_capabilities": {
+      "items": {
+        "$ref": "#/$defs/BrowserCapability"
+      },
+      "title": "Requested Capabilities",
+      "type": "array"
+    }
+  },
+  "required": [
+    "user_id",
+    "application_id",
+    "service_id",
+    "approved_portal_url",
+    "allowed_domains"
+  ],
+  "title": "BrowserSessionCreateRequest",
+  "type": "object"
+}

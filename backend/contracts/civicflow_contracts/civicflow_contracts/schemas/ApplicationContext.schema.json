@@ -1,0 +1,68 @@
+{
+  "$defs": {
+    "ApplicantContext": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "additionalProperties": true,
+          "title": "Attributes",
+          "type": "object"
+        },
+        "known_fields": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Known Fields",
+          "type": "array"
+        }
+      },
+      "title": "ApplicantContext",
+      "type": "object"
+    },
+    "ApplicationStatus": {
+      "enum": [
+        "draft",
+        "prepared",
+        "validation_complete",
+        "waiting_for_approval",
+        "approved_for_submission",
+        "submission_in_progress",
+        "submitted",
+        "failed",
+        "uncertain"
+      ],
+      "title": "ApplicationStatus",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "application_id": {
+      "format": "uuid",
+      "title": "Application Id",
+      "type": "string"
+    },
+    "service_id": {
+      "title": "Service Id",
+      "type": "string"
+    },
+    "status": {
+      "$ref": "#/$defs/ApplicationStatus"
+    },
+    "sanitized_data": {
+      "additionalProperties": true,
+      "title": "Sanitized Data",
+      "type": "object"
+    },
+    "applicant": {
+      "$ref": "#/$defs/ApplicantContext"
+    }
+  },
+  "required": [
+    "application_id",
+    "service_id",
+    "status"
+  ],
+  "title": "ApplicationContext",
+  "type": "object"
+}

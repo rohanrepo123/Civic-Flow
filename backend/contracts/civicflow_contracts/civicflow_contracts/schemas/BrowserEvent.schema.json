@@ -1,0 +1,101 @@
+{
+  "$defs": {
+    "BrowserEventType": {
+      "enum": [
+        "SessionCreated",
+        "NavigationCompleted",
+        "PageInspected",
+        "FormFieldsIdentified",
+        "FormFieldsFilled",
+        "SensitiveInputRequired",
+        "UserControlStarted",
+        "UserControlReturned",
+        "SubmissionAttemptStarted",
+        "SubmissionEvidenceCaptured",
+        "SubmissionOutcomeUncertain",
+        "SessionFailed",
+        "SessionClosed"
+      ],
+      "title": "BrowserEventType",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "contract_version": {
+      "default": "1.0.0",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "title": "Contract Version",
+      "type": "string"
+    },
+    "correlation_id": {
+      "format": "uuid",
+      "title": "Correlation Id",
+      "type": "string"
+    },
+    "request_id": {
+      "format": "uuid",
+      "title": "Request Id",
+      "type": "string"
+    },
+    "timestamp": {
+      "format": "date-time",
+      "title": "Timestamp",
+      "type": "string"
+    },
+    "idempotency_key": {
+      "anyOf": [
+        {
+          "maxLength": 128,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Idempotency Key"
+    },
+    "event_id": {
+      "format": "uuid",
+      "title": "Event Id",
+      "type": "string"
+    },
+    "event_type": {
+      "$ref": "#/$defs/BrowserEventType"
+    },
+    "browser_session_id": {
+      "format": "uuid",
+      "title": "Browser Session Id",
+      "type": "string"
+    },
+    "application_id": {
+      "format": "uuid",
+      "title": "Application Id",
+      "type": "string"
+    },
+    "user_id": {
+      "format": "uuid",
+      "title": "User Id",
+      "type": "string"
+    },
+    "occurred_at": {
+      "format": "date-time",
+      "title": "Occurred At",
+      "type": "string"
+    },
+    "payload": {
+      "additionalProperties": true,
+      "title": "Payload",
+      "type": "object"
+    }
+  },
+  "required": [
+    "event_type",
+    "browser_session_id",
+    "application_id",
+    "user_id"
+  ],
+  "title": "BrowserEvent",
+  "type": "object"
+}

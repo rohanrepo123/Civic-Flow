@@ -1,0 +1,247 @@
+[
+  {
+    "id": "national-services-directory",
+    "name": "National Government Services Portal",
+    "url": "https://services.india.gov.in/",
+    "owner": "NIC / MeitY",
+    "categories": [
+      "All categories"
+    ],
+    "services": [
+      "Search government services by keyword, category, state/district and government level"
+    ],
+    "use": "National index/discovery layer; listings are informational and may link to state/department portals."
+  },
+  {
+    "id": "serviceplus",
+    "name": "ServicePlus",
+    "url": "https://serviceonline.gov.in/",
+    "owner": "NIC / MeitY and participating States/UTs",
+    "categories": [
+      "Certificates",
+      "Statutory services",
+      "Regulatory services",
+      "Developmental services",
+      "Consumer utility services"
+    ],
+    "services": [
+      "State service catalogues, applications, tracking, certificates and status"
+    ],
+    "use": "Many state portals are ServicePlus instances; not every state or service uses it."
+  },
+  {
+    "id": "umang",
+    "name": "UMANG",
+    "url": "https://web.umang.gov.in/",
+    "owner": "NeGD / MeitY",
+    "categories": [
+      "Central and State services",
+      "Schemes",
+      "Utility bills"
+    ],
+    "services": [
+      "State and central service discovery, registration, application and status where integrated"
+    ],
+    "use": "Aggregates partner department services; destination and content remain with the partner department."
+  },
+  {
+    "id": "digilocker",
+    "name": "DigiLocker",
+    "url": "https://www.digilocker.gov.in/",
+    "owner": "MeitY / NeGD",
+    "categories": [
+      "Identity",
+      "Education",
+      "Health",
+      "Transport",
+      "Government & Public Sector",
+      "Skill"
+    ],
+    "services": [
+      "Fetch, store, share and verify issued digital documents"
+    ],
+    "use": "Use as document issuer/requester integration; do not treat a user-uploaded file as an issuer-verified document."
+  },
+  {
+    "id": "national-scholarship-portal",
+    "name": "National Scholarship Portal",
+    "url": "https://scholarships.gov.in/",
+    "owner": "Government of India / NIC",
+    "categories": [
+      "Education & Scholarships"
+    ],
+    "services": [
+      "Central and State scholarship applications, institute/officer verification and tracking"
+    ],
+    "use": "Scheme availability, application window and eligibility must be checked each academic year."
+  },
+  {
+    "id": "nfsa-ration-directory",
+    "name": "NFSA State/UT Ration Card Portals",
+    "url": "https://nfsa.gov.in/portal/Ration_Card_State_Portals",
+    "owner": "Department of Food & Public Distribution",
+    "categories": [
+      "Ration & Food Security"
+    ],
+    "services": [
+      "State/UT food portals and ration card beneficiary information"
+    ],
+    "use": "New ration-card issuance and eligibility are handled by the respective State/UT, not by NFSA central portal."
+  },
+  {
+    "id": "parivahan",
+    "name": "Parivahan / mParivahan",
+    "url": "https://parivahan.gov.in/",
+    "owner": "Ministry of Road Transport & Highways",
+    "categories": [
+      "Driving & Transport"
+    ],
+    "services": [
+      "Sarathi driving licence services, Vahan vehicle registration, eChallan and state-wise services"
+    ],
+    "use": "State-specific RTO workflows, login and appointment rules still apply."
+  },
+  {
+    "id": "passport-seva",
+    "name": "Passport Seva",
+    "url": "https://www.passportindia.gov.in/",
+    "owner": "Ministry of External Affairs",
+    "categories": [
+      "Passport / Citizenship / Travel"
+    ],
+    "services": [
+      "Fresh/reissue passport, Tatkaal, Police Clearance Certificate, appointment and tracking"
+    ],
+    "use": "Authentication and appointment flow remain on official portal."
+  },
+  {
+    "id": "uidai-my-aadhaar",
+    "name": "UIDAI My Aadhaar",
+    "url": "https://uidai.gov.in/en/my-aadhaar",
+    "owner": "UIDAI",
+    "categories": [
+      "Identity & Digital Documents"
+    ],
+    "services": [
+      "Aadhaar download/order, update/status, appointment and VID/security services"
+    ],
+    "use": "OTP and biometric actions must be citizen-controlled."
+  },
+  {
+    "id": "voters-eci",
+    "name": "Election Commission Voters' Services Portal",
+    "url": "https://voters.eci.gov.in/",
+    "owner": "Election Commission of India",
+    "categories": [
+      "Voter / Citizenship"
+    ],
+    "services": [
+      "New voter registration, correction, deletion, e-EPIC, electoral roll, polling station and status"
+    ],
+    "use": "State/constituency context and citizen authentication required."
+  },
+  {
+    "id": "pm-kisan",
+    "name": "PM-KISAN",
+    "url": "https://pmkisan.gov.in/",
+    "owner": "Department of Agriculture & Farmers Welfare",
+    "categories": [
+      "Agriculture & Farmer Benefits"
+    ],
+    "services": [
+      "New farmer registration, beneficiary status, eKYC and corrections"
+    ],
+    "use": "Eligibility and eKYC rules are governed by scheme guidelines and state verification."
+  },
+  {
+    "id": "eshram",
+    "name": "eShram",
+    "url": "https://eshram.gov.in/",
+    "owner": "Ministry of Labour & Employment",
+    "categories": [
+      "Labour & Employment"
+    ],
+    "services": [
+      "Unorganised worker registration, UAN card and profile updates"
+    ],
+    "use": "Aadhaar-authentication and personal details must be handled securely."
+  },
+  {
+    "id": "epfo",
+    "name": "EPFO Unified Member Portal",
+    "url": "https://unifiedportal-mem.epfindia.gov.in/",
+    "owner": "Employees Provident Fund Organisation",
+    "categories": [
+      "Labour & Employment"
+    ],
+    "services": [
+      "UAN, passbook, claims, nominee and member services"
+    ],
+    "use": "Authentication-sensitive services; keep credentials/OTP outside AI context."
+  },
+  {
+    "id": "cpgrams",
+    "name": "CPGRAMS",
+    "url": "https://pgportal.gov.in/",
+    "owner": "DARPG, Government of India",
+    "categories": [
+      "Grievance & Appeals"
+    ],
+    "services": [
+      "Public grievance submission and tracking for eligible central and linked government organisations"
+    ],
+    "use": "Check scope and forwarding rules; state-specific grievance portals may be more appropriate."
+  },
+  {
+    "id": "rti-central",
+    "name": "RTI Online (Central Government)",
+    "url": "https://rtionline.gov.in/",
+    "owner": "DoPT / Government of India",
+    "categories": [
+      "RTI & Appeals"
+    ],
+    "services": [
+      "RTI applications and first appeals for Central Public Authorities"
+    ],
+    "use": "Do not route State Government RTI applications here; identify the relevant State RTI portal."
+  },
+  {
+    "id": "dilrmp-land-records",
+    "name": "DILRMP State/UT Land Records Directory",
+    "url": "https://dilrmp.gov.in/dilrmpold/State-RoR-Web",
+    "owner": "Department of Land Resources, Ministry of Rural Development",
+    "categories": [
+      "Land & Property"
+    ],
+    "services": [
+      "State/UT Record of Rights, BhuNaksha and land-record links"
+    ],
+    "use": "Authoritative state/UT land-record directory; some link availability differs by state."
+  },
+  {
+    "id": "ngdrs-registration",
+    "name": "NGDRS State/UT Registration Website Directory",
+    "url": "https://ngdrs.gov.in/NGDRS_Website/state_ut_links.php",
+    "owner": "Department of Land Resources, Ministry of Rural Development",
+    "categories": [
+      "Property Registration"
+    ],
+    "services": [
+      "State/UT registration department portals, valuation, deed templates and registration workflows"
+    ],
+    "use": "The directory lists each state/UT domain and explicitly marks some as unavailable."
+  },
+  {
+    "id": "nsws",
+    "name": "National Single Window System",
+    "url": "https://www.nsws.gov.in/",
+    "owner": "DPIIT / Ministry of Commerce & Industry",
+    "categories": [
+      "Business & Licences"
+    ],
+    "services": [
+      "Know Your Approvals, central approvals and many state business approvals"
+    ],
+    "use": "For business approvals, not general citizen certificates; the platform itself advises checking government portals for other requirements."
+  }
+]

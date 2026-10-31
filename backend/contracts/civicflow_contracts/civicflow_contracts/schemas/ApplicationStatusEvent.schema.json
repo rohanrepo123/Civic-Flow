@@ -1,0 +1,91 @@
+{
+  "$defs": {
+    "ApplicationStatus": {
+      "enum": [
+        "draft",
+        "prepared",
+        "validation_complete",
+        "waiting_for_approval",
+        "approved_for_submission",
+        "submission_in_progress",
+        "submitted",
+        "failed",
+        "uncertain"
+      ],
+      "title": "ApplicationStatus",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "contract_version": {
+      "default": "1.0.0",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "title": "Contract Version",
+      "type": "string"
+    },
+    "correlation_id": {
+      "format": "uuid",
+      "title": "Correlation Id",
+      "type": "string"
+    },
+    "request_id": {
+      "format": "uuid",
+      "title": "Request Id",
+      "type": "string"
+    },
+    "timestamp": {
+      "format": "date-time",
+      "title": "Timestamp",
+      "type": "string"
+    },
+    "idempotency_key": {
+      "anyOf": [
+        {
+          "maxLength": 128,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Idempotency Key"
+    },
+    "application_id": {
+      "format": "uuid",
+      "title": "Application Id",
+      "type": "string"
+    },
+    "previous_status": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ApplicationStatus"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "status": {
+      "$ref": "#/$defs/ApplicationStatus"
+    },
+    "reason": {
+      "title": "Reason",
+      "type": "string"
+    },
+    "actor": {
+      "title": "Actor",
+      "type": "string"
+    }
+  },
+  "required": [
+    "application_id",
+    "status",
+    "reason",
+    "actor"
+  ],
+  "title": "ApplicationStatusEvent",
+  "type": "object"
+}

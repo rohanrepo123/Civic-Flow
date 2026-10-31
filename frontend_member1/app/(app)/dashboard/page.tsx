@@ -1,0 +1,25 @@
+"use client"
+
+import Link from "next/link"
+import { ArrowRight, BellRing, CheckCircle2, Clock3, FileCheck2, FileText, FolderOpen, Search, ShieldCheck, Sparkles, Plus } from "lucide-react"
+import { useCivicFlow } from "@/lib/civicflow-store"
+import { serviceCatalog } from "@/src/data/serviceCatalog"
+import { Button, Card, Status } from "@/components/page-primitives"
+
+const labels = { draft:"Draft", prepared:"Prepared", validation_complete:"Ready for review", waiting_for_approval:"Waiting for approval", approved_for_submission:"Approved", submission_in_progress:"In progress", submitted:"Submitted", failed:"Needs attention", uncertain:"Needs confirmation" } as const
+export default function DashboardPage() {
+  const { state } = useCivicFlow()
+  const apps = Object.values(state.applications).sort((a,b)=>b.updatedAt.localeCompare(a.updatedAt))
+  const pending = apps.reduce((sum,app)=>sum+app.documents.filter((doc)=>doc.status!=="verified").length,0)
+  const review = apps.filter((app)=>["validation_complete","waiting_for_approval","approved_for_submission","submission_in_progress"].includes(app.status)).length
+  const needs = apps.filter((app)=>["failed","uncertain"].includes(app.status)).length
+  const metrics = [{label:"Active Applications",value:apps.filter((app)=>app.status!=="submitted").length,Icon:FileText,tone:"mint"},{label:"In Review",value:review,Icon:Clock3,tone:"saffron"},{label:"Documents Pending",value:pending,Icon:FileCheck2,tone:"coral"},{label:"Action Required",value:needs,Icon:BellRing,tone:"red"}]
+  const actions = [{label:"Explore Services",description:"Browse the service directory",href:"/services",Icon:Search,tone:"saffron"},{label:"Upload Documents",description:"Manage your documents",href:"/documents",Icon:FolderOpen,tone:"mint"},{label:"Ask AI Assistant",description:"Get guidance on next steps",href:"/assistant",Icon:Sparkles,tone:"gold"},{label:"Track Application",description:"Review progress and status",href:"/applications",Icon:ShieldCheck,tone:"coral"}]
+  return <div className="cf-dashboard">
+    <section className="cf-hero"><div className="cf-hero-copy"><p className="cf-eyebrow">YOUR CIVIC WORKSPACE</p><p className="cf-welcome">Welcome back, {state.user.name.split(" ")[0]} <span aria-hidden>👋</span></p><h1>A stronger connection<br/>to public services.</h1><p className="cf-hero-sub">Accessible government services for every citizen.</p><Button href="/applications/new"><Plus size={17} className="mr-2"/>Start a new application <ArrowRight size={17} className="ml-3"/></Button></div><div className="cf-hero-art" role="img" aria-label="Illustration of a civic building with the Indian flag and tricolour ribbon"/></section>
+    <section className="cf-metrics" aria-label="Application summary">{metrics.map(({label,value,Icon,tone})=><Card className="cf-metric" key={label}><span className={`cf-metric-icon ${tone}`}><Icon size={22}/></span><div><strong>{value}</strong><span>{label}</span></div></Card>)}</section>
+    <section className="cf-dashboard-bottom"><Card className="cf-applications-card"><div className="cf-section-heading"><div><h2>Your Applications</h2><p>Your saved service applications</p></div><Link href="/applications" className="cf-text-link">View all <ArrowRight size={16}/></Link></div>{apps.length? <div>{apps.slice(0,4).map((app)=>{const service=serviceCatalog.find((item)=>item.id===app.serviceId);return <Link className="cf-application-row" key={app.id} href={`/applications/${app.id}/workspace`}><span className="cf-application-icon"><FileText size={20}/></span><span className="cf-application-info"><strong>{service?.title??app.customRequest??"Custom service request"}</strong><small>{service?.jurisdiction??app.customState??"Jurisdiction to be verified"}</small></span><span className="cf-application-state"><Status tone={app.status==="submitted"?"green":app.status==="failed"||app.status==="uncertain"?"amber":"blue"}>{labels[app.status]}</Status><small>{new Date(app.updatedAt).toLocaleDateString()}</small></span><ArrowRight className="cf-row-arrow" size={18}/></Link>})}</div>:<div className="cf-empty-apps"><span className="cf-empty-icon"><FileText size={22}/></span><strong>Your service journey starts here</strong><p>Start an application to keep its steps, documents, and progress together.</p><Button href="/applications/new" variant="secondary">Explore services <ArrowRight size={15} className="ml-2"/></Button></div>}</Card>
+      <Card className="cf-quick-card"><div className="cf-section-heading"><div><h2>Quick Actions</h2><p>Common tasks, ready when you are.</p></div></div><div className="cf-quick-list">{actions.map(({label,description,href,Icon,tone})=><Link href={href} key={label} className="cf-quick-row"><span className={`cf-quick-icon ${tone}`}><Icon size={19}/></span><span><strong>{label}</strong><small>{description}</small></span><ArrowRight size={17} className="cf-row-arrow"/></Link>)}</div></Card></section>
+    <div className="cf-trust-note"><CheckCircle2 size={17}/><span>You stay in control. Review information before it is used and approve consequential actions yourself.</span></div>
+  </div>
+}

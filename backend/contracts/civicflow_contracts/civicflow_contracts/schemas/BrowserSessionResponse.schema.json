@@ -1,0 +1,104 @@
+{
+  "$defs": {
+    "BrowserCapability": {
+      "enum": [
+        "navigate",
+        "inspect",
+        "fill_non_sensitive",
+        "screenshot",
+        "stream"
+      ],
+      "title": "BrowserCapability",
+      "type": "string"
+    },
+    "BrowserSessionStatus": {
+      "enum": [
+        "created",
+        "active",
+        "paused",
+        "user_control",
+        "closing",
+        "closed",
+        "failed",
+        "expired"
+      ],
+      "title": "BrowserSessionStatus",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "contract_version": {
+      "default": "1.0.0",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "title": "Contract Version",
+      "type": "string"
+    },
+    "correlation_id": {
+      "format": "uuid",
+      "title": "Correlation Id",
+      "type": "string"
+    },
+    "request_id": {
+      "format": "uuid",
+      "title": "Request Id",
+      "type": "string"
+    },
+    "timestamp": {
+      "format": "date-time",
+      "title": "Timestamp",
+      "type": "string"
+    },
+    "idempotency_key": {
+      "anyOf": [
+        {
+          "maxLength": 128,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Idempotency Key"
+    },
+    "browser_session_id": {
+      "format": "uuid",
+      "title": "Browser Session Id",
+      "type": "string"
+    },
+    "session_status": {
+      "$ref": "#/$defs/BrowserSessionStatus",
+      "default": "created"
+    },
+    "stream_endpoint": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Stream Endpoint"
+    },
+    "expires_at": {
+      "format": "date-time",
+      "title": "Expires At",
+      "type": "string"
+    },
+    "capabilities": {
+      "items": {
+        "$ref": "#/$defs/BrowserCapability"
+      },
+      "title": "Capabilities",
+      "type": "array"
+    }
+  },
+  "required": [
+    "expires_at"
+  ],
+  "title": "BrowserSessionResponse",
+  "type": "object"
+}

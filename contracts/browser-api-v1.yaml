@@ -1,0 +1,315 @@
+openapi: 3.1.0
+info:
+  title: CivicFlow Browser Worker API
+  version: 1.0.0
+  description: HTTP boundary between the agent service and isolated browser worker.
+servers:
+  - url: http://localhost:8001
+paths:
+  /healthz:
+    get:
+      summary: Health check
+      security: []
+      responses:
+        '200': { description: Worker is healthy }
+  /api/v1/sessions:
+    post:
+      summary: Create a browser session
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SessionCreate'
+      responses:
+        '201':
+          description: Session created
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Session' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '422': { $ref: '#/components/responses/ValidationError' }
+  /api/v1/sessions/{session_id}:
+    parameters:
+      - $ref: '#/components/parameters/SessionId'
+    get:
+      summary: Get session status
+      responses:
+        '200':
+          description: Session status
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Session' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+    delete:
+      summary: Close a browser session
+      responses:
+        '204': { description: Session closed }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+  /api/v1/sessions/{session_id}/observation:
+    parameters:
+      - $ref: '#/components/parameters/SessionId'
+    get:
+      summary: Observe the current page
+      responses:
+        '200':
+          description: Current structured page observation
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Observation' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+  /api/v1/sessions/{session_id}/actions:
+    parameters:
+      - $ref: '#/components/parameters/SessionId'
+    post:
+      summary: Execute one validated action against a current observation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ActionRequest' }
+      responses:
+        '200':
+          description: Action result. Policy and stale-state outcomes are represented by status values.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ActionResult' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '422': { $ref: '#/components/responses/ValidationError' }
+  /api/v1/sessions/{session_id}/control-mode:
+    parameters:
+      - $ref: '#/components/parameters/SessionId'
+    post:
+      summary: Change agent, user, or paused control mode
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ControlModeRequest' }
+      responses:
+        '200':
+          description: Updated control mode
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ControlModeResponse' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '422': { $ref: '#/components/responses/ValidationError' }
+  /api/v1/sessions/{session_id}/user-input:
+    parameters:
+      - $ref: '#/components/parameters/SessionId'
+    post:
+      summary: Relay citizen browser input
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/UserInput' }
+      responses:
+        '200':
+          description: Input accepted
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Acknowledgement' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        '422': { $ref: '#/components/responses/ValidationError' }
+  /api/v1/sessions/{session_id}/screenshot:
+    parameters:
+      - $ref: '#/components/parameters/SessionId'
+    get:
+      summary: Retrieve current screenshot
+      responses:
+        '200':
+          description: Latest screenshot
+          content:
+            image/jpeg:
+              schema: { type: string, format: binary }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+  /api/v1/sessions/{session_id}/stream:
+    parameters:
+      - $ref: '#/components/parameters/SessionId'
+    get:
+      summary: Stream browser screenshots
+      responses:
+        '200':
+          description: MJPEG screenshot stream
+          content:
+            multipart/x-mixed-replace:
+              schema: { type: string, format: binary }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+components:
+  securitySchemes:
+    serviceBearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  responses:
+    BadRequest:
+      description: Invalid request
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+    Unauthorized:
+      description: Missing or invalid service authentication
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+    NotFound:
+      description: Session not found
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+    Conflict:
+      description: Input rejected for the current session state
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+    ValidationError:
+      description: Request failed schema validation
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+  parameters:
+    SessionId:
+      name: session_id
+      in: path
+      required: true
+      schema: { type: string }
+  schemas:
+    Error:
+      type: object
+      required: [code, message]
+      properties:
+        code: { type: string }
+        message: { type: string }
+        request_id: { type: string }
+    SessionCreate:
+      type: object
+      required: [task_id, start_url, viewport]
+      properties:
+        task_id: { type: string }
+        start_url: { type: string, format: uri }
+        viewport:
+          type: object
+          required: [width, height]
+          properties:
+            width: { type: integer, minimum: 320, maximum: 7680 }
+            height: { type: integer, minimum: 240, maximum: 4320 }
+    Session:
+      type: object
+      required: [session_id, status, control_mode, created_at, viewport]
+      properties:
+        session_id: { type: string }
+        status: { type: string, enum: [running, closed, error] }
+        control_mode: { type: string, enum: [agent, user, paused] }
+        created_at: { type: string, format: date-time }
+        viewport: { $ref: '#/components/schemas/Viewport' }
+    Viewport:
+      type: object
+      required: [width, height]
+      properties:
+        width: { type: integer, minimum: 320, maximum: 7680 }
+        height: { type: integer, minimum: 240, maximum: 4320 }
+    Observation:
+      type: object
+      required: [session_id, observation_id, sequence, page, elements, screenshot_url]
+      properties:
+        session_id: { type: string }
+        observation_id: { type: string }
+        sequence: { type: integer, minimum: 1 }
+        page:
+          type: object
+          required: [url, title, state]
+          properties:
+            url: { type: string, format: uri }
+            title: { type: string }
+            state:
+              type: string
+              enum: [ready, loading, authentication_required, captcha_detected, unexpected_error, closed]
+        elements:
+          type: array
+          items:
+            type: object
+            required: [element_id, role, label, visible, enabled, required, sensitive]
+            properties:
+              element_id: { type: string }
+              role:
+                type: string
+                enum: [link, button, textbox, combobox, checkbox, radio, file_upload, option, other]
+              label: { type: string }
+              input_type: { type: [string, 'null'] }
+              placeholder: { type: [string, 'null'] }
+              visible: { type: boolean }
+              enabled: { type: boolean }
+              required: { type: boolean }
+              sensitive: { type: boolean }
+        screenshot_url: { type: string }
+    ActionRequest:
+      type: object
+      required: [action_id, observation_id, action, expected_result]
+      properties:
+        action_id: { type: string }
+        observation_id: { type: string }
+        action:
+          type: object
+          required: [type]
+          properties:
+            type:
+              type: string
+              enum: [navigate, click, fill, select_option, check, uncheck, press_key, scroll, go_back, reload, upload_file]
+            element_id: { type: string }
+            value: { type: string }
+            url: { type: string, format: uri }
+            file_reference: { type: string, description: Short-lived backend-generated reference; never a local path. }
+        expected_result: { type: string }
+    ActionResult:
+      type: object
+      required: [action_id, status, message, before_observation_id, page_url]
+      properties:
+        action_id: { type: string }
+        status:
+          type: string
+          enum: [succeeded, failed, target_not_found, stale_observation, policy_blocked, user_intervention_required, timed_out]
+        message: { type: string }
+        before_observation_id: { type: string }
+        after_observation_id: { type: [string, 'null'] }
+        page_url: { type: string }
+    ControlModeRequest:
+      type: object
+      required: [control_mode]
+      properties:
+        control_mode: { type: string, enum: [agent, user, paused] }
+    ControlModeResponse:
+      type: object
+      required: [session_id, control_mode]
+      properties:
+        session_id: { type: string }
+        control_mode: { type: string, enum: [agent, user, paused] }
+    UserInput:
+      type: object
+      required: [event_id, type]
+      properties:
+        event_id: { type: string }
+        type: { type: string, enum: [pointer_click, key_press, text_input, scroll] }
+        x_normalized: { type: number, minimum: 0, maximum: 1 }
+        y_normalized: { type: number, minimum: 0, maximum: 1 }
+        key: { type: string }
+        text: { type: string, writeOnly: true, description: Never persist or log this value. }
+        delta_x_normalized: { type: number }
+        delta_y_normalized: { type: number }
+    Acknowledgement:
+      type: object
+      required: [accepted]
+      properties:
+        accepted: { type: boolean }
+security:
+  - serviceBearer: []

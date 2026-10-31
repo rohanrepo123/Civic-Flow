@@ -1,0 +1,32 @@
+[
+  {
+    "source_id": "mh_domicile_checklist",
+    "service_id": "maharashtra_domicile_certificate",
+    "source_title": "Fees, Procedure and Document Checklist for Age, Nationality and Domicile Certificate",
+    "source_url": "https://aaplesarkar.mahaonline.gov.in/pdf/Fees%2C%20Procedure%2C%20Checklist_Domicile%20Certificate.pdf",
+    "publisher": "Government of Maharashtra, Revenue Department",
+    "document_type": "pdf",
+    "verification_status": "stale",
+    "retrieved_at": "2026-10-31T00:00:00Z"
+  },
+  {
+    "source_id": "mh_rts_service_list",
+    "service_id": "maharashtra_domicile_certificate",
+    "source_title": "Maharashtra Right to Public Services: Notified Services",
+    "source_url": "https://aaplesarkar.mahaonline.gov.in/en/CommonForm/CitizenServices_RTS",
+    "publisher": "Government of Maharashtra",
+    "document_type": "html",
+    "verification_status": "verified",
+    "retrieved_at": "2026-10-31T00:00:00Z"
+  },
+  {
+    "source_id": "mh_mahadbt_faq",
+    "service_id": "maharashtra_scholarship",
+    "source_title": "MahaDBT Scheme FAQs and Portal Notice",
+    "source_url": "https://mahadbt.maharashtra.gov.in/home/faq",
+    "publisher": "Government of Maharashtra, MahaIT",
+    "document_type": "html",
+    "verification_status": "verified",
+    "retrieved_at": "2026-10-31T00:00:00Z"
+  }
+]
