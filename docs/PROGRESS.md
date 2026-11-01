@@ -111,3 +111,10 @@ The Windows environment emits known Pydantic/Python 3.14 and experimental NumPy 
 - Validation: `py -3.13 -m compileall -q backend` passed, and a PowerShell catalogue check confirmed the MahaDBT alias maps to Maharashtra. A Python resolver smoke check stalled during imports and was interrupted; no full test suite was run.
 - Generalized discovery beyond MahaDBT: when deterministic catalogue matching cannot choose, a separate LLM matcher reviews the complete service catalogue, current intent, and service-resolution memory. It only returns a known service ID above a confidence threshold, respects explicit jurisdiction, and leaves true ambiguity for a simple user clarification. Once matched, the existing service-specific VectorDB relevance judgment and official web fallback gather eligibility context.
 - Follow-up validation: Python compilation and the PowerShell MahaDBT catalogue mapping check passed; the Python resolver smoke check still cannot complete because imports stall in this environment. No full test suite or live web search was run.
+
+## Chat sessions and retrieval fallback
+
+- Added named local chat sessions with separate conversation IDs, independent message histories, session switching, deletion, and a New chat action. Existing single-chat local storage is migrated into one session instead of being duplicated into every new chat.
+- Fixed the 502/503 failure path when the local BGE-M3 model is not cached. Curated knowledge now falls back to service-scoped lexical retrieval until BGE-M3 is downloaded; semantic retrieval resumes automatically after restart. The AI service continues to expose only a safe error message to the user and does not log user content.
+- Added a deterministic intent fallback when Nemotron/Ollama is temporarily unavailable or returns malformed JSON, so a transient model failure no longer turns a normal chat message into a 503/502.
+- Validation for this change is pending TypeScript and Python static checks.

@@ -1,13 +1,13 @@
 "use client"
 
 import { FormEvent, useState } from "react"
-import { Bot, Info, Send, Sparkles, ArrowRight } from "lucide-react"
+import { Bot, Info, Send, Sparkles, ArrowRight, Plus, Trash2 } from "lucide-react"
 import { useCivicFlow } from "@/lib/civicflow-store"
 import { sendAssistantMessage } from "@/lib/civicflow-api"
 import { Button, Card, PageHeader, Status } from "@/components/page-primitives"
 
 export default function AssistantPage() {
-  const { state, update } = useCivicFlow()
+  const { state, appendChat, startNewChat, openChat, deleteChat } = useCivicFlow()
   const [text, setText] = useState("")
   const [sending, setSending] = useState(false)
   const [sendError, setSendError] = useState("")
@@ -18,16 +18,16 @@ export default function AssistantPage() {
     if (!question || sending) return
     setSending(true)
     setSendError("")
-    update({ chat: [...state.chat, { role: "user", text: question }] })
+    const history = state.chat.slice(-20).map(({ role, text }) => ({ role, content: text }))
+    appendChat([{ role: "user", text: question }])
     setText("")
     try {
-      const history = state.chat.slice(-20).map(({ role, text }) => ({ role, content: text }))
       const result = await sendAssistantMessage(question, state.conversationId, history)
-      update({ chat: [...state.chat, { role: "user", text: question }, { role: "assistant", text: result.message }] })
+      appendChat([{ role: "assistant", text: result.message }])
     } catch (error) {
       const message = error instanceof Error ? error.message : "CivicFlow could not reach the assistant service."
       setSendError(message)
-      update({ chat: [...state.chat, { role: "user", text: question }, { role: "assistant", text: "I couldn’t reach the assistant service just now. Please try again in a moment." }] })
+      appendChat([{ role: "assistant", text: "I couldn’t reach the assistant service just now. Please try again in a moment." }])
     } finally {
       setSending(false)
     }
@@ -38,7 +38,14 @@ export default function AssistantPage() {
       <PageHeader
         title="CivicFlow Assistant"
         description="Guidance for finding public services, understanding eligibility, and navigating government portals."
-        action={<Status tone="blue">Manual Guidance Mode</Status>}
+        action={
+          <div className="flex items-center gap-2">
+            <Status tone="blue">Manual Guidance Mode</Status>
+            <Button variant="secondary" onClick={startNewChat}>
+              <Plus className="mr-1 size-3.5" /> New chat
+            </Button>
+          </div>
+        }
       />
 
       <div className="mb-5 flex items-start gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-900">
@@ -98,6 +105,32 @@ export default function AssistantPage() {
         </Card>
 
         <div className="space-y-4">
+          <Card>
+            <div className="flex items-center justify-between gap-2">
+              <div>
+                <h3 className="font-bold text-sm text-[#10272b]">Chat sessions</h3>
+                <p className="mt-1 text-xs text-[#60756f]">Each chat keeps its own conversation.</p>
+              </div>
+              <button type="button" aria-label="Start a new chat" onClick={startNewChat} className="grid size-8 place-items-center rounded-lg text-[#08785e] hover:bg-[#e3f2e8]">
+                <Plus className="size-4" />
+              </button>
+            </div>
+            <div className="mt-3 flex max-h-48 flex-col gap-1 overflow-auto">
+              {Object.values(state.chatSessions)
+                .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))
+                .map((session) => (
+                  <div key={session.id} className={`group flex items-center gap-1 rounded-lg ${session.id === state.conversationId ? "bg-[#e3f2e8]" : "hover:bg-[#f7f5ee]"}`}>
+                    <button type="button" onClick={() => openChat(session.id)} className="min-w-0 flex-1 truncate px-3 py-2 text-left text-xs text-[#10272b]">
+                      {session.title}
+                    </button>
+                    <button type="button" aria-label={`Delete ${session.title}`} onClick={() => deleteChat(session.id)} className="mr-1 hidden rounded p-1 text-[#60756f] hover:bg-white hover:text-red-700 group-hover:block">
+                      <Trash2 className="size-3.5" />
+                    </button>
+                  </div>
+                ))}
+            </div>
+          </Card>
+
           <Card>
             <div className="flex items-center gap-2 font-bold text-[#10272b]">
               <Sparkles className="size-4 text-[#08785e]" /> Common Inquiries

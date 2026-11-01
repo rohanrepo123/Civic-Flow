@@ -1,5 +1,6 @@
 import json
 import asyncio
+import re
 from pathlib import Path
 from threading import Lock
 
@@ -42,15 +43,34 @@ class CuratedKnowledge:
 
     def _retrieve(self, service_id: str, query: str) -> list[RetrievedChunk]:
         with self._retrieval_lock:
-            if self._retriever is None:
-                self._retriever = SourceRetriever(self._embeddings)
-                self._retriever.add_chunks(list(self._chunks))
-            hits = self._retriever.retrieve(
-                query,
-                top_k=max(1, len(self._chunks)),
-                service_id=service_id,
-            )
-            return [hit.chunk for hit in hits]
+            try:
+                if self._retriever is None:
+                    self._retriever = SourceRetriever(self._embeddings)
+                    self._retriever.add_chunks(list(self._chunks))
+                hits = self._retriever.retrieve(
+                    query,
+                    top_k=max(1, len(self._chunks)),
+                    service_id=service_id,
+                )
+                return [hit.chunk for hit in hits]
+            except RuntimeError:
+                # Chat must remain available when BGE-M3 has not been cached yet.
+                # The semantic retriever will be used automatically after the model
+                # is downloaded and the service is restarted.
+                return self._lexical_retrieve(service_id, query)
+
+    def _lexical_retrieve(self, service_id: str, query: str) -> list[RetrievedChunk]:
+        query_terms = set(re.findall(r"[a-z0-9]{3,}", query.casefold()))
+        candidates = [chunk for chunk in self._chunks if chunk.service_id == service_id]
+        ranked = sorted(
+            candidates,
+            key=lambda chunk: (
+                len(query_terms & set(re.findall(r"[a-z0-9]{3,}", f"{chunk.source_title} {chunk.text}".casefold()))),
+                chunk.verification_status is SourceVerificationStatus.VERIFIED,
+            ),
+            reverse=True,
+        )
+        return ranked
 
     async def extract(self, *, service_id: str, chunks: list[RetrievedChunk]) -> ServiceRequirements:
         selected = self._requirements.get(service_id)

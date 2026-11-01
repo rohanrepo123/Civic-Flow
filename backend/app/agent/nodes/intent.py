@@ -139,10 +139,16 @@ class IntentNode:
         if baseline.intent in {IntentType.CASUAL_CONVERSATION, IntentType.OUT_OF_SCOPE}:
             return baseline
         extract = self._extractor.extract
-        if "context" in inspect.signature(extract).parameters:
-            intent = await extract(user_request, context=context)
-        else:
-            intent = await extract(user_request)
+        try:
+            if "context" in inspect.signature(extract).parameters:
+                intent = await extract(user_request, context=context)
+            else:
+                intent = await extract(user_request)
+        except Exception:
+            # Keep the assistant usable when the configured LLM is temporarily
+            # unavailable or returns malformed structured output. Later workflow
+            # stages still validate service and source information independently.
+            intent = baseline
         if baseline.service_name == "mahadbt":
             intent = intent.model_copy(
                 update={

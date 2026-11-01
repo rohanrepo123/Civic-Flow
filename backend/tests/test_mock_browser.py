@@ -217,5 +217,3 @@ def test_guarded_client_rejects_sensitive_action_before_worker_call() -> None:
         assert "private" not in result.message
 
     asyncio.run(run())
-
-\n
