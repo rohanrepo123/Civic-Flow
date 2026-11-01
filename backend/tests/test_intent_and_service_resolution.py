@@ -122,6 +122,28 @@ def test_ollama_cloud_model_is_the_default_provider_configuration(monkeypatch) -
     assert isinstance(build_chat_client(settings), OllamaChatClient)
 
 
+def test_groq_provider_uses_configured_secret_and_json_compatible_endpoint(monkeypatch) -> None:
+    from backend.app.agent.services.llm import HttpChatCompletionClient
+
+    monkeypatch.setenv("LLM_PROVIDER", "groq")
+    monkeypatch.setenv("GROQ_API_KEY", "test-groq-key")
+    monkeypatch.delenv("GROQ_MODEL", raising=False)
+    settings = AgentSettings.from_environment()
+    client = build_chat_client(settings)
+
+    assert isinstance(client, HttpChatCompletionClient)
+    assert client._settings.llm_chat_completions_url == "https://api.groq.com/openai/v1/chat/completions"
+    assert client._settings.llm_model == "openai/gpt-oss-20b"
+
+
+def test_groq_provider_requires_api_key(monkeypatch) -> None:
+    monkeypatch.setenv("LLM_PROVIDER", "groq")
+    monkeypatch.delenv("GROQ_API_KEY", raising=False)
+    settings = AgentSettings.from_environment()
+    with pytest.raises(ValueError, match="GROQ_API_KEY"):
+        build_chat_client(settings)
+
+
 def test_final_json_object_discards_nemotron_reasoning_preamble() -> None:
     content = '<think>Maybe this format is useful: {"wrong": true}</think>\n{"ok": true}'
     assert final_json_object(content) == '{"ok": true}'

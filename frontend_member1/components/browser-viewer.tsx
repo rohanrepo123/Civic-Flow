@@ -313,16 +313,16 @@ export function BrowserViewer({
             <span className="grid size-14 place-items-center rounded-2xl bg-[#e3f2e8] text-[#08785e]">
               <LoaderCircle size={28} className="animate-spin text-[#08785e]" />
             </span>
-            <Status tone={sessionId ? "green" : "amber"}>
-              {sessionId ? "Browser Stream Connecting" : "Connecting Browser Session"}
+          <Status tone={sessionId ? "green" : portalUrl ? "amber" : "blue"}>
+              {sessionId ? "Browser Stream Connecting" : portalUrl ? "Connecting Browser Session" : "Portal needed"}
             </Status>
             <h2 className="mt-2 text-base font-bold text-[#10272b]">
-              Connecting to configured portal
+              {portalUrl ? "Connecting to configured portal" : "Official portal not identified"}
             </h2>
             <p className="max-w-md text-xs leading-5 text-[#60756f]">
               {portalUrl
                 ? `Opening a live Chromium session to ${portalUrl}. A visible browser window will open on this computer.`
-                : "No portal URL assigned to this service."}
+                : "No verified HTTPS portal is configured. CivicFlow will not open a local demo or guessed address."}
             </p>
             {!sessionId && (
               <Button

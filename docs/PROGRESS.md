@@ -158,3 +158,22 @@ The Windows environment emits known Pydantic/Python 3.14 and experimental NumPy 
 - Preserved upstream error details for service creation failures and fixed empty-body proxy responses for successful HTTP 204 deletions.
 - Validation: frontend type-check, Python `compileall`, and `git diff --check` passed; production build succeeded. Through the running production app, created a temporary MahaDBT application, confirmed its Browser Agent stream URL points to port 8011, sent a casual `hi` and received a Nemotron greeting, then closed the session and deleted the test application. Frontend and all three API readiness endpoints returned HTTP 200.
 - Final local smoke check: restarted CivicFlow on ports 3001 and 8009-8011; verified frontend/Core API/AI Agent/Browser Agent readiness, Core API identity and 33-service catalog routes, application create/delete, live browser-session URL selection, and a casual Nemotron chat. Stopped all four tracked services and the stale CivicFlow dev server; confirmed all local app ports 3000-3010 and 8000-8020 are closed and no CivicFlow service record remains. Also stopped the verified loopback Uvicorn listeners previously found on ports 8000-8008.
+
+## Real portal routing and HTTPS validation (2026-11-01)
+
+- Replaced the legacy `mock-citizen-certificate` catalog entry's localhost sandbox URL and invented sample eligibility/documents with Maharashtra's Aaple Sarkar service directory; kept the old service ID for existing drafts.
+- Custom application creation now resolves a full state/jurisdiction name against the configured Geo registry and selects only its configured HTTPS portal. HTTP custom portal URLs are rejected; unknown jurisdictions remain without a guessed portal.
+- The custom-service UI now sends the full jurisdiction name instead of truncating it into an invalid state code. Workspace resolution ignores stale non-HTTPS localStorage portal URLs and falls back to a catalog HTTPS URL when available. It no longer invents localhost:9090 for unknown portals.
+- The browser viewer now explains when no verified HTTPS portal is configured and does not attempt to connect.
+- Added regression coverage for the legacy certificate service URL, full-state-name resolution, unknown jurisdiction behavior, and rejection of HTTP portal URLs.
+- Validation: frontend `pnpm exec tsc --noEmit` passed; `git diff --check` passed; no CivicFlow listeners were found on ports 3000-3010 or 8000-8020. Focused pytest collection was blocked by the repository's conflicting `civicflow_contracts` package paths; after constraining pytest configuration, import/startup hung before producing test output. No services were started during this check.
+- Follow-up validation: `pnpm exec next build --webpack` succeeded after clearing the generated `.next` directory; the build required elevated filesystem access because Windows blocked Next.js generated-directory creation in the sandbox. Ports remain closed.
+
+## Hosting preparation and Groq provider (2026-11-01)
+
+- Added Groq as an explicit provider on the existing OpenAI-compatible JSON chat adapter. `GROQ_API_KEY` is read from the environment; `GROQ_MODEL` defaults to `openai/gpt-oss-20b`. The local launcher now honors the selected provider from `.env` rather than always forcing Ollama.
+- The workspace `.env` selects Groq, but remains ignored and was not staged. `.env.example` documents the optional Groq variables; Ollama Nemotron remains the default for new setups.
+- Verified the configured Groq credential against the models endpoint (HTTP 200) and a minimal JSON chat completion (HTTP 200, `{"ready":true}`). The key was passed only in authorization headers and not printed.
+- Added deployment notes for Vercel's frontend and the separate Core API, AI Agent, and Chromium Browser Agent. Added `BROWSER_AGENT_PUBLIC_URL` so Core API can return a browser WebSocket URL reachable by a hosted user's browser.
+- Validation: Python compilation, PowerShell launcher parsing, Groq client configuration selection, Next frontend typecheck/build from the prior fix, and `git diff --check` passed. A focused pytest invocation remained hung during collection and was interrupted; provider behavior was verified directly and with the live API check.
+- Hosting limitation: no Vercel CLI or linked Vercel project is available here. The Core API currently holds application records in memory, so the repository is not yet ready for durable production applications. GitHub publication is separate from running the services.

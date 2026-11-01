@@ -27,7 +27,7 @@ async def create_session(application_id: str, body: dict | None = None):
     session = await get_browser_client().create_session(application_id, service_id, portal)
     endpoint = session.get("stream_endpoint")
     if endpoint:
-        browser_url = settings.BROWSER_AGENT_URL.rstrip("/")
+        browser_url = (settings.BROWSER_AGENT_PUBLIC_URL or settings.BROWSER_AGENT_URL).rstrip("/")
         socket_url = browser_url.replace("https://", "wss://", 1) if browser_url.startswith("https://") else browser_url.replace("http://", "ws://", 1)
         session["stream_url"] = f"{socket_url}{endpoint}"
     return session

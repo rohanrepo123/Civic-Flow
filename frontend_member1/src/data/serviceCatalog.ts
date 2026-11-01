@@ -20,21 +20,21 @@ export interface Service {
 import rawSeedServices from "./seedServices.json"
 
 export const curatedServices: Service[] = [
-  // Local Mock Service for Verified E2E Testing
+  // Keep the legacy ID so existing local drafts resolve to the official portal.
   {
     id: "mock-citizen-certificate",
-    title: "Income & Domicile Certificate (Local Mock Portal)",
+    title: "Income & Domicile Certificate Services (Aaple Sarkar)",
     category: "certificates",
-    description: "Local test service running against the verified offline sandbox portal. Used for browser-assisted automation testing without contacting real government servers.",
+    description: "Open Maharashtra's official Aaple Sarkar service directory to find income and domicile certificate services. Requirements vary by certificate; confirm them on the government portal.",
     jurisdiction: "Maharashtra",
-    department: "Revenue Department (Sandbox)",
-    officialUrl: "http://localhost:9090",
+    department: "Revenue Department",
+    officialUrl: "https://aaplesarkar.mahaonline.gov.in/en/CommonForm/CitizenServices_RTS",
     status: "available",
     integrationMode: "civicflow_assisted",
-    workflowSteps: ["Eligibility", "Profile", "Documents", "Portal Sandbox", "Form Fill", "Review & Submit"],
-    eligibility: ["Open to all test applicants in local development", "Age 18+"],
-    documents: ["Identity Proof", "Address Proof", "Income Declaration"],
-    aliases: ["Mock portal", "Sandbox certificate", "Local test service", "Aaple sarkar mock"]
+    workflowSteps: ["Confirm certificate type", "Open Aaple Sarkar", "Review official requirements", "Complete and submit on the portal"],
+    eligibility: [],
+    documents: [],
+    aliases: ["Aaple Sarkar Income Certificate", "Maharashtra Domicile Certificate", "Residence Certificate"]
   },
   // Maharashtra Services
   {

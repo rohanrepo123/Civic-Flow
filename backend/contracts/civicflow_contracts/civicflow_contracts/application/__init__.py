@@ -1,7 +1,7 @@
 """Application and service catalogue contracts."""
 from typing import Any, Literal
 from uuid import UUID
-from pydantic import Field, HttpUrl
+from pydantic import Field, HttpUrl, model_validator
 from civicflow_contracts.common import ContractMetadata, ContractModel, ApplicationStatus, ServiceCategory, ServiceStatus, DocumentStatus
 from enum import Enum
 
@@ -74,11 +74,18 @@ class ServiceDetail(ServiceListItem):
 
 class CustomApplicationRequest(ContractModel):
     request_text: str = Field(min_length=10, max_length=2000)
-    state_code: str = Field(min_length=2, max_length=3)
+    state_code: str | None = Field(default=None, min_length=2, max_length=3)
+    jurisdiction: str | None = Field(default=None, min_length=2, max_length=80)
     district: str | None = None
     department_id: str | None = None
     portal_url: str | None = None
     additional_context: dict[str, Any] = Field(default_factory=dict)
+
+    @model_validator(mode="after")
+    def require_jurisdiction(self):
+        if not (self.jurisdiction or self.state_code):
+            raise ValueError("Provide a state code or jurisdiction name")
+        return self
 
 class CustomApplicationResponse(ContractModel):
     application_id: str

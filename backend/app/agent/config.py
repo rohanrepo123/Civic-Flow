@@ -14,6 +14,8 @@ class AgentSettings:
     ollama_chat_model: str = "nemotron-3-super:cloud"
     openai_api_key: str | None = None
     openai_model: str = ""
+    groq_api_key: str | None = None
+    groq_model: str = "openai/gpt-oss-20b"
     llm_timeout_seconds: float = 120.0
     llm_temperature: float = 0.0
     openai_document_processing_enabled: bool = False
@@ -34,6 +36,8 @@ class AgentSettings:
             ollama_chat_model=value("OLLAMA_CHAT_MODEL") or "nemotron-3-super:cloud",
             openai_api_key=value("OPENAI_API_KEY") or value("LLM_API_KEY"),
             openai_model=value("OPENAI_MODEL") or value("LLM_MODEL") or "",
+            groq_api_key=value("GROQ_API_KEY"),
+            groq_model=value("GROQ_MODEL") or "openai/gpt-oss-20b",
             llm_timeout_seconds=float(value("LLM_TIMEOUT_SECONDS") or "120"),
             llm_temperature=float(value("LLM_TEMPERATURE") or "0"),
             openai_document_processing_enabled=(
@@ -47,6 +51,8 @@ class AgentSettings:
             return bool(self.ollama_base_url and self.ollama_chat_model)
         if self.llm_provider == "openai":
             return bool((self.openai_api_key or self.llm_api_key) and (self.openai_model or self.llm_model))
+        if self.llm_provider == "groq":
+            return bool(self.groq_api_key and self.groq_model)
         return False
 
     @property
@@ -57,6 +63,7 @@ class AgentSettings:
                 self.llm_model,
                 self.llm_api_key,
                 self.llm_chat_completions_url,
+                self.groq_api_key,
             )
         )
 

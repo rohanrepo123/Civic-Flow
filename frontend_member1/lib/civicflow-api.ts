@@ -39,7 +39,8 @@ export interface CategoryInfo {
 
 export interface CustomApplicationInput {
   request_text: string;
-  state_code: string;
+  jurisdiction?: string;
+  state_code?: string;
   district?: string;
   department_id?: string;
   portal_url?: string;

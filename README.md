@@ -26,7 +26,7 @@ The agent uses Ollama by default, with your cloud model `nemotron-3-super:cloud`
 6. Copy `.env.example` to `.env`. For running Python directly, keep `OLLAMA_BASE_URL=http://localhost:11434`.
 7. Run the preserved Member 2 app directly with the commands in Local development below.
 
-OpenAI is disabled in this setup. The agent uses `nemotron-3-super:cloud` through Ollama. OpenAI can be enabled later only by explicitly setting `LLM_PROVIDER=openai`, `OPENAI_API_KEY`, and `OPENAI_MODEL` in `.env`.
+Ollama Nemotron remains the default. The agent also supports Groq for hosted deployments: set `LLM_PROVIDER=groq`, `GROQ_API_KEY`, and optionally `GROQ_MODEL` (default `openai/gpt-oss-20b`). Groq's JSON chat-completions endpoint was verified with the configured workspace key. OpenAI remains disabled unless explicitly configured.
 
 ## Preserved Member 2 local app
 
@@ -71,7 +71,7 @@ The launcher prints the frontend link and all service health links after they be
 scripts\stop-local.cmd
 ```
 
-The launcher reads provider settings from the root `.env`, uses Ollama Nemotron (`OLLAMA_CHAT_MODEL=nemotron-3-super:cloud`) and keeps OpenAI disabled. Sign in to Ollama on the host before chatting. For semantic source retrieval, cache BGE-M3 once after setup in PowerShell:
+The launcher reads the selected provider from the root `.env`. Keep `LLM_PROVIDER=ollama` to use cloud Nemotron, or set `LLM_PROVIDER=groq` to use `GROQ_API_KEY` and `GROQ_MODEL=openai/gpt-oss-20b`. Never commit `.env`; set API keys as private environment variables on hosting platforms. For semantic source retrieval, cache BGE-M3 once after setup in PowerShell:
 
 ```powershell
 $env:HF_HOME = Join-Path (Get-Location).Path 'runtime\huggingface'

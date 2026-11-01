@@ -31,6 +31,7 @@ class Settings(BaseSettings):
     # --- Downstream Service URLs ---
     AI_AGENT_URL: str = "http://localhost:8001"
     BROWSER_AGENT_URL: str = "http://localhost:8002"
+    BROWSER_AGENT_PUBLIC_URL: str = ""
     BROWSER_AGENT_API_TOKEN: str = ""
 
     # --- CORS ---

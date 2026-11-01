@@ -62,10 +62,12 @@ export default function WorkspacePage() {
     (app as any).custom_request ??
     "Public Service Application"
 
-  const portalUrl =
-    (app as any).portal_url ??
-    service?.officialUrl ??
-    ((app as any).applicationMode === "custom" ? "http://localhost:9090" : undefined)
+  const portalUrl = [
+    (app as any).portal_url,
+    service?.officialUrl,
+  ].find((candidate): candidate is string =>
+    typeof candidate === "string" && candidate.toLowerCase().startsWith("https://"),
+  )
 
   const openForm = () => {
     if (localApp) {
@@ -87,7 +89,7 @@ export default function WorkspacePage() {
         title={title}
         description={
           isCustom
-            ? `${customState ?? "Jurisdiction Registered"}${customDistrict ? ` · ${customDistrict}` : ""} · Official portal verified`
+            ? `${customState ?? "Jurisdiction Registered"}${customDistrict ? ` · ${customDistrict}` : ""} · ${portalUrl ? "State portal identified; confirm this service there" : "No portal configured for this jurisdiction"}`
             : `${service?.department ?? "Government Service"} · ${service?.jurisdiction ?? "India"}`
         }
         action={

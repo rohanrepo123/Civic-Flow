@@ -157,9 +157,11 @@ def build_intent_extractor(settings: AgentSettings | None = None) -> IntentExtra
     if not configuration.llm_configured:
         return RuleBasedIntentExtractor()
     if not configuration.llm_enabled:
-        if configuration.llm_provider not in {"ollama", "openai"}:
-            raise ValueError("LLM configuration is incomplete: LLM_PROVIDER must be either 'ollama' or 'openai'")
+        if configuration.llm_provider not in {"ollama", "openai", "groq"}:
+            raise ValueError("LLM configuration is incomplete: unsupported LLM_PROVIDER")
         if configuration.llm_provider == "openai":
             raise ValueError("OpenAI provider selected but OPENAI_API_KEY is not set")
+        if configuration.llm_provider == "groq":
+            raise ValueError("Groq provider selected but GROQ_API_KEY is not set")
         raise ValueError("LLM configuration is incomplete for the selected LLM_PROVIDER")
     return LLMIntentExtractor(build_chat_client(configuration))

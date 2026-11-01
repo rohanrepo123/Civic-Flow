@@ -72,6 +72,25 @@ def _load_states() -> list[dict]:
 
 _CACHED_STATES = _load_states()
 
+
+def resolve_state(jurisdiction: str | None) -> dict | None:
+    """Resolve a state code or plain-language state name from the configured registry."""
+    if not jurisdiction:
+        return None
+
+    def normalize(value: str) -> str:
+        normalized = "".join(char.casefold() for char in value if char.isalnum())
+        for suffix in ("unionterritoryofindia", "unionterritory", "stateofindia", "state", "india"):
+            if normalized.endswith(suffix) and len(normalized) > len(suffix):
+                normalized = normalized[: -len(suffix)]
+        return normalized
+
+    target = normalize(jurisdiction)
+    for state in _CACHED_STATES:
+        if target in {normalize(state.get("state_code", "")), normalize(state.get("name", ""))}:
+            return state
+    return None
+
 @router.get("/states", response_model=list[StateItem])
 async def list_states():
     """Return all 36 States and Union Territories with official portal metadata."""

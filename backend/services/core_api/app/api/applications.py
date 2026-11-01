@@ -22,7 +22,7 @@ from app.core.state_machine import validate_transition, InvalidTransitionError
 from app.api.services import _SERVICE_CATALOG
 
 from urllib.parse import urlparse
-from app.api.geo import _CACHED_STATES
+from app.api.geo import resolve_state
 
 router = APIRouter()
 
@@ -32,7 +32,6 @@ _applications: dict[str, dict] = {}
 # Mimics the frontend's default documents for post-matric-scholarship
 _DEFAULT_DOCUMENTS = {
     "post-matric-scholarship": ["Aadhaar Card", "Income Certificate", "Previous Marksheet"],
-    "mock-citizen-certificate": ["Identity Proof", "Address Proof", "Income Declaration"],
 }
 
 @router.post("/custom", response_model=CustomApplicationResponse, status_code=status.HTTP_201_CREATED)
@@ -40,13 +39,17 @@ async def create_custom_application(body: CustomApplicationRequest):
     """Create a discovery-first application with resolved jurisdiction portal URL."""
     app_id = _make_id()
     ts = _now()
+    requested_jurisdiction = (body.jurisdiction or body.state_code or "").strip()
+    state = resolve_state(requested_jurisdiction)
+    state_code = state["state_code"] if state else (body.state_code or "")
+    jurisdiction = state["name"] if state else requested_jurisdiction
 
-    # Resolve portal URL if not explicitly provided
+    # Use only a configured HTTPS state portal; never substitute a local demo URL.
     portal_url = body.portal_url
-    if not portal_url and body.state_code:
-        st_match = next((s for s in _CACHED_STATES if s["state_code"].lower() == body.state_code.lower()), None)
-        if st_match and st_match.get("primary_portal_url"):
-            portal_url = st_match["primary_portal_url"]
+    if not portal_url and state:
+        candidate = state.get("primary_portal_url", "")
+        if urlparse(candidate).scheme == "https":
+            portal_url = candidate
 
     allowed = []
     if portal_url:
@@ -57,7 +60,8 @@ async def create_custom_application(body: CustomApplicationRequest):
     _applications[app_id] = {
         "id": app_id, "service_id": "custom-request", "user_id": "user-aarav-patil",
         "status": ApplicationStatus.draft.value, "current_step": 0, "progress": 0,
-        "form_data": {"request_text": body.request_text, "state_code": body.state_code,
+        "form_data": {"request_text": body.request_text, "state_code": state_code,
+                       "jurisdiction": jurisdiction,
                        "district": body.district, "department_id": body.department_id,
                        **body.additional_context}, "documents": [], "review_state": {},
         "approval_state": "not_started", "tracking": {"demo_mode": True},
@@ -261,7 +265,7 @@ def _to_detail(record: dict) -> ApplicationDetail:
         portal_url=record.get("portal_url"),
         allowed_domains=record.get("allowed_domains", []),
         custom_request=form.get("request_text") if isinstance(form, dict) else None,
-        custom_state=form.get("state_code") if isinstance(form, dict) else None,
+        custom_state=(form.get("jurisdiction") or form.get("state_code")) if isinstance(form, dict) else None,
         custom_district=form.get("district") if isinstance(form, dict) else None,
         application_mode=record.get("application_mode", "catalog"),
     )

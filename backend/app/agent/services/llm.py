@@ -54,7 +54,7 @@ class HttpChatCompletionClient:
         api_key = self._settings.llm_api_key
         model = self._settings.llm_model
         if not (endpoint and api_key and model):
-            raise ValueError("OpenAI-compatible provider requires a model, API key, and endpoint")
+            raise ValueError("Chat-completions provider requires a model, API key, and endpoint")
         headers = {"Authorization": f"Bearer {self._settings.llm_api_key}"}
         payload = {
             "model": model,
@@ -134,7 +134,21 @@ def build_chat_client(settings: AgentSettings) -> StructuredChatClient:
         )
         client = HttpChatCompletionClient(adapted, timeout_seconds=settings.llm_timeout_seconds)
         return client
-    raise ValueError("LLM_PROVIDER must be either 'ollama' or 'openai'")
+    if settings.llm_provider == "groq":
+        if not settings.groq_api_key:
+            raise ValueError("Groq provider selected but GROQ_API_KEY is not set")
+        adapted = AgentSettings(
+            llm_provider="groq",
+            llm_model=settings.groq_model,
+            llm_api_key=settings.groq_api_key,
+            llm_chat_completions_url="https://api.groq.com/openai/v1/chat/completions",
+            groq_api_key=settings.groq_api_key,
+            groq_model=settings.groq_model,
+            llm_timeout_seconds=settings.llm_timeout_seconds,
+            llm_temperature=settings.llm_temperature,
+        )
+        return HttpChatCompletionClient(adapted, timeout_seconds=settings.llm_timeout_seconds)
+    raise ValueError("LLM_PROVIDER must be 'ollama', 'openai', or 'groq'")
 
 
 class LLMIntentExtractor:
