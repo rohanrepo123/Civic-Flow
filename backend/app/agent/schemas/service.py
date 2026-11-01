@@ -6,6 +6,16 @@ from backend.app.agent.schemas.common import ContractModel, SourceReference
 
 
 class ServiceCategory(StrEnum):
+    CIVIL_CERTIFICATE = "civil_certificate"
+    IDENTITY_DOCUMENT = "identity_document"
+    TRANSPORT = "transport"
+    LAND_REVENUE = "land_revenue"
+    SOCIAL_WELFARE = "social_welfare"
+    FOOD_SECURITY = "food_security"
+    LABOUR_EMPLOYMENT = "labour_employment"
+    HEALTHCARE = "healthcare"
+    GRIEVANCE = "grievance"
+    OTHERS = "others"
     EDUCATION = "education"
     CERTIFICATE = "certificate"
     SCHOLARSHIP = "scholarship"

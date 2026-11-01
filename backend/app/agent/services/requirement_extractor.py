@@ -1,4 +1,5 @@
 import json
+import httpx
 
 from backend.app.agent.schemas.requirements import (
     ApplicationStep,
@@ -130,3 +131,23 @@ class RequirementExtractor:
             sources=sources,
             uncertainties=uncertainties,
         )
+
+
+class GroundedRequirements:
+    """Reuse reviewed rules; extract additional services from fetched documents."""
+
+    def __init__(self, curated, client: StructuredChatClient | None) -> None:
+        self._curated = curated
+        self._extractor = RequirementExtractor(client) if client else None
+
+    async def extract(self, *, service_id: str, chunks: list[RetrievedChunk]) -> ServiceRequirements:
+        reviewed = await self._curated.extract(service_id=service_id, chunks=chunks)
+        if reviewed.eligibility_rules or reviewed.required_documents or reviewed.application_steps:
+            return reviewed
+        evidence = [chunk for chunk in chunks if not chunk.chunk_id.endswith(":catalog")]
+        if self._extractor and evidence:
+            try:
+                return await self._extractor.extract(service_id=service_id, chunks=evidence[:12])
+            except (ValueError, RuntimeError, httpx.HTTPError):
+                reviewed.uncertainties.append("Document extraction was unavailable; no missing rules were inferred.")
+        return reviewed

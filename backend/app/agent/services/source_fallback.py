@@ -10,6 +10,7 @@ import httpx
 from backend.app.agent.schemas.service import ServiceRecord
 from backend.app.agent.schemas.source import RetrievedChunk, SourceVerificationStatus
 from backend.app.agent.services.llm import StructuredChatClient
+from backend.app.agent.services.official_documents import is_official_url
 
 
 class SourceRelevanceJudge:
@@ -91,7 +92,7 @@ class TavilyOfficialSearch:
             url = str(row.get("url", ""))
             parsed = urlparse(url)
             host = (parsed.hostname or "").casefold()
-            if parsed.scheme != "https" or not (host.endswith(".gov.in") or host == "gov.in"):
+            if not is_official_url(url):
                 continue
             content = str(row.get("content", "")).strip()
             if not content:

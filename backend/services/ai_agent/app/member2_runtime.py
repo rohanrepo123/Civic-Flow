@@ -3,10 +3,14 @@
 from __future__ import annotations
 
 import re
-from dataclasses import dataclass
+import asyncio
+import os
+from pathlib import Path
+from dataclasses import dataclass, field
+from collections.abc import MutableMapping
 from typing import Any
 from urllib.parse import urlparse
-from uuid import uuid4
+from uuid import uuid4, uuid5, NAMESPACE_URL
 
 from civicflow_contracts.ai import (
     AgentActionRequest,
@@ -36,6 +40,9 @@ from backend.app.agent.services.service_discovery import ServiceCandidateMatcher
 from backend.app.agent.services.llm import build_chat_client
 from backend.app.agent.services.source_fallback import SourceRelevanceJudge, TavilyOfficialSearch
 from backend.app.agent.services.official_documents import OfficialDocumentFetcher
+from backend.app.agent.services.requirement_extractor import GroundedRequirements
+from backend.app.agent.local_state import LocalCheckpointSaver, StateMap
+from backend.app.agent.clients.member3_browser import Member3BrowserClient
 
 
 _SECRET_KEY = re.compile(
@@ -141,31 +148,41 @@ class Member2Runtime:
     knowledge: CuratedKnowledge
     intent_extractor: Any
     graph: Any
-    runs: dict[str, dict[str, Any]]
-    pending_runs: dict[str, dict[str, Any]]
-    conversation_memories: dict[str, dict[str, dict[str, Any]]]
+    runs: MutableMapping[str, dict[str, Any]]
+    pending_runs: MutableMapping[str, dict[str, Any]]
+    conversation_memories: MutableMapping[str, dict[str, dict[str, Any]]]
+    turn_lock: asyncio.Lock = field(default_factory=asyncio.Lock)
+    browser_client: Any = None
 
     @classmethod
     def create(cls) -> "Member2Runtime":
         settings = AgentSettings.from_environment()
         registry = ServiceRegistry.default()
-        knowledge = CuratedKnowledge.default()
+        knowledge = CuratedKnowledge.default(registry=registry)
         resolver = ServiceResolver(registry)
         intent_extractor = build_intent_extractor(settings)
         chat_client = build_chat_client(settings) if settings.llm_enabled else None
         relevance_judge = SourceRelevanceJudge(chat_client) if chat_client else None
         service_matcher = ServiceCandidateMatcher(chat_client) if chat_client else None
+        state_dir = Path(os.getenv("CIVICFLOW_STATE_DIR") or Path(__file__).resolve().parents[4] / "runtime" / "agent")
+        checkpointer = LocalCheckpointSaver(state_dir / "checkpoints.db")
+        browser = Member3BrowserClient(os.environ["BROWSER_AGENT_URL"], os.getenv("BROWSER_AGENT_API_TOKEN", "")) if os.getenv("BROWSER_AGENT_URL") else None
         graph = create_civicflow_graph(
             WorkflowDependencies(
                 intent_extractor=intent_extractor,
                 service_resolver=resolver,
-                requirement_extractor=knowledge,
+                requirement_extractor=GroundedRequirements(knowledge, chat_client),
                 source_retriever=knowledge.retrieve,
-                service_matcher=service_matcher,
+                catalog_retriever=knowledge.search_catalog,
+                service_matcher=service_matcher.match if service_matcher else None,
                 source_relevance_judge=relevance_judge,
                 web_search=TavilyOfficialSearch.from_environment(),
                 official_document_fetcher=OfficialDocumentFetcher(),
-            )
+                browser_client=browser,
+                action_proposer=browser.propose_action if browser else None,
+                action_verifier=browser.verify_action if browser else None,
+            ),
+            checkpointer=checkpointer,
         )
         return cls(
             settings=settings,
@@ -173,9 +190,10 @@ class Member2Runtime:
             knowledge=knowledge,
             intent_extractor=intent_extractor,
             graph=graph,
-            runs={},
-            pending_runs={},
-            conversation_memories={},
+            runs=StateMap(state_dir / "conversations.db", "runs"),
+            pending_runs=StateMap(state_dir / "conversations.db", "pending"),
+            conversation_memories=StateMap(state_dir / "conversations.db", "memory"),
+            browser_client=browser,
         )
 
     def mode(self) -> str:
@@ -234,6 +252,24 @@ class Member2Runtime:
         }
 
     async def turn(self, request: AgentTurnRequest) -> AgentTurnResponse:
+        # One local writer prevents concurrent turns from resuming the same checkpoint.
+        async with self.turn_lock:
+            try:
+                async with asyncio.timeout(float(os.getenv("AGENT_TURN_TIMEOUT", "180"))):
+                    return await self._turn(request)
+            except TimeoutError:
+                return AgentTurnResponse(contract_version=request.contract_version,
+                    correlation_id=request.correlation_id, run_id=str(uuid4()),
+                    assistant_message="The assistant took too long to respond. Your chat is saved; please try again.",
+                    intent="service_assistance", mode=self.mode(), confidence=0,
+                    uncertainty=["The turn timed out; no completion is claimed."])
+
+    async def close(self) -> None:
+        if self.browser_client:
+            await self.browser_client.close()
+        self.graph.checkpointer.close()
+
+    async def _turn(self, request: AgentTurnRequest) -> AgentTurnResponse:
         context: dict[str, Any] = {}
         if request.sanitized_application_context is not None:
             context.update(request.sanitized_application_context.sanitized_data)
@@ -246,7 +282,7 @@ class Member2Runtime:
 
         graph_request = request.message.strip()
         selected = request.selected_service_context
-        conversation_id = request.conversation_id
+        conversation_id = str(uuid5(NAMESPACE_URL, f"{request.user_id}:{request.conversation_id}"))
         layer_context = self.conversation_memories.get(conversation_id, {})
         if not layer_context:
             previous_user = next(
@@ -265,10 +301,29 @@ class Member2Runtime:
                         "knowledge": {},
                     }
         pending_run = self.pending_runs.get(conversation_id)
+        baseline = await RuleBasedIntentExtractor().extract(request.message)
+        # Greetings and cancellation must never become an applicant field value.
+        if pending_run and baseline.intent is IntentType.CASUAL_CONVERSATION:
+            return AgentTurnResponse(contract_version=request.contract_version, correlation_id=request.correlation_id,
+                run_id=pending_run["run_id"], assistant_message="You're welcome. We can chat, or continue your form when you are ready.",
+                intent="casual_conversation", mode=self.mode(), confidence=1)
+        if request.message.strip().casefold() in {"cancel", "cancel application", "start over"}:
+            if pending_run:
+                await self.graph.checkpointer.adelete_thread(pending_run["run_id"])
+            self.pending_runs.pop(conversation_id, None)
+            self.conversation_memories.pop(conversation_id, None)
+            return AgentTurnResponse(contract_version=request.contract_version, correlation_id=request.correlation_id,
+                run_id=str(uuid4()), assistant_message="The current workflow is cancelled. What would you like to do next?",
+                intent="casual_conversation", mode=self.mode(), confidence=1)
         if pending_run is not None:
             run_id = pending_run["run_id"]
-            resume_value = await self._resume_value(request.message, pending_run["interrupt"])
-            result = await resume_task(self.graph, task_id=run_id, resume_value=resume_value)
+            snapshot = await self.graph.aget_state({"configurable": {"thread_id": run_id}})
+            interrupts = [item for task in snapshot.tasks for item in task.interrupts]
+            if interrupts:
+                resume_value = await self._resume_value(request.message, interrupts[0].value)
+                result = await resume_task(self.graph, task_id=run_id, resume_value=resume_value)
+            else:
+                result = await self.graph.ainvoke(None, {"configurable": {"thread_id": run_id}})
         else:
             graph_request = await self._restore_recent_intent(graph_request, history)
             if selected is not None:
@@ -277,6 +332,7 @@ class Member2Runtime:
                     f"{selected.service.jurisdiction}. Service ID: {selected.service.service_id}."
                 )
             run_id = str(uuid4())
+            self.pending_runs[conversation_id] = {"run_id": run_id, "interrupt": None}
             result = await run_task(
                 self.graph,
                 {
@@ -323,7 +379,6 @@ class Member2Runtime:
         self.conversation_memories[conversation_id] = {
             "intent": {
                 "last_intent": intent.intent.value if intent else None,
-                "last_request": request.message[:500],
             },
             "service_resolution": (
                 {
@@ -401,6 +456,10 @@ class Member2Runtime:
             message = f"{message}\n\nWe can continue when you are ready. Still needed: {', '.join(missing)}."
         if service is not None and service.official_portal and pending_value is None:
             message += f"\n\nPortal: {service.official_portal}"
+        browser_session_id = result.get("browser_session_id")
+        browser_mode = self.browser_client.modes.get(browser_session_id, "unknown") if self.browser_client and browser_session_id else None
+        if browser_mode and browser_mode != "playwright":
+            message += "\n\nThe browser is in simulated mode. No live government form was filled."
         uncertainty = list(getattr(requirements, "uncertainties", []) or [])
         if not citations:
             uncertainty.append("No source citation was retrieved for this response.")
@@ -457,7 +516,11 @@ class Member2Runtime:
             items = interrupt_value.get("items") or []
             if not items:
                 return {}
-            return {str(items[0]): answer}
+            field_name = str(items[0])
+            if re.fullmatch(r"\d+(?:\.\d+)?", answer.replace(",", "")):
+                number = float(answer.replace(",", ""))
+                return {field_name: int(number) if number.is_integer() else number}
+            return {field_name: answer}
 
         if interrupt_value.get("type") == "service.clarification_required":
             candidates = interrupt_value.get("candidates") or []

@@ -50,6 +50,7 @@ class WorkflowDependencies:
         service_resolver: ServiceResolver,
         requirement_extractor: RequirementExtractor | None = None,
         source_retriever: AsyncOrSync | None = None,
+        catalog_retriever: AsyncOrSync | None = None,
         service_matcher: AsyncOrSync | None = None,
         source_relevance_judge: AsyncOrSync | None = None,
         web_search: AsyncOrSync | None = None,
@@ -67,6 +68,7 @@ class WorkflowDependencies:
         self.service_resolver = service_resolver
         self.requirement_extractor = requirement_extractor
         self.source_retriever = source_retriever
+        self.catalog_retriever = catalog_retriever
         self.service_matcher = service_matcher
         self.source_relevance_judge = source_relevance_judge
         self.web_search = web_search
@@ -146,6 +148,13 @@ def create_civicflow_graph(
 
     async def extract_intent(state: CivicFlowState) -> dict[str, Any]:
         intent = await intent_node.run(state["user_request"], state.get("layer_context", {}))
+        if intent.intent is IntentType.OUT_OF_SCOPE:
+            query = state["user_request"].casefold().strip()
+            named = [service for service in dependencies.service_resolver.all_services()
+                     if any(name.casefold() in query for name in [service.name, *service.aliases] if len(name) > 2)]
+            if named:
+                intent = intent.model_copy(update={"intent": IntentType.GET_INFORMATION,
+                    "service_name": state["user_request"], "goal": "get_information", "requires_browser": False})
         events = _event(
             state,
             AgentEventType.INTENT_EXTRACTED,
@@ -153,22 +162,35 @@ def create_civicflow_graph(
         )
         return {"intent": intent, "events": events}
 
+    async def retrieve_catalog(state: CivicFlowState) -> dict[str, Any]:
+        chunks = []
+        if dependencies.catalog_retriever is not None:
+            chunks = await _call(dependencies.catalog_retriever, state["user_request"])
+        return {"catalog_candidates": chunks, "events": _event(state, AgentEventType.SOURCES_RETRIEVED,
+                {"stage": "catalogue", "source_count": len(chunks)})}
+
     async def resolve_service(state: CivicFlowState) -> dict[str, Any]:
         intent = state["intent"]
         resolution = dependencies.service_resolver.resolve(intent)
-        if resolution.status is not ResolutionStatus.RESOLVED and dependencies.service_matcher is not None:
+        candidate_ids = {chunk.service_id for chunk in state.get("catalog_candidates", [])}
+        candidates = [service for service in dependencies.service_resolver.all_services()
+                      if service.service_id in candidate_ids] if dependencies.catalog_retriever else list(dependencies.service_resolver.all_services())
+        if candidates and dependencies.service_matcher is not None:
+            judged = False
             try:
                 match = await _call(
                     dependencies.service_matcher,
                     query=state["user_request"],
                     intent=intent,
-                    services=list(dependencies.service_resolver.all_services()),
+                    services=candidates,
                     context=state.get("layer_context", {}).get("service_resolution", {}),
                 )
+                judged = True
             except Exception:
                 match = None
             selected_match = next(
-                (item for item in dependencies.service_resolver.all_services() if item.service_id == match),
+                (item for item in candidates if item.service_id == match
+                 and (not intent.jurisdiction or item.jurisdiction.casefold() == intent.jurisdiction.casefold())),
                 None,
             )
             if selected_match is not None:
@@ -177,6 +199,8 @@ def create_civicflow_graph(
                     selected_service=selected_match,
                     candidates=[selected_match],
                 )
+            elif judged:
+                resolution = ServiceResolution(status=ResolutionStatus.AMBIGUOUS, candidates=candidates)
         while resolution.status is not ResolutionStatus.RESOLVED:
             if not intent.service_name:
                 question = "Sure — what is the form or scheme about, and which state is it for? For example, a scholarship form in Maharashtra."
@@ -288,8 +312,10 @@ def create_civicflow_graph(
         return {"retrieval_relevant": bool(judgment), "retrieval_judgment": "LLM relevance judgment completed."}
 
     async def web_search_fallback(state: CivicFlowState) -> dict[str, Any]:
-        if state.get("retrieval_relevant") or dependencies.web_search is None:
+        if state.get("retrieval_relevant"):
             return {}
+        if dependencies.web_search is None:
+            return {"official_sources": []}
         try:
             results = await _call(
                 dependencies.web_search,
@@ -297,10 +323,12 @@ def create_civicflow_graph(
                 state["selected_service"],
             )
         except Exception:
-            return {"retrieval_judgment": "Official web search was unavailable; using available curated context only."}
+            return {"official_sources": [], "retrieval_judgment": "Official web search was unavailable; no relevant evidence was verified."}
         chunks = [item for item in results if isinstance(item, RetrievedChunk)] if isinstance(results, list) else []
-        if not chunks:
-            chunks = list(state.get("official_sources", []))
+        if chunks and dependencies.source_relevance_judge:
+            judgment = await judge_retrieval({**state, "official_sources": chunks})
+            if not judgment.get("retrieval_relevant"):
+                chunks = []
         return {"official_sources": chunks}
 
     async def fetch_official_documents(state: CivicFlowState) -> dict[str, Any]:
@@ -354,14 +382,17 @@ def create_civicflow_graph(
                     text = str(answer.get("answer", ""))
             except Exception:
                 text = ""
+        if not text and requirements and requirements.required_documents and state["intent"].intent is IntentType.GET_INFORMATION:
+            text = f"Required documents for {service.name}:\n" + "\n".join(
+                f"- {item.document_type}" for item in requirements.required_documents)
         if not text and rules:
             criteria = [f"{rule.field.replace('_', ' ')} {rule.operator.value.replace('_', ' ')} {rule.value}" for rule in rules]
             text = f"The available sourced eligibility criteria for {service.name} are: " + "; ".join(criteria) + "."
         if not text:
             text = (
                 f"I found information for {service.name} in {service.jurisdiction}, but the available source "
-                "does not contain scheme-specific eligibility criteria. For scholarships, eligibility varies "
-                "by the exact scheme. Share the scholarship name if you have it, or I can help find the matching scheme."
+                "does not provide enough verified detail to answer that question. "
+                "You can check the linked official guidance; I will not guess missing requirements."
             )
         citations = []
         seen_urls: set[str] = set()
@@ -528,20 +559,31 @@ def create_civicflow_graph(
         intent = state["intent"]
         if not intent.requires_browser:
             return {"browser_ready": False}
-        if (
-            dependencies.browser_client is None
-            or service.official_portal is None
-            or service.verification_status.value != "verified"
-        ):
-            return {"browser_ready": False, "task_status": TaskStatus.WAITING_FOR_USER}
+        if service.official_portal is None or service.verification_status.value != "verified":
+            return {
+                "browser_ready": False,
+                "task_status": TaskStatus.FAILED,
+                "errors": ["A verified official portal is unavailable for this service."],
+            }
+        if dependencies.browser_client is None:
+            return {
+                "browser_ready": False,
+                "task_status": TaskStatus.FAILED,
+                "errors": [
+                    "The Browser Agent is not connected. You can still open the verified official portal and continue manually."
+                ],
+            }
         try:
-            browser_session = await dependencies.browser_client.create_session(
-                BrowserSessionCreate(
+            request = BrowserSessionCreate(
                     task_id=state["task_id"],
                     start_url=service.official_portal,
                     viewport={"width": 1280, "height": 800},
                 )
-            )
+            if hasattr(dependencies.browser_client, "create_session_for_task"):
+                browser_session = await dependencies.browser_client.create_session_for_task(
+                    request, user_id=state["user_id"], service_id=service.service_id)
+            else:
+                browser_session = await dependencies.browser_client.create_session(request)
         except Exception:
             return {"browser_ready": False, "task_status": TaskStatus.FAILED, "errors": ["Browser session could not be created safely."]}
         events = _event(
@@ -685,7 +727,7 @@ def create_civicflow_graph(
             elif "how are you" in request:
                 summary = "I’m ready to help. Tell me which public service, portal, or application you want to understand."
             else:
-                summary = "Hello! Tell me which public service or application you need help with, and include the jurisdiction if you know it."
+                summary = "Hello! How can I help? We can chat, or look into a form or scheme whenever you are ready."
             events = _event(state, AgentEventType.TASK_COMPLETED, {"status": TaskStatus.COMPLETED.value})
             return {"final_summary": summary, "task_status": TaskStatus.COMPLETED, "events": events}
         if intent and intent.intent is IntentType.OUT_OF_SCOPE:
@@ -759,6 +801,7 @@ def create_civicflow_graph(
 
     builder = StateGraph(CivicFlowState)
     builder.add_node("intent", extract_intent)
+    builder.add_node("catalogue", retrieve_catalog)
     builder.add_node("service", resolve_service)
     builder.add_node("retrieve_sources", retrieve_sources)
     builder.add_node("judge_retrieval", judge_retrieval)
@@ -783,19 +826,20 @@ def create_civicflow_graph(
 
     builder.add_edge(START, "intent")
     def route_after_intent(state: CivicFlowState) -> str:
-        return "summary" if state["intent"].intent in {IntentType.CASUAL_CONVERSATION, IntentType.OUT_OF_SCOPE} else "service"
+        return "summary" if state["intent"].intent in {IntentType.CASUAL_CONVERSATION, IntentType.OUT_OF_SCOPE} else "catalogue"
 
     def route_after_requirements(state: CivicFlowState) -> str:
-        if state["intent"].intent is IntentType.CHECK_ELIGIBILITY and not state["intent"].eligibility_is_personal:
+        if state["intent"].intent in {IntentType.GET_INFORMATION, IntentType.FIND_SERVICE} or (state["intent"].intent is IntentType.CHECK_ELIGIBILITY and not state["intent"].eligibility_is_personal):
             return "eligibility_information"
         return "profile"
 
-    builder.add_conditional_edges("intent", route_after_intent, {"summary": "summary", "service": "service"})
+    builder.add_conditional_edges("intent", route_after_intent, {"summary": "summary", "catalogue": "catalogue"})
+    builder.add_edge("catalogue", "service")
     builder.add_edge("service", "retrieve_sources")
-    builder.add_edge("retrieve_sources", "judge_retrieval")
+    builder.add_edge("retrieve_sources", "fetch_official_documents")
+    builder.add_edge("fetch_official_documents", "judge_retrieval")
     builder.add_edge("judge_retrieval", "web_search_fallback")
-    builder.add_edge("web_search_fallback", "fetch_official_documents")
-    builder.add_edge("fetch_official_documents", "requirements")
+    builder.add_edge("web_search_fallback", "requirements")
     builder.add_conditional_edges("requirements", route_after_requirements, {"eligibility_information": "eligibility_information", "profile": "profile"})
     builder.add_edge("eligibility_information", END)
     builder.add_edge("profile", "eligibility")

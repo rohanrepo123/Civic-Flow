@@ -29,6 +29,8 @@ class ServiceResolver:
                     score += 4
                 elif any(query in alias or alias in query for alias in aliases if alias):
                     score += 2
+            if query and score == 0:
+                continue  # A state/category alone must not override an unmatched named scheme.
             if intent.service_category is not None and intent.service_category is service.category:
                 score += 2
             if jurisdiction:
@@ -42,7 +44,7 @@ class ServiceResolver:
         if not ranked:
             return ServiceResolution(
                 status=ResolutionStatus.NOT_FOUND,
-                clarification_question="Which service and jurisdiction do you mean?",
+                clarification_question="What is the form or scheme called, and which state is it for?",
             )
         best = max(score for score, _ in ranked)
         candidates = [service for score, service in ranked if score == best]

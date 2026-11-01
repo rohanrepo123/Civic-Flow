@@ -17,6 +17,7 @@ frontend/node_modules/
 frontend/dist/
 frontend/tsconfig.tsbuildinfo
 .venv/
+.test-deps/
 venv*/
 runtime/
 runtime_logs/

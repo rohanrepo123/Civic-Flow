@@ -2,6 +2,9 @@
 
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react"
 import { serviceCatalog, type Service } from "@/src/data/serviceCatalog"
+import { getChatIdentity } from "@/lib/civicflow-api"
+import { appendSessionMessages } from "@/lib/chat-sessions"
+import { createCoreApplication } from "@/lib/civicflow-api"
 
 export type ApplicationStatus = "draft" | "prepared" | "validation_complete" | "waiting_for_approval" | "approved_for_submission" | "submission_in_progress" | "submitted" | "failed" | "uncertain"
 export type DocumentStatus = "pending" | "verified"
@@ -56,12 +59,13 @@ type StoreState = {
 
 type CivicFlowContext = {
   state: StoreState
-  createApplication: (serviceId: string, options?: { scholarshipId?: string }) => Application | null
+  chatReady: boolean
+  createApplication: (serviceId: string, options?: { scholarshipId?: string }) => Promise<Application | null>
   createCustomApplication: (request: string, jurisdiction: string, district?: string, department?: string) => Application
   getApplication: (applicationId: string) => Application | null
   updateApplication: (applicationId: string, patch: Partial<Application>) => void
   deleteApplication: (applicationId: string) => void
-  appendChat: (messages: ChatMessage[]) => void
+  appendChat: (conversationId: string, messages: ChatMessage[]) => void
   startNewChat: () => void
   openChat: (conversationId: string) => void
   deleteChat: (conversationId: string) => void
@@ -90,7 +94,7 @@ const initialState: StoreState = {
 function serviceFor(serviceId: string): Service | undefined { return serviceCatalog.find((service) => service.id === serviceId) }
 function now() { return new Date().toISOString() }
 function createId() { return `app-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}` }
-function createConversationId() { return `conversation-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}` }
+function createConversationId() { return `conversation-${crypto.randomUUID()}` }
 function initialDocuments(service: Service): DocumentItem[] { return (service.documents ?? []).map((name, index) => ({ id: `${service.id}-doc-${index}`, name, type: "PDF / JPG", status: "pending" })) }
 function chatTitle(messages: ChatMessage[]): string {
   const firstUserMessage = messages.find((message) => message.role === "user")?.text.trim()
@@ -134,37 +138,58 @@ const StoreContext = createContext<CivicFlowContext | null>(null)
 export function CivicFlowProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<StoreState>(initialState)
   const [hydrated, setHydrated] = useState(false)
+  const [storageKey, setStorageKey] = useState("")
 
   useEffect(() => {
-    try {
-      const saved = window.localStorage.getItem("civicflow-demo")
-      if (saved) setState(sanitizePersistedState(JSON.parse(saved)))
-    } catch {
-      window.localStorage.removeItem("civicflow-demo")
-    } finally {
-      setHydrated(true)
+    let cancelled = false
+    async function hydrate() {
+      try {
+        const { scope } = await getChatIdentity()
+        const key = `civicflow-chat:${scope}`
+        let restored = { ...initialState, chatSessions: {} } as StoreState
+        try {
+          const saved = window.localStorage.getItem(key)
+          if (saved) restored = sanitizePersistedState(JSON.parse(saved))
+        } catch { /* A corrupt record must not stop a new conversation. */ }
+        const id = createConversationId()
+        const session = makeChatSession(id, [welcomeMessage])
+        if (!cancelled) {
+          setStorageKey(key)
+          setState({ ...restored, conversationId: id, chat: session.messages,
+            chatSessions: { ...restored.chatSessions, [id]: session } })
+          setHydrated(true)
+        }
+      } catch {
+        // Retry identity setup; do not send chat under a shared placeholder ID.
+        if (!cancelled) retry = window.setTimeout(hydrate, 3000)
+      }
     }
+    let retry: number | undefined
+    void hydrate()
+    return () => { cancelled = true; window.clearTimeout(retry) }
   }, [])
 
   useEffect(() => {
     if (!hydrated) return
-    try { window.localStorage.setItem("civicflow-demo", JSON.stringify(state)) } catch { /* Storage can be unavailable in private browsing. */ }
-  }, [state, hydrated])
+    try { window.localStorage.setItem(storageKey, JSON.stringify(state)) } catch { /* Storage can be unavailable in private browsing. */ }
+  }, [state, hydrated, storageKey])
 
   const value = useMemo<CivicFlowContext>(() => ({
     state,
-    createApplication: (serviceId, options) => {
+    chatReady: hydrated,
+    createApplication: async (serviceId, options) => {
       const service = serviceFor(serviceId)
       if (!service) return null
+      const remote = await createCoreApplication(serviceId, { ...defaultForm })
       const timestamp = now()
-      const id = createId()
+      const id = remote.id
       const application: Application = {
-        id, serviceId, userId: state.user.id, status: "draft", currentStep: 0, progress: 0,
-        formData: { ...defaultForm }, documents: initialDocuments(service),
-        reviewState: Object.fromEntries(["personal", "education", "financial", "documents"].map((key) => [key, false])),
-        approvalState: "not_started", tracking: { demoMode: true }, createdAt: timestamp, updatedAt: timestamp,
+        id, serviceId, userId: remote.user_id, status: remote.status as ApplicationStatus, currentStep: remote.current_step, progress: remote.progress,
+        formData: { ...defaultForm }, documents: remote.documents.map((item) => ({ id: item.document_id, name: item.name, type: item.file_type, status: item.status === "verified" ? "verified" : "pending" })),
+        reviewState: remote.review_state,
+        approvalState: "not_started", tracking: { demoMode: remote.tracking.demo_mode }, createdAt: remote.created_at, updatedAt: remote.updated_at,
         selectedScholarship: options?.scholarshipId ?? null,
-        activity: [{ id: `${id}-created`, label: service.status === "available" ? "Application draft created" : "CivicFlow workspace created; official application route needs verification", timestamp, tone: service.status === "available" ? "blue" : "amber" }],
+        activity: [{ id: `${id}-created`, label: "Application draft created", timestamp: remote.created_at, tone: "blue" }],
       }
       setState((current) => ({ ...current, applications: { ...current.applications, [id]: application }, selectedApplicationId: id }))
       return application
@@ -191,16 +216,7 @@ export function CivicFlowProvider({ children }: { children: ReactNode }) {
       return { ...current, applications: { ...current.applications, [applicationId]: updated }, selectedApplicationId: applicationId }
     }),
     deleteApplication: (applicationId) => setState((current) => { const { [applicationId]: _, ...rest } = current.applications; return { ...current, applications: rest, selectedApplicationId: current.selectedApplicationId === applicationId ? null : current.selectedApplicationId } }),
-    appendChat: (messages) => setState((current) => {
-      const combined = [...current.chat, ...messages]
-      const timestamp = now()
-      const session = current.chatSessions[current.conversationId] ?? makeChatSession(current.conversationId, [])
-      return {
-        ...current,
-        chat: combined,
-        chatSessions: { ...current.chatSessions, [current.conversationId]: { ...session, title: chatTitle(combined), messages: combined, updatedAt: timestamp } },
-      }
-    }),
+    appendChat: (conversationId, messages) => setState((current) => appendSessionMessages(current, conversationId, messages)),
     startNewChat: () => setState((current) => {
       const id = createConversationId()
       const session = makeChatSession(id, [welcomeMessage])

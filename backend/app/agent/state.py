@@ -19,6 +19,7 @@ class CivicFlowState(TypedDict, total=False):
     user_request: str
     layer_context: dict[str, dict[str, Any]]
     intent: Intent
+    catalog_candidates: list[RetrievedChunk]
     service_resolution: ServiceResolution
     selected_service: ServiceRecord
     official_sources: list[RetrievedChunk]

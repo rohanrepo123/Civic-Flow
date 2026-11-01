@@ -3,16 +3,23 @@
 The `browser_agent/` package is sourced from `rohi5431/civicflow-browser` and
 is exposed through the existing CivicFlow session API in `app/main.py`.
 
-The default remains `CIVICFLOW_BROWSER_RUNTIME=mock`, so the frontend and Core
-API work without a local Chromium installation. To enable the real runtime:
+The local startup script uses live Chromium by default. Install its browser once
+after installing Python dependencies:
 
 ```powershell
-$env:CIVICFLOW_BROWSER_RUNTIME = "playwright"
 python -m playwright install chromium
-uvicorn app.main:app --port 8002
+scripts/run-local.cmd
 ```
 
-When enabled, session creation starts an isolated Chromium context, navigation
-commands use Playwright, and `inspect` commands return a value-safe DOM snapshot
-from Member 3's observer. Sensitive actions and final submission remain under
-the existing human-control safety boundary.
+Each CivicFlow browser session starts an isolated visible Chromium window on
+the local desktop. The stream in the app shows its live page; use **Take manual
+control** to interact with the Chromium window directly, then return control to
+CivicFlow for inspection and safe field preparation. If Chromium cannot start,
+session creation fails with an actionable error; it does not fabricate a live
+session.
+
+For UI-only development, mock behavior must be requested explicitly with
+`scripts/run-local.cmd -MockBrowser`. It is labeled as simulated and does not
+open or interact with a government portal. Sensitive authentication, OTP,
+CAPTCHA, payment, consent, legal declarations, and final submission remain
+under citizen control.

@@ -20,7 +20,7 @@ class PlaywrightRuntime:
     controller: Any
 
     @classmethod
-    async def start(cls, *, headless: bool = True) -> "PlaywrightRuntime":
+    async def start(cls, *, headless: bool = False) -> "PlaywrightRuntime":
         from browser_agent.browser import BrowserController
         from browser_agent.config import Settings
         controller = BrowserController(settings=Settings(headless=headless))

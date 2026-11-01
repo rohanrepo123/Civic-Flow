@@ -54,8 +54,8 @@ def test_authentication_profile_and_cross_account_isolation(monkeypatch):
             if latest["status"] != "running":
                 break
             time.sleep(0.025)
-        assert latest["status"] == "waiting_for_user"
-        assert latest["state"]["pending_prompt"]["type"] == "information.required"
+        assert latest["status"] == "failed"
+        assert any("Browser Agent is not connected" in error for error in latest["state"]["errors"])
         assert latest["state"]["requirements"]["sources"]
         task_event_rows = client.get(f"/api/v1/tasks/{task_id}/events", headers=first).json()
         assert task_event_rows

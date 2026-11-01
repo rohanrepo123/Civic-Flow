@@ -136,7 +136,7 @@ class IntentNode:
 
     async def run(self, user_request: str, context: dict[str, Any] | None = None) -> Intent:
         baseline = await RuleBasedIntentExtractor().extract(user_request)
-        if baseline.intent in {IntentType.CASUAL_CONVERSATION, IntentType.OUT_OF_SCOPE}:
+        if baseline.intent is IntentType.CASUAL_CONVERSATION:
             return baseline
         extract = self._extractor.extract
         try:
@@ -149,17 +149,6 @@ class IntentNode:
             # unavailable or returns malformed structured output. Later workflow
             # stages still validate service and source information independently.
             intent = baseline
-        if baseline.service_name == "mahadbt":
-            intent = intent.model_copy(
-                update={
-                    "service_category": ServiceCategory.SCHOLARSHIP,
-                    "service_name": "mahadbt",
-                    "jurisdiction": "Maharashtra",
-                    "missing_information": [
-                        field for field in intent.missing_information if field != "jurisdiction"
-                    ],
-                }
-            )
         return intent
 
 

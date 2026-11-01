@@ -118,6 +118,7 @@ export default function WorkspacePage() {
 
       <BrowserViewer
         applicationId={app.id}
+        serviceId={serviceId}
         portalUrl={portalUrl}
         activities={(app as any).activity || []}
       />

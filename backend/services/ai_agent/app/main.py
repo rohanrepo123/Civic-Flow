@@ -22,7 +22,10 @@ from app.member2_runtime import Member2Runtime, reject_authentication_secrets
 @asynccontextmanager
 async def lifespan(application: FastAPI):
     application.state.member2_runtime = Member2Runtime.create()
-    yield
+    try:
+        yield
+    finally:
+        await application.state.member2_runtime.close()
 
 
 app = FastAPI(title="CivicFlow AI Agent", version="1.0.0", lifespan=lifespan)

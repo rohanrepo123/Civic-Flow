@@ -25,5 +25,1058 @@
     "official_portal": "https://pmsonline.bih.nic.in/",
     "description": "Education Department Bihar portal for SC, ST, BC, and EBC post-matric student scholarships.",
     "official_docs_url": "https://pmsonline.bih.nic.in/pmsedu/pms/Default.aspx"
+  },
+  {
+    "service_id": "scholarship_004",
+    "name": "Mukhyamantri Kanya Utthan & Medhasoft Portal",
+    "category": "education",
+    "jurisdiction": "Bihar",
+    "official_portal": "https://medhasoft.bih.nic.in/",
+    "description": "Direct benefit scholarship portal for matric, intermediate, and graduation pass students in Bihar.",
+    "official_docs_url": "https://medhasoft.bih.nic.in/Medha/Default.aspx"
+  },
+  {
+    "service_id": "scholarship_005",
+    "name": "Bihar Student Credit Card Scheme (MNSSBY)",
+    "category": "education",
+    "jurisdiction": "Bihar",
+    "official_portal": "https://www.7nishchay-yuvaupmission.bihar.gov.in/",
+    "description": "Education loan scheme up to 4 lakh rupees for higher education and Kushal Yuva skill training in Bihar.",
+    "official_docs_url": "https://www.7nishchay-yuvaupmission.bihar.gov.in/guidelines"
+  },
+  {
+    "service_id": "scholarship_006",
+    "name": "AICTE Pragati & Saksham Scholarship Portal",
+    "category": "education",
+    "jurisdiction": "Central",
+    "official_portal": "https://www.aicte-india.org/schemes/students-development-schemes",
+    "description": "AICTE technical education scholarships for female students (Pragati) and differently-abled students (Saksham).",
+    "official_docs_url": "https://www.aicte-india.org/downloads/Pragati%20Guidelines_02112020.pdf"
+  },
+  {
+    "service_id": "scholarship_007",
+    "name": "Prime Minister's Research Fellowship (PMRF)",
+    "category": "education",
+    "jurisdiction": "Central",
+    "official_portal": "https://www.pmrf.in/",
+    "description": "Doctoral fellowship portal for PhD candidates at IITs, IISERs, IISc, and NITs.",
+    "official_docs_url": "https://www.pmrf.in/eligibility-and-application-procedure"
+  },
+  {
+    "service_id": "scholarship_008",
+    "name": "INSPIRE Programme (DST)",
+    "category": "education",
+    "jurisdiction": "Central",
+    "official_portal": "https://online-inspire.gov.in/",
+    "description": "Department of Science and Technology portal for SHE scholarships and research fellowships in basic sciences.",
+    "official_docs_url": "https://online-inspire.gov.in/Account/INSPIREProgramme"
+  },
+  {
+    "service_id": "scholarship_009",
+    "name": "UP Scholarship & Fee Reimbursement Online System",
+    "category": "education",
+    "jurisdiction": "Uttar Pradesh",
+    "official_portal": "https://scholarship.up.gov.in/",
+    "description": "Pre-matric and post-matric scholarship and fee reimbursement portal for Uttar Pradesh students.",
+    "official_docs_url": "https://scholarship.up.gov.in/Downloads.aspx"
+  },
+  {
+    "service_id": "scholarship_010",
+    "name": "Swami Vivekananda Merit-cum-Means Scholarship (SVMCM)",
+    "category": "education",
+    "jurisdiction": "West Bengal",
+    "official_portal": "https://svmcm.wbhed.gov.in/",
+    "description": "Higher education merit-cum-means scholarship portal for students in West Bengal.",
+    "official_docs_url": "https://svmcm.wbhed.gov.in/page/about.php"
+  },
+  {
+    "service_id": "scholarship_011",
+    "name": "State Scholarship Portal (SSP Karnataka)",
+    "category": "education",
+    "jurisdiction": "Karnataka",
+    "official_portal": "https://ssp.postmatric.karnataka.gov.in/",
+    "description": "Integrated state portal for pre-matric and post-matric scholarships in Karnataka.",
+    "official_docs_url": "https://ssp.postmatric.karnataka.gov.in/docs/"
+  },
+  {
+    "service_id": "scholarship_012",
+    "name": "MP State Scholarship Portal 2.0",
+    "category": "education",
+    "jurisdiction": "Madhya Pradesh",
+    "official_portal": "https://scholarshipportal.mp.nic.in/",
+    "description": "Madhya Pradesh higher education and tribal welfare scholarship portal including Gaon Ki Beti and Pratibha Kiran.",
+    "official_docs_url": "https://scholarshipportal.mp.nic.in/Public/Other/Schemes.aspx"
+  },
+  {
+    "service_id": "education_013",
+    "name": "Academic Bank of Credits (ABC / APAAR ID)",
+    "category": "education",
+    "jurisdiction": "Central",
+    "official_portal": "https://www.abc.gov.in/",
+    "description": "Ministry of Education portal for creating APAAR / ABC IDs and storing academic credit records across universities.",
+    "official_docs_url": "https://www.abc.gov.in/assets/resources/ABC_User_Manual_for_Students.pdf"
+  },
+  {
+    "service_id": "education_014",
+    "name": "Vidya Lakshmi Education Loan Portal",
+    "category": "education",
+    "jurisdiction": "Central",
+    "official_portal": "https://www.vidyalakshmi.co.in/",
+    "description": "Single-window portal for students to apply for educational loans and interest subsidy schemes across banks.",
+    "official_docs_url": "https://www.vidyalakshmi.co.in/Students/instructions"
+  },
+  {
+    "service_id": "certificate_001",
+    "name": "Domicile & Nationality Certificate",
+    "category": "civil_certificate",
+    "jurisdiction": "Maharashtra",
+    "official_portal": "https://aaplesarkar.mahaonline.gov.in/",
+    "description": "Application for state domicile and nationality proof via Maharashtra Right to Public Services portal.",
+    "official_docs_url": "https://aaplesarkar.mahaonline.gov.in/en/CommonForm/ViewAllServices"
+  },
+  {
+    "service_id": "certificate_002",
+    "name": "Income Certificate",
+    "category": "civil_certificate",
+    "jurisdiction": "Maharashtra",
+    "official_portal": "https://aaplesarkar.mahaonline.gov.in/",
+    "description": "Official certification of annual family income from the Revenue Department for welfare and fee benefits.",
+    "official_docs_url": "https://aaplesarkar.mahaonline.gov.in/en/CommonForm/ViewAllServices"
+  },
+  {
+    "service_id": "certificate_003",
+    "name": "Caste Validity Certificate (BARTI / CCVIS)",
+    "category": "civil_certificate",
+    "jurisdiction": "Maharashtra",
+    "official_portal": "https://barti.in/",
+    "description": "Online verification and issuance of Caste Validity Certificate for reserved category applicants in Maharashtra.",
+    "official_docs_url": "https://barti.in/upload/ccvis/CCVIS_User_Manual.pdf"
+  },
+  {
+    "service_id": "certificate_004",
+    "name": "Birth & Death Registration (CRS)",
+    "category": "civil_certificate",
+    "jurisdiction": "Central",
+    "official_portal": "https://dc.crsorgi.gov.in/",
+    "description": "Civil Registration System for applying and downloading official birth and death certificates.",
+    "official_docs_url": "https://crsorgi.gov.in/web/index.php/auth/HowToApply"
+  },
+  {
+    "service_id": "civil_001",
+    "name": "RTPS Citizen Services (ServicePlus Bihar)",
+    "category": "civil_certificate",
+    "jurisdiction": "Bihar",
+    "official_portal": "https://serviceonline.bihar.gov.in/",
+    "description": "Right to Public Services portal for residential, caste, EWS, NCL, and income certificates in Bihar.",
+    "official_docs_url": "https://serviceonline.bihar.gov.in/renderApplicationForm.do"
+  },
+  {
+    "service_id": "certificate_005",
+    "name": "Non-Creamy Layer (NCL) & Caste Certificate",
+    "category": "civil_certificate",
+    "jurisdiction": "Maharashtra",
+    "official_portal": "https://aaplesarkar.mahaonline.gov.in/",
+    "description": "Application for OBC/SBC/VJNT Caste Certificate and Non-Creamy Layer Certificate in Maharashtra.",
+    "official_docs_url": "https://aaplesarkar.mahaonline.gov.in/en/CommonForm/ViewAllServices"
+  },
+  {
+    "service_id": "certificate_006",
+    "name": "Tribal Caste Validity Certificate (Adivasi Vikas)",
+    "category": "civil_certificate",
+    "jurisdiction": "Maharashtra",
+    "official_portal": "https://etribevalidity.mahaonline.gov.in/",
+    "description": "Scheduled Tribe Certificate Scrutiny Committee portal for ST Caste Validity Certificates in Maharashtra.",
+    "official_docs_url": "https://etribevalidity.mahaonline.gov.in/Home/Instructions"
+  },
+  {
+    "service_id": "certificate_007",
+    "name": "Police Clearance & Character Certificate (MahaPolice)",
+    "category": "civil_certificate",
+    "jurisdiction": "Maharashtra",
+    "official_portal": "https://pcs.mahaonline.gov.in/",
+    "description": "Maharashtra Police Citizen Portal for character verification and police clearance certificates.",
+    "official_docs_url": "https://pcs.mahaonline.gov.in/Forms/UserManual.aspx"
+  },
+  {
+    "service_id": "certificate_008",
+    "name": "e-District Delhi Citizen Services",
+    "category": "civil_certificate",
+    "jurisdiction": "Delhi",
+    "official_portal": "https://edistrict.delhigovt.nic.in/",
+    "description": "Delhi Government portal for domicile, caste, income, marriage registration, and surviving member certificates.",
+    "official_docs_url": "https://edistrict.delhigovt.nic.in/in/en/Public/ServiceGuideline.html"
+  },
+  {
+    "service_id": "certificate_009",
+    "name": "UP e-District Citizen Portal",
+    "category": "civil_certificate",
+    "jurisdiction": "Uttar Pradesh",
+    "official_portal": "https://edistrict.up.gov.in/",
+    "description": "Uttar Pradesh portal for caste, income, domicile, solvency, and disability certificates.",
+    "official_docs_url": "https://edistrict.up.gov.in/edistrictup/SevaShulk.aspx"
+  },
+  {
+    "service_id": "certificate_010",
+    "name": "Nadakacheri Atalji Janasnehi Kendra",
+    "category": "civil_certificate",
+    "jurisdiction": "Karnataka",
+    "official_portal": "https://nadakacheri.karnataka.gov.in/",
+    "description": "Karnataka revenue portal for online caste, income, residence, and agricultural laborer certificates.",
+    "official_docs_url": "https://nadakacheri.karnataka.gov.in/ajsk/"
+  },
+  {
+    "service_id": "certificate_011",
+    "name": "MP e-District Lok Seva Guarantee Portal",
+    "category": "civil_certificate",
+    "jurisdiction": "Madhya Pradesh",
+    "official_portal": "https://mpedistrict.gov.in/",
+    "description": "Madhya Pradesh Public Service Guarantee portal for local resident, income, and digital caste certificates.",
+    "official_docs_url": "https://mpedistrict.gov.in/MPL/ServiceList.aspx"
+  },
+  {
+    "service_id": "identity_001",
+    "name": "Aadhaar Card Services (myAadhaar)",
+    "category": "identity_document",
+    "jurisdiction": "Central",
+    "official_portal": "https://myaadhaar.uidai.gov.in/",
+    "description": "UIDAI portal for demographic updates, e-Aadhaar download, PVC card order, and address verification.",
+    "official_docs_url": "https://uidai.gov.in/images/commdoc/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf"
+  },
+  {
+    "service_id": "identity_002",
+    "name": "PAN Card Application & Correction (Protean NSDL)",
+    "category": "identity_document",
+    "jurisdiction": "Central",
+    "official_portal": "https://www.onlineservices.nsdl.com/paam/endUserRegisterContact.html",
+    "description": "Protean (NSDL) TIN portal for new Permanent Account Number allotment, data changes, and card reprints.",
+    "official_docs_url": "https://www.protean-tinpan.com/services/pan/instructions49a.html"
+  },
+  {
+    "service_id": "identity_003",
+    "name": "Passport Seva",
+    "category": "identity_document",
+    "jurisdiction": "Central",
+    "official_portal": "https://www.passportindia.gov.in/",
+    "description": "Ministry of External Affairs portal for fresh passport issuance, Tatkaal renewal, and Police Clearance Certificates.",
+    "official_docs_url": "https://www.passportindia.gov.in/AppOnlineProject/docAdvisor/attachmentAdvFresh"
+  },
+  {
+    "service_id": "identity_004",
+    "name": "Voter ID Registration & Updates (ECI Voters)",
+    "category": "identity_document",
+    "jurisdiction": "Central",
+    "official_portal": "https://voters.eci.gov.in/",
+    "description": "Election Commission of India portal for Form 6 registration, Form 8 corrections, and e-EPIC download.",
+    "official_docs_url": "https://voters.eci.gov.in/home/forms"
+  },
+  {
+    "service_id": "identity_005",
+    "name": "PAN Card Services (UTIITSL)",
+    "category": "identity_document",
+    "jurisdiction": "Central",
+    "official_portal": "https://www.pan.utiitsl.com/",
+    "description": "UTI Infrastructure Technology and Services portal for PAN application, correction, and e-PAN download.",
+    "official_docs_url": "https://www.pan.utiitsl.com/PAN/mainform.html"
+  },
+  {
+    "service_id": "identity_006",
+    "name": "Instant e-PAN & PAN-Aadhaar Linking (Income Tax)",
+    "category": "identity_document",
+    "jurisdiction": "Central",
+    "official_portal": "https://www.incometax.gov.in/iec/foportal/",
+    "description": "Income Tax Department e-Filing portal for free instant Aadhaar-based e-PAN allotment and PAN-Aadhaar linking.",
+    "official_docs_url": "https://www.incometax.gov.in/iec/foportal/help/how-to-generate-e-pan"
+  },
+  {
+    "service_id": "identity_007",
+    "name": "Unique Disability ID (UDID / Swavlamban Card)",
+    "category": "identity_document",
+    "jurisdiction": "Central",
+    "official_portal": "https://www.swavlambancard.gov.in/",
+    "description": "Department of Empowerment of Persons with Disabilities portal for national Disability Certificate and UDID card.",
+    "official_docs_url": "https://www.swavlambancard.gov.in/cms/about-persons-with-disabilities"
+  },
+  {
+    "service_id": "identity_008",
+    "name": "DigiLocker Document Wallet",
+    "category": "identity_document",
+    "jurisdiction": "Central",
+    "official_portal": "https://www.digilocker.gov.in/",
+    "description": "MeitY digital document wallet to fetch legally valid Aadhaar, PAN, Driving Licence, mark sheets, and certificates.",
+    "official_docs_url": "https://www.digilocker.gov.in/about/faq"
+  },
+  {
+    "service_id": "identity_009",
+    "name": "Central Government Gazette Notification (Name Change)",
+    "category": "identity_document",
+    "jurisdiction": "Central",
+    "official_portal": "https://egazette.gov.in/",
+    "description": "Department of Publication portal for viewing and downloading official Gazette notifications for legal name changes.",
+    "official_docs_url": "https://deptpub.nic.in/change-of-name"
+  },
+  {
+    "service_id": "identity_010",
+    "name": "Maharashtra e-Gazette Name & Religion Change",
+    "category": "identity_document",
+    "jurisdiction": "Maharashtra",
+    "official_portal": "https://dgps.maharashtra.gov.in/",
+    "description": "Directorate of Government Printing and Stationery portal for legal name change publication in Maharashtra Gazette.",
+    "official_docs_url": "https://dgps.maharashtra.gov.in/1133/e-Gazette-Public-Notice"
+  },
+  {
+    "service_id": "transport_001",
+    "name": "Driving Licence Services (Sarathi Parivahan)",
+    "category": "transport",
+    "jurisdiction": "Central",
+    "official_portal": "https://sarathi.parivahan.gov.in/",
+    "description": "Ministry of Road Transport portal for Learner's Licence, permanent Driving Licence, address change, and renewals.",
+    "official_docs_url": "https://sarathi.parivahan.gov.in/sarathiservice/help.do"
+  },
+  {
+    "service_id": "transport_002",
+    "name": "Vehicle Registration Services (Vahan Parivahan)",
+    "category": "transport",
+    "jurisdiction": "Central",
+    "official_portal": "https://vahan.parivahan.gov.in/",
+    "description": "National register for vehicle RC status, ownership transfer, hypothecation termination, Road Tax, and NOC.",
+    "official_docs_url": "https://parivahan.gov.in/parivahan//en/content/vehicle-related-services"
+  },
+  {
+    "service_id": "transport_003",
+    "name": "e-Challan Traffic Violation & Payment",
+    "category": "transport",
+    "jurisdiction": "Central",
+    "official_portal": "https://echallan.parivahan.gov.in/",
+    "description": "Integrated traffic enforcement portal for checking vehicle traffic challan status and paying fines online.",
+    "official_docs_url": "https://echallan.parivahan.gov.in/index/accused-challan#faq"
+  },
+  {
+    "service_id": "transport_004",
+    "name": "IRCTC Next Generation e-Ticketing",
+    "category": "transport",
+    "jurisdiction": "Central",
+    "official_portal": "https://www.irctc.co.in/",
+    "description": "Indian Railways portal for train ticket reservation, Tatkal booking, PNR enquiry, and ticket cancellation.",
+    "official_docs_url": "https://contents.irctc.co.in/en/UserGuideIRCTC.pdf"
+  },
+  {
+    "service_id": "transport_005",
+    "name": "MSRTC Online Bus Reservation",
+    "category": "transport",
+    "jurisdiction": "Maharashtra",
+    "official_portal": "https://msrtc.maharashtra.gov.in/",
+    "description": "Maharashtra State Road Transport Corporation portal for Shivneri, Shivshahi, and state bus ticket booking.",
+    "official_docs_url": "https://msrtc.maharashtra.gov.in/GeneralPages/FaqE.html"
+  },
+  {
+    "service_id": "transport_006",
+    "name": "National Permit & Commercial Vehicle Authorization",
+    "category": "transport",
+    "jurisdiction": "Central",
+    "official_portal": "https://parivahan.gov.in/",
+    "description": "MoRTH portal for All India Tourist Permit (AITP) and National Goods Permit fee payment and authorization.",
+    "official_docs_url": "https://parivahan.gov.in/parivahan//en/content/national-permit"
+  },
+  {
+    "service_id": "transport_007",
+    "name": "PUCC Emission Testing Certificate (Parivahan)",
+    "category": "transport",
+    "jurisdiction": "Central",
+    "official_portal": "https://puc.parivahan.gov.in/",
+    "description": "Pollution Under Control Certificate verification, download, and authorized testing center lookup portal.",
+    "official_docs_url": "https://puc.parivahan.gov.in/puc/"
+  },
+  {
+    "service_id": "transport_008",
+    "name": "DigiYatra Biometric Airport Boarding",
+    "category": "transport",
+    "jurisdiction": "Central",
+    "official_portal": "https://www.digiyatra.com/",
+    "description": "Ministry of Civil Aviation facial recognition identity platform for paperless entry and boarding at airports.",
+    "official_docs_url": "https://www.digiyatra.com/faqs"
+  },
+  {
+    "service_id": "transport_009",
+    "name": "FASTag & NHAI National Highways Services",
+    "category": "transport",
+    "jurisdiction": "Central",
+    "official_portal": "https://ihmcl.co.in/",
+    "description": "Indian Highways Management Company portal for FASTag KYC status, toll plaza information, and grievance redressal.",
+    "official_docs_url": "https://ihmcl.co.in/fastag-faq/"
+  },
+  {
+    "service_id": "transport_010",
+    "name": "Fancy / Choice Vehicle Number Auction (e-Auction)",
+    "category": "transport",
+    "jurisdiction": "Central",
+    "official_portal": "https://fancy.parivahan.gov.in/",
+    "description": "MoRTH online bidding and reservation portal for VIP and choice registration numbers for new vehicles.",
+    "official_docs_url": "https://fancy.parivahan.gov.in/fancy/faces/public/userManual.xhtml"
+  },
+  {
+    "service_id": "land_001",
+    "name": "7/12 Extract & 8A Land Records (Mahabhulekh)",
+    "category": "land_revenue",
+    "jurisdiction": "Maharashtra",
+    "official_portal": "https://bhulekh.mahabhumi.gov.in/",
+    "description": "Maharashtra revenue department portal to view unsigned Satbara (7/12) Utara, 8A Khata, and property cards.",
+    "official_docs_url": "https://bhulekh.mahabhumi.gov.in/"
+  },
+  {
+    "service_id": "land_002",
+    "name": "Digitally Signed Land Records (Digital Satbara)",
+    "category": "land_revenue",
+    "jurisdiction": "Maharashtra",
+    "official_portal": "https://digitalsatbara.mahabhumi.gov.in/",
+    "description": "Portal to download legally valid, digitally signed 7/12, 8A, e-Mutation (Ferfar), and Property Card records.",
+    "official_docs_url": "https://digitalsatbara.mahabhumi.gov.in/dslr/Help/User_Manual_Digital_7_12.pdf"
+  },
+  {
+    "service_id": "land_003",
+    "name": "Land Records & Mutation (Bihar Bhumi)",
+    "category": "land_revenue",
+    "jurisdiction": "Bihar",
+    "official_portal": "https://biharbhumi.bihar.gov.in/",
+    "description": "Department of Revenue and Land Reforms portal for Jamabandi register, LPC, Dakhil-Kharij, and Bhu-Lagan.",
+    "official_docs_url": "https://biharbhumi.bihar.gov.in/Biharbhumi/UserManual"
+  },
+  {
+    "service_id": "land_004",
+    "name": "Cadastral Land Maps (BhuNaksha Maharashtra)",
+    "category": "land_revenue",
+    "jurisdiction": "Maharashtra",
+    "official_portal": "https://mahabhunakasha.mahabhumi.gov.in/",
+    "description": "Digitized village cadastral plot maps and survey number boundary verification for Maharashtra.",
+    "official_docs_url": "https://mahabhunakasha.mahabhumi.gov.in/"
+  },
+  {
+    "service_id": "land_005",
+    "name": "Bihar Cadastral Land Maps (BhuNaksha Bihar)",
+    "category": "land_revenue",
+    "jurisdiction": "Bihar",
+    "official_portal": "https://bhunaksha.bihar.gov.in/",
+    "description": "Online viewing and plot verification of Khesra and Khata revenue maps across Bihar districts.",
+    "official_docs_url": "https://bhunaksha.bihar.gov.in/"
+  },
+  {
+    "service_id": "land_006",
+    "name": "Property Registration & Stamp Duty (IGR Maharashtra)",
+    "category": "land_revenue",
+    "jurisdiction": "Maharashtra",
+    "official_portal": "https://igrmaharashtra.gov.in/",
+    "description": "Inspector General of Registration portal for e-Search index II, Leave and License agreement, and stamp duty.",
+    "official_docs_url": "https://igrmaharashtra.gov.in/Home/FAQ"
+  },
+  {
+    "service_id": "land_007",
+    "name": "Property & Deed Registration (e-Nibandhan Bihar)",
+    "category": "land_revenue",
+    "jurisdiction": "Bihar",
+    "official_portal": "https://enibandhan.bihar.gov.in/",
+    "description": "Bihar Prohibition, Excise and Registration Department portal for land deed registration, MVR check, and encumbrance.",
+    "official_docs_url": "https://enibandhan.bihar.gov.in/checklist"
+  },
+  {
+    "service_id": "land_008",
+    "name": "UP Bhulekh Khatauni Land Records",
+    "category": "land_revenue",
+    "jurisdiction": "Uttar Pradesh",
+    "official_portal": "https://upbhulekh.gov.in/",
+    "description": "Uttar Pradesh Board of Revenue portal for RoR (Khatauni) verification, Khasra plot status, and mutation details.",
+    "official_docs_url": "https://upbhulekh.gov.in/"
+  },
+  {
+    "service_id": "land_009",
+    "name": "Bhoomi RTC & Mutation Portal",
+    "category": "land_revenue",
+    "jurisdiction": "Karnataka",
+    "official_portal": "https://landrecords.karnataka.gov.in/",
+    "description": "Karnataka land records management portal for viewing Pahani (RTC), mutation status, and revenue maps.",
+    "official_docs_url": "https://landrecords.karnataka.gov.in/Service84/"
+  },
+  {
+    "service_id": "land_010",
+    "name": "MP Bhulekh Khasra & B-1 Portal",
+    "category": "land_revenue",
+    "jurisdiction": "Madhya Pradesh",
+    "official_portal": "https://mpbhulekh.gov.in/",
+    "description": "Commissioner Land Records Madhya Pradesh portal for certified Khasra, Khatauni (B-1), and map downloads.",
+    "official_docs_url": "https://mpbhulekh.gov.in/#/faq"
+  },
+  {
+    "service_id": "land_011",
+    "name": "MahaRERA Real Estate Project Verification",
+    "category": "land_revenue",
+    "jurisdiction": "Maharashtra",
+    "official_portal": "https://maharera.maharashtra.gov.in/",
+    "description": "Maharashtra Real Estate Regulatory Authority portal for checking registered housing projects, builders, and filing complaints.",
+    "official_docs_url": "https://maharera.maharashtra.gov.in/faq"
+  },
+  {
+    "service_id": "social_welfare_001",
+    "name": "Mukhyamantri Majhi Ladki Bahin Yojana",
+    "category": "social_welfare",
+    "jurisdiction": "Maharashtra",
+    "official_portal": "https://ladakibahin.maharashtra.gov.in/",
+    "description": "State financial assistance scheme portal providing monthly direct benefit transfer to eligible women in Maharashtra.",
+    "official_docs_url": "https://ladakibahin.maharashtra.gov.in/guidelines"
+  },
+  {
+    "service_id": "social_welfare_002",
+    "name": "PM-KISAN Samman Nidhi",
+    "category": "social_welfare",
+    "jurisdiction": "Central",
+    "official_portal": "https://pmkisan.gov.in/",
+    "description": "Central income support scheme of Rs 6,000 per year for farmers, including e-KYC, beneficiary status, and registration.",
+    "official_docs_url": "https://pmkisan.gov.in/Documents/RevisedPMKISANOperationalGuidelines(English).pdf"
+  },
+  {
+    "service_id": "social_welfare_003",
+    "name": "National Social Assistance Programme (NSAP Pensions)",
+    "category": "social_welfare",
+    "jurisdiction": "Central",
+    "official_portal": "https://nsap.nic.in/",
+    "description": "Ministry of Rural Development portal for Old Age, Widow, and Disability pension tracking and beneficiary verification.",
+    "official_docs_url": "https://nsap.nic.in/Guidelines/NSAP_Guidelines_Oct2014.pdf"
+  },
+  {
+    "service_id": "social_welfare_004",
+    "name": "Social Security Pension Management (SSPMIS Bihar)",
+    "category": "social_welfare",
+    "jurisdiction": "Bihar",
+    "official_portal": "https://www.sspmis.bihar.gov.in/",
+    "description": "Bihar Social Welfare Department portal for Mukhyamantri Vridhjan Pension Yojana, widow pension, and disability pension.",
+    "official_docs_url": "https://www.sspmis.bihar.gov.in/CheckMvpyAadharAuth"
+  },
+  {
+    "service_id": "social_welfare_005",
+    "name": "Pradhan Mantri Awas Yojana - Urban (PMAY-U)",
+    "category": "social_welfare",
+    "jurisdiction": "Central",
+    "official_portal": "https://pmaymis.gov.in/",
+    "description": "Ministry of Housing and Urban Affairs portal for affordable urban housing subsidy and beneficiary assessment.",
+    "official_docs_url": "https://pmay-urban.gov.in/uploads/guidelines/Operational-Guidelines-of-PMAY-U-2.0.pdf"
+  },
+  {
+    "service_id": "social_welfare_006",
+    "name": "Pradhan Mantri Awas Yojana - Gramin (PMAY-G)",
+    "category": "social_welfare",
+    "jurisdiction": "Central",
+    "official_portal": "https://pmayg.nic.in/",
+    "description": "Rural housing scheme portal for AwaasSoft beneficiary lists, FTO tracking, and installment release status.",
+    "official_docs_url": "https://pmayg.nic.in/netiayHome/uploadeddocuments/Framework%20for%20Implementation%20-%20PMAY-G.pdf"
+  },
+  {
+    "service_id": "social_welfare_007",
+    "name": "Pradhan Mantri Ujjwala Yojana (PMUY)",
+    "category": "social_welfare",
+    "jurisdiction": "Central",
+    "official_portal": "https://www.pmuy.gov.in/",
+    "description": "Ministry of Petroleum and Natural Gas portal for subsidized LPG connections to women from BPL households.",
+    "official_docs_url": "https://www.pmuy.gov.in/eligibilty.html"
+  },
+  {
+    "service_id": "social_welfare_008",
+    "name": "PM Vishwakarma Artisan Support Scheme",
+    "category": "social_welfare",
+    "jurisdiction": "Central",
+    "official_portal": "https://pmvishwakarma.gov.in/",
+    "description": "Ministry of MSME scheme offering collateral-free credit, toolkit incentives, and skill training to traditional artisans.",
+    "official_docs_url": "https://pmvishwakarma.gov.in/Home/SchemeGuidelines"
+  },
+  {
+    "service_id": "social_welfare_009",
+    "name": "PM SVANidhi Street Vendor Micro-Credit",
+    "category": "social_welfare",
+    "jurisdiction": "Central",
+    "official_portal": "https://pmsvanidhi.mohua.gov.in/",
+    "description": "Working capital collateral-free loan and digital payment incentive portal for urban street vendors.",
+    "official_docs_url": "https://pmsvanidhi.mohua.gov.in/Home/Schemes"
+  },
+  {
+    "service_id": "social_welfare_010",
+    "name": "Pradhan Mantri Matru Vandana Yojana (PMMVY)",
+    "category": "social_welfare",
+    "jurisdiction": "Central",
+    "official_portal": "https://pmmvy.wcd.gov.in/",
+    "description": "Ministry of Women and Child Development maternity benefit scheme for pregnant and lactating women.",
+    "official_docs_url": "https://wcd.nic.in/sites/default/files/Mission%20Shakti%20Guidelines.pdf"
+  },
+  {
+    "service_id": "social_welfare_011",
+    "name": "Pradhan Mantri Fasal Bima Yojana (PMFBY)",
+    "category": "social_welfare",
+    "jurisdiction": "Central",
+    "official_portal": "https://pmfby.gov.in/",
+    "description": "National crop insurance portal for premium calculation, policy application, and crop loss claim tracking.",
+    "official_docs_url": "https://pmfby.gov.in/pdf/Revamped%20Operational%20Guidelines_17th%20August%202020.pdf"
+  },
+  {
+    "service_id": "social_welfare_012",
+    "name": "DBT Agriculture Bihar (Krishi Input & Diesel Subsidy)",
+    "category": "social_welfare",
+    "jurisdiction": "Bihar",
+    "official_portal": "https://dbtagriculture.bihar.gov.in/",
+    "description": "Agriculture Department Bihar portal for Kisan registration, diesel subsidy, seed subsidy, and agricultural mechanization.",
+    "official_docs_url": "https://dbtagriculture.bihar.gov.in/Home.aspx"
+  },
+  {
+    "service_id": "social_welfare_013",
+    "name": "JanSamarth National Credit-Linked Schemes Portal",
+    "category": "social_welfare",
+    "jurisdiction": "Central",
+    "official_portal": "https://www.jansamarth.in/",
+    "description": "Unified digital portal linking central government credit-linked subsidy schemes across education, agriculture, and livelihood.",
+    "official_docs_url": "https://www.jansamarth.in/schemes"
+  },
+  {
+    "service_id": "food_security_001",
+    "name": "Public Distribution System & Ration Card (Mahafood RCMS)",
+    "category": "food_security",
+    "jurisdiction": "Maharashtra",
+    "official_portal": "https://rcms.mahafood.gov.in/",
+    "description": "Maharashtra Ration Card Management System for new card applications, member additions, modifications, and e-KYC.",
+    "official_docs_url": "https://mahafood.gov.in/en/citizen-charter/"
+  },
+  {
+    "service_id": "food_security_002",
+    "name": "National Food Security Portal (NFSA)",
+    "category": "food_security",
+    "jurisdiction": "Central",
+    "official_portal": "https://nfsa.gov.in/",
+    "description": "Central Department of Food and Public Distribution portal for nationwide ration card lookup and One Nation One Ration Card.",
+    "official_docs_url": "https://nfsa.gov.in/portal/NFSA-Act"
+  },
+  {
+    "service_id": "food_security_003",
+    "name": "EPDS Bihar Ration Card Portal",
+    "category": "food_security",
+    "jurisdiction": "Bihar",
+    "official_portal": "https://epds.bihar.gov.in/",
+    "description": "Food and Consumer Protection Department Bihar portal for online ration card application (Jan Parichay RCMS) and allotment status.",
+    "official_docs_url": "https://rcms.bihar.gov.in/rcms/UserManual.pdf"
+  },
+  {
+    "service_id": "food_security_004",
+    "name": "AePOS Maharashtra Fair Price Shop Transactions",
+    "category": "food_security",
+    "jurisdiction": "Maharashtra",
+    "official_portal": "https://mahaepos.gov.in/",
+    "description": "Electronic Point of Sale portal for checking ration card grain entitlement, lifting status, and portability transactions.",
+    "official_docs_url": "https://mahaepos.gov.in/"
+  },
+  {
+    "service_id": "food_security_005",
+    "name": "UP Food & Civil Supplies Ration Card (FCS UP)",
+    "category": "food_security",
+    "jurisdiction": "Uttar Pradesh",
+    "official_portal": "https://fcs.up.gov.in/",
+    "description": "Uttar Pradesh Khadya Evam Rasad Vibhag portal for NFSA eligibility list verification and ration card download.",
+    "official_docs_url": "https://fcs.up.gov.in/CitizenCharter.aspx"
+  },
+  {
+    "service_id": "food_security_006",
+    "name": "Delhi e-Food Security Ration Card Portal",
+    "category": "food_security",
+    "jurisdiction": "Delhi",
+    "official_portal": "https://nfs.delhi.gov.in/",
+    "description": "Department of Food Supplies and Consumer Affairs Delhi portal for e-Ration Card download and member addition.",
+    "official_docs_url": "https://fs.delhigovt.nic.in/wps/wcm/connect/doit_food/Food/Home/Citizen+Charter/"
+  },
+  {
+    "service_id": "food_security_007",
+    "name": "Ahara Karnataka Ration Card Services",
+    "category": "food_security",
+    "jurisdiction": "Karnataka",
+    "official_portal": "https://ahara.karnataka.gov.in/",
+    "description": "Food, Civil Supplies and Consumer Affairs Karnataka portal for PHH/NPHH e-Ration Card services and status.",
+    "official_docs_url": "https://ahara.karnataka.gov.in/Doc/Citizen_Charter.pdf"
+  },
+  {
+    "service_id": "food_security_008",
+    "name": "FSSAI Food Safety Registration & License (FoSCoS)",
+    "category": "food_security",
+    "jurisdiction": "Central",
+    "official_portal": "https://foscos.fssai.gov.in/",
+    "description": "Food Safety Compliance System for petty food business registration, state/central FSSAI licensing, and renewal.",
+    "official_docs_url": "https://foscos.fssai.gov.in/consumergrievance/guidance-document"
+  },
+  {
+    "service_id": "labour_001",
+    "name": "e-Shram Unorganised Worker Registration",
+    "category": "labour_employment",
+    "jurisdiction": "Central",
+    "official_portal": "https://eshram.gov.in/",
+    "description": "National database for unorganized workers to obtain a 12-digit Universal Account Number (UAN) and social security.",
+    "official_docs_url": "https://eshram.gov.in/e-shram-portal"
+  },
+  {
+    "service_id": "labour_002",
+    "name": "Mahaswayam Employment & Skill Portal",
+    "category": "labour_employment",
+    "jurisdiction": "Maharashtra",
+    "official_portal": "https://rojgar.mahaswayam.gov.in/",
+    "description": "Skill Development and Entrepreneurship portal for job seeker registration, training, and state employment fairs.",
+    "official_docs_url": "https://rojgar.mahaswayam.gov.in/#/user_manuals"
+  },
+  {
+    "service_id": "labour_003",
+    "name": "National Career Service (NCS)",
+    "category": "labour_employment",
+    "jurisdiction": "Central",
+    "official_portal": "https://www.ncs.gov.in/",
+    "description": "Ministry of Labour and Employment portal for job search, career counseling, and national employment exchange registration.",
+    "official_docs_url": "https://www.ncs.gov.in/Pages/User-Manuals.aspx"
+  },
+  {
+    "service_id": "labour_004",
+    "name": "EPFO Unified Member Portal (PF & UAN Services)",
+    "category": "labour_employment",
+    "jurisdiction": "Central",
+    "official_portal": "https://unifiedportal-mem.epfindia.gov.in/",
+    "description": "Employees' Provident Fund Organisation portal for UAN activation, KYC update, PF withdrawal, and account transfer.",
+    "official_docs_url": "https://www.epfindia.gov.in/site_en/For_Employees.php"
+  },
+  {
+    "service_id": "labour_005",
+    "name": "ESIC Insured Person Portal",
+    "category": "labour_employment",
+    "jurisdiction": "Central",
+    "official_portal": "https://www.esic.gov.in/",
+    "description": "Employees' State Insurance Corporation portal for e-Pehchan card, dispensary updates, and medical/maternity benefits.",
+    "official_docs_url": "https://www.esic.gov.in/information-benefits"
+  },
+  {
+    "service_id": "labour_006",
+    "name": "Maharashtra Building & Other Construction Workers (Mahabocw)",
+    "category": "labour_employment",
+    "jurisdiction": "Maharashtra",
+    "official_portal": "https://mahabocw.in/",
+    "description": "Welfare board portal for construction worker registration, renewal, safety kit, education, and medical claims.",
+    "official_docs_url": "https://mahabocw.in/workers-registration/"
+  },
+  {
+    "service_id": "labour_007",
+    "name": "Bihar Building & Construction Workers Welfare Board (BOCW)",
+    "category": "labour_employment",
+    "jurisdiction": "Bihar",
+    "official_portal": "https://bocw.bihar.gov.in/",
+    "description": "Labour Resources Department Bihar portal for construction worker registration card and welfare scheme benefits.",
+    "official_docs_url": "https://bocw.bihar.gov.in/eligibility-criteria/"
+  },
+  {
+    "service_id": "labour_008",
+    "name": "MGNREGA Job Card & Wage Tracking",
+    "category": "labour_employment",
+    "jurisdiction": "Central",
+    "official_portal": "https://nrega.nic.in/",
+    "description": "Mahatma Gandhi National Rural Employment Guarantee Act portal for job card verification, muster rolls, and wage payments.",
+    "official_docs_url": "https://nrega.nic.in/MGNREGA_new/Nrega_home.aspx"
+  },
+  {
+    "service_id": "labour_009",
+    "name": "National Apprenticeship Promotion Scheme (NAPS)",
+    "category": "labour_employment",
+    "jurisdiction": "Central",
+    "official_portal": "https://www.apprenticeshipindia.gov.in/",
+    "description": "Ministry of Skill Development portal for ITI and diploma apprenticeship registration, contracts, and stipend tracking.",
+    "official_docs_url": "https://www.apprenticeshipindia.gov.in/support"
+  },
+  {
+    "service_id": "labour_010",
+    "name": "National Apprenticeship Training Scheme (NATS 2.0)",
+    "category": "labour_employment",
+    "jurisdiction": "Central",
+    "official_portal": "https://nats.education.gov.in/",
+    "description": "Ministry of Education portal for engineering, graduate, and technician degree/diploma apprenticeship placement.",
+    "official_docs_url": "https://nats.education.gov.in/student_type.php"
+  },
+  {
+    "service_id": "labour_011",
+    "name": "Shram Suvidha Unified Labour Compliance",
+    "category": "labour_employment",
+    "jurisdiction": "Central",
+    "official_portal": "https://shramsuvidha.gov.in/",
+    "description": "Single-window portal for Labour Identification Number (LIN), CLRA license, and central labour law registrations.",
+    "official_docs_url": "https://shramsuvidha.gov.in/userManual.action"
+  },
+  {
+    "service_id": "health_001",
+    "name": "Ayushman Bharat PM-JAY Health Card",
+    "category": "healthcare",
+    "jurisdiction": "Central",
+    "official_portal": "https://beneficiary.nha.gov.in/",
+    "description": "National Health Authority portal for Ayushman card verification, senior citizen 70+ enrollment, e-KYC, and 5-lakh cover.",
+    "official_docs_url": "https://nha.gov.in/PM-JAY"
+  },
+  {
+    "service_id": "health_002",
+    "name": "ABHA Health ID Card (Ayushman Bharat Digital Mission)",
+    "category": "healthcare",
+    "jurisdiction": "Central",
+    "official_portal": "https://abha.abdm.gov.in/",
+    "description": "Portal to generate a 14-digit Ayushman Bharat Health Account (ABHA) number for linking digital medical records.",
+    "official_docs_url": "https://abdm.gov.in/abha-faq"
+  },
+  {
+    "service_id": "health_003",
+    "name": "Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)",
+    "category": "healthcare",
+    "jurisdiction": "Maharashtra",
+    "official_portal": "https://www.jeevandayee.gov.in/",
+    "description": "Maharashtra flagship cashless health insurance scheme portal for empanelled hospital lookup and treatment coverage.",
+    "official_docs_url": "https://www.jeevandayee.gov.in/MJPJAY/FrontServlet?requestType=CommonRH&actionVal=RightFrame&page=undefined%3E%3E%3Cb%3EScheme%20Information%3C/b%3E&pageName=MJPJAY_SchemeInfo"
+  },
+  {
+    "service_id": "health_004",
+    "name": "eSanjeevani National Telemedicine Service",
+    "category": "healthcare",
+    "jurisdiction": "Central",
+    "official_portal": "https://esanjeevani.mohfw.gov.in/",
+    "description": "Ministry of Health and Family Welfare free online OPD doctor video consultation and e-prescription portal.",
+    "official_docs_url": "https://esanjeevani.mohfw.gov.in/#/about"
+  },
+  {
+    "service_id": "health_005",
+    "name": "ORS Patient Portal (Online Registration System)",
+    "category": "healthcare",
+    "jurisdiction": "Central",
+    "official_portal": "https://ors.gov.in/",
+    "description": "NIC portal for booking OPD appointments and viewing lab reports across AIIMS and central/state government hospitals.",
+    "official_docs_url": "https://ors.gov.in/orsportal/faq"
+  },
+  {
+    "service_id": "health_006",
+    "name": "U-WIN & Co-WIN Universal Immunization Portal",
+    "category": "healthcare",
+    "jurisdiction": "Central",
+    "official_portal": "https://uwin.mohfw.gov.in/",
+    "description": "Digital vaccination registry for pregnant women, infant immunization scheduling, and downloadable vaccination certificates.",
+    "official_docs_url": "https://uwin.mohfw.gov.in/faq"
+  },
+  {
+    "service_id": "health_007",
+    "name": "e-RaktKosh National Blood Bank Network",
+    "category": "healthcare",
+    "jurisdiction": "Central",
+    "official_portal": "https://eraktkosh.mohfw.gov.in/",
+    "description": "Centralized blood bank management portal for real-time blood group availability check and donor registration.",
+    "official_docs_url": "https://eraktkosh.mohfw.gov.in/BLDAHIMS/bloodbank/about.cnt"
+  },
+  {
+    "service_id": "health_008",
+    "name": "Central Government Health Scheme (CGHS)",
+    "category": "healthcare",
+    "jurisdiction": "Central",
+    "official_portal": "https://cghs.nic.in/",
+    "description": "Healthcare portal for central government employees and pensioners to manage plastic cards, wellness appointments, and referrals.",
+    "official_docs_url": "https://cghs.mohfw.gov.in/AHIMSG5/hissso/Login"
+  },
+  {
+    "service_id": "health_009",
+    "name": "Pradhan Mantri Bhartiya Janaushadhi Pariyojana",
+    "category": "healthcare",
+    "jurisdiction": "Central",
+    "official_portal": "https://janaushadhi.gov.in/",
+    "description": "Pharmaceuticals & Medical Devices Bureau portal for locating Jan Aushadhi Kendras and checking generic medicine prices.",
+    "official_docs_url": "https://janaushadhi.gov.in/pmjy.aspx"
+  },
+  {
+    "service_id": "health_010",
+    "name": "Nikshay TB Elimination & Ni-kshay Poshan Yojana",
+    "category": "healthcare",
+    "jurisdiction": "Central",
+    "official_portal": "https://nikshay.in/",
+    "description": "National Tuberculosis Elimination Programme portal for TB patient registration and direct benefit nutrition support.",
+    "official_docs_url": "https://tbcindia.mohfw.gov.in/"
+  },
+  {
+    "service_id": "grievance_001",
+    "name": "CPGRAMS Public Grievance Redressal",
+    "category": "grievance",
+    "jurisdiction": "Central",
+    "official_portal": "https://pgportal.gov.in/",
+    "description": "Centralized Public Grievance Redress and Monitoring System for filing complaints against central and state bodies.",
+    "official_docs_url": "https://pgportal.gov.in/Home/Faq"
+  },
+  {
+    "service_id": "grievance_002",
+    "name": "Aaple Sarkar Grievance Redressal Portal",
+    "category": "grievance",
+    "jurisdiction": "Maharashtra",
+    "official_portal": "https://grievances.maharashtra.gov.in/",
+    "description": "Government of Maharashtra citizen portal for lodging complaints against Mantralaya departments and district offices.",
+    "official_docs_url": "https://grievances.maharashtra.gov.in/en/faq"
+  },
+  {
+    "service_id": "grievance_003",
+    "name": "Bihar Lok Shikayat Nivaran (Public Grievance Redressal)",
+    "category": "grievance",
+    "jurisdiction": "Bihar",
+    "official_portal": "https://lokshikayat.bihar.gov.in/",
+    "description": "Bihar Right to Public Grievance Redressal Act portal for filing statutory complaints with time-bound hearings.",
+    "official_docs_url": "https://lokshikayat.bihar.gov.in/BpgraActEn.aspx"
+  },
+  {
+    "service_id": "grievance_004",
+    "name": "National Cyber Crime Reporting Portal",
+    "category": "grievance",
+    "jurisdiction": "Central",
+    "official_portal": "https://cybercrime.gov.in/",
+    "description": "Ministry of Home Affairs portal (1930 helpline) for reporting online financial fraud, identity theft, and cyber crimes.",
+    "official_docs_url": "https://cybercrime.gov.in/Webform/Crime_NodalGrivanceList.aspx"
+  },
+  {
+    "service_id": "grievance_005",
+    "name": "National Consumer Helpline (INGRAM)",
+    "category": "grievance",
+    "jurisdiction": "Central",
+    "official_portal": "https://consumerhelpline.gov.in/",
+    "description": "Department of Consumer Affairs integrated grievance mechanism for resolving consumer disputes and defective service claims.",
+    "official_docs_url": "https://consumerhelpline.gov.in/public/faq"
+  },
+  {
+    "service_id": "grievance_006",
+    "name": "E-Daakhil Consumer Commission e-Filing",
+    "category": "grievance",
+    "jurisdiction": "Central",
+    "official_portal": "https://edaakhil.nic.in/",
+    "description": "National Consumer Disputes Redressal Commission portal for online filing of formal consumer court cases.",
+    "official_docs_url": "https://edaakhil.nic.in/edaakhil/faces/manual.xhtml"
+  },
+  {
+    "service_id": "grievance_007",
+    "name": "RTI Online (Right to Information Portal)",
+    "category": "grievance",
+    "jurisdiction": "Central",
+    "official_portal": "https://rtionline.gov.in/",
+    "description": "Department of Personnel and Training portal for filing RTI applications and first appeals to central public authorities.",
+    "official_docs_url": "https://rtionline.gov.in/guidelines.php"
+  },
+  {
+    "service_id": "grievance_008",
+    "name": "Maharashtra RTI Online Portal",
+    "category": "grievance",
+    "jurisdiction": "Maharashtra",
+    "official_portal": "https://rtionline.maharashtra.gov.in/",
+    "description": "Government of Maharashtra portal for filing online Right to Information requests to state departments and collectors.",
+    "official_docs_url": "https://rtionline.maharashtra.gov.in/guidelines.php"
+  },
+  {
+    "service_id": "grievance_009",
+    "name": "Sanchar Saathi (CEIR Lost Mobile & TAFCOP)",
+    "category": "grievance",
+    "jurisdiction": "Central",
+    "official_portal": "https://sancharsaathi.gov.in/",
+    "description": "Department of Telecommunications portal to block lost/stolen mobile IMEIs (CEIR) and verify SIM connections in your name.",
+    "official_docs_url": "https://sancharsaathi.gov.in/KnowYourMobile/kyb-faq.jsp"
+  },
+  {
+    "service_id": "grievance_010",
+    "name": "RBI CMS Banking Ombudsman Portal",
+    "category": "grievance",
+    "jurisdiction": "Central",
+    "official_portal": "https://cms.rbi.org.in/",
+    "description": "Reserve Bank of India Complaint Management System for lodging complaints against banks, NBFCs, and UPI providers.",
+    "official_docs_url": "https://rbi.org.in/Scripts/FAQView.aspx?Id=147"
+  },
+  {
+    "service_id": "others_001",
+    "name": "Goods and Services Tax (GST) Portal",
+    "category": "others",
+    "jurisdiction": "Central",
+    "official_portal": "https://www.gst.gov.in/",
+    "description": "GST Network portal for new GST registration, return filing, challan payment, and GSTIN search.",
+    "official_docs_url": "https://tutorial.gst.gov.in/userguide/registration/index.htm"
+  },
+  {
+    "service_id": "others_002",
+    "name": "Udyam MSME Registration Portal",
+    "category": "others",
+    "jurisdiction": "Central",
+    "official_portal": "https://udyamregistration.gov.in/",
+    "description": "Ministry of Micro, Small and Medium Enterprises portal for free, paperless enterprise registration and Udyam certificate.",
+    "official_docs_url": "https://udyamregistration.gov.in/docs/Udyam_Registration_Booklet.pdf"
+  },
+  {
+    "service_id": "others_003",
+    "name": "MSEDCL Mahavitaran Electricity Consumer Portal",
+    "category": "others",
+    "jurisdiction": "Maharashtra",
+    "official_portal": "https://wss.mahadiscom.in/wss/wss",
+    "description": "Maharashtra State Electricity Distribution portal for online electricity bill view, payment, new connection, and load change.",
+    "official_docs_url": "https://www.mahadiscom.in/en/consumer-services/"
+  },
+  {
+    "service_id": "others_004",
+    "name": "NBPDCL / SBPDCL Suvidha Electricity Services",
+    "category": "others",
+    "jurisdiction": "Bihar",
+    "official_portal": "https://nbpdcl.co.in/",
+    "description": "Bihar Power Distribution Company portal for new domestic electricity connections, smart meter recharge, and bill payment.",
+    "official_docs_url": "https://nbpdcl.co.in/(S(newconn))/frmNewConnection.aspx"
+  },
+  {
+    "service_id": "others_005",
+    "name": "PM Surya Ghar Muft Bijli Yojana (Rooftop Solar)",
+    "category": "others",
+    "jurisdiction": "Central",
+    "official_portal": "https://pmsuryaghar.gov.in/",
+    "description": "National portal for residential rooftop solar installation registration and central subsidy disbursement.",
+    "official_docs_url": "https://pmsuryaghar.gov.in/what-is-rooftop-solar"
+  },
+  {
+    "service_id": "others_006",
+    "name": "eCourts Services India (Case Status & Orders)",
+    "category": "others",
+    "jurisdiction": "Central",
+    "official_portal": "https://services.ecourts.gov.in/",
+    "description": "Department of Justice portal for searching CNR numbers, court case status, cause lists, and judgments across India.",
+    "official_docs_url": "https://ecourts.gov.in/ecourts_home/static/manuals/ecourts-services-manual.pdf"
+  },
+  {
+    "service_id": "others_007",
+    "name": "Jeevan Pramaan Digital Life Certificate for Pensioners",
+    "category": "others",
+    "jurisdiction": "Central",
+    "official_portal": "https://jeevanpramaan.gov.in/",
+    "description": "Aadhaar-based biometric digital life certificate system for central and state government pensioners.",
+    "official_docs_url": "https://jeevanpramaan.gov.in/newassets/docs/Jeevan-Pramaan-FAQ.pdf"
+  },
+  {
+    "service_id": "others_008",
+    "name": "Ministry of Corporate Affairs (MCA V3 Portal)",
+    "category": "others",
+    "jurisdiction": "Central",
+    "official_portal": "https://www.mca.gov.in/",
+    "description": "MCA portal for company/LLP incorporation (SPICe+), DIN application, and corporate compliance filings.",
+    "official_docs_url": "https://www.mca.gov.in/content/mca/global/en/foportal/fologin.html"
+  },
+  {
+    "service_id": "others_009",
+    "name": "Government e-Marketplace (GeM)",
+    "category": "others",
+    "jurisdiction": "Central",
+    "official_portal": "https://gem.gov.in/",
+    "description": "National public procurement portal for seller/vendor registration and bidding on government tenders.",
+    "official_docs_url": "https://gem.gov.in/training"
+  },
+  {
+    "service_id": "others_010",
+    "name": "National Portal of India (India.gov.in)",
+    "category": "others",
+    "jurisdiction": "Central",
+    "official_portal": "https://www.india.gov.in/",
+    "description": "Single-window national directory providing access to central and state government acts, forms, and citizen services.",
+    "official_docs_url": "https://www.india.gov.in/about-portal"
+  },
+  {
+    "service_id": "others_011",
+    "name": "UMANG Unified Mobile Application for New-Age Governance",
+    "category": "others",
+    "jurisdiction": "Central",
+    "official_portal": "https://web.umang.gov.in/",
+    "description": "MeitY unified platform integrating central and state e-governance services including EPFO, DigiLocker, and Bharat BillPay.",
+    "official_docs_url": "https://web.umang.gov.in/landing/about-us"
   }
 ]

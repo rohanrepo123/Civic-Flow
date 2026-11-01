@@ -85,6 +85,7 @@ class BrowserSessionResponse(ContractMetadata):
     browser_session_id: UUID = Field(default_factory=uuid4)
     session_status: BrowserSessionStatus = BrowserSessionStatus.created
     stream_endpoint: str | None = None
+    stream_url: str | None = None
     stream_token: str | None = None
     expires_at: datetime
     capabilities: list[BrowserCapability] = Field(default_factory=list)

@@ -1,5 +1,6 @@
-from uuid import uuid4
-from fastapi import APIRouter, HTTPException
+from uuid import UUID
+from fastapi import APIRouter, HTTPException, Depends
+from app.core.chat_identity import chat_identity
 from civicflow_contracts.application import AssistantMessageRequest, ServiceSummary
 from civicflow_contracts.ai import AgentMessage, AgentTurnRequest, ServiceContext
 from civicflow_contracts.common import CONTRACT_VERSION
@@ -8,8 +9,12 @@ from app.api.services import _SERVICE_CATALOG
 from app.adapters.clients import get_ai_client
 router = APIRouter()
 
+@router.get("/assistant/session")
+async def assistant_session(identity: UUID = Depends(chat_identity)):
+    return {"scope": str(identity)}
+
 @router.post("/assistant/messages")
-async def assistant_message(body: AssistantMessageRequest):
+async def assistant_message(body: AssistantMessageRequest, identity: UUID = Depends(chat_identity)):
     record = _applications.get(body.application_id) if body.application_id else None
     if body.application_id and not record: raise HTTPException(404, "Application not found")
     ctx = None
@@ -33,7 +38,7 @@ async def assistant_message(body: AssistantMessageRequest):
                 required_documents=service.get("required_documents", []),
                 source_urls=[portal_url] if portal_url and portal_url.startswith("https://") else [],
             )
-    req = AgentTurnRequest(contract_version=CONTRACT_VERSION, user_id=uuid4(), conversation_id=body.conversation_id,
+    req = AgentTurnRequest(contract_version=CONTRACT_VERSION, user_id=identity, conversation_id=body.conversation_id,
         message=body.message, selected_service_context=ctx,
         sanitized_application_context=None, allowed_actions=[],
         history=[AgentMessage(role=item.role, content=item.content) for item in body.history[-12:]])

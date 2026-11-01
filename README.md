@@ -71,7 +71,18 @@ The launcher prints the frontend link and all service health links after they be
 scripts\stop-local.cmd
 ```
 
-The launcher reads provider settings from the root `.env`, uses Ollama Nemotron (`OLLAMA_CHAT_MODEL=nemotron-3-super:cloud`) and keeps OpenAI disabled. Sign in to Ollama on the host before chatting. For source-grounded service requests, download BGE-M3 once after setup with `python -m backend.app.agent.services.embeddings --download-model`; the model is large and is not fetched automatically. The browser starts in clearly labeled simulated mode so Chromium is not downloaded. To use real Playwright browsing after installing Chromium with `python -m playwright install chromium`, start with `scripts\run-local.cmd -WithPlaywright`.
+The launcher reads provider settings from the root `.env`, uses Ollama Nemotron (`OLLAMA_CHAT_MODEL=nemotron-3-super:cloud`) and keeps OpenAI disabled. Sign in to Ollama on the host before chatting. For semantic source retrieval, cache BGE-M3 once after setup in PowerShell:
+
+```powershell
+$env:HF_HOME = Join-Path (Get-Location).Path 'runtime\huggingface'
+.\.venv\Scripts\python.exe -m backend.app.agent.services.embeddings --download-model
+```
+
+The model download is several gigabytes and is stored in the ignored `runtime\huggingface` cache that the launcher uses. Setup installs Chromium, and `scripts\run-local.cmd` starts live browser sessions by default. During an application session, a visible Chromium window opens on this computer; use **Take manual control** to interact with that window. To run only the simulated UI, explicitly use `scripts\run-local.cmd -MockBrowser`.
+
+Setup builds the frontend for production mode to reduce local memory use. After changing frontend source code, rebuild it before restarting with `pnpm --dir frontend_member1 exec next build --webpack`.
+
+For live form assistance, create an application from a listed service. CivicFlow opens that service's approved portal in its isolated Chromium window and shows a live preview in the workspace. Sign in and handle OTP/CAPTCHA prompts yourself in the Chromium window. Use **Inspect page elements** and **Fill field** for supported text fields, or keep manual control and use the portal directly. Review and complete consent, legal declarations, payment, and final submission yourself. If the preview reports that Chromium stopped, connect a new browser session; the UI does not claim that simulated content is a live portal.
 
 ### Adding a service catalogue JSON
 

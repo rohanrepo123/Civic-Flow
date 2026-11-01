@@ -1,9 +1,7 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import {
-  ArrowLeft,
-  ArrowRight,
   Circle,
   Expand,
   ExternalLink,
@@ -29,10 +27,12 @@ import {
 
 export function BrowserViewer({
   applicationId,
+  serviceId,
   portalUrl,
   activities = [],
 }: {
   applicationId: string
+  serviceId: string
   portalUrl?: string
   activities?: ActivityEvent[]
 }) {
@@ -47,28 +47,33 @@ export function BrowserViewer({
   const [message, setMessage] = useState("")
   const [taken, setTaken] = useState(false)
   const [viewMode, setViewMode] = useState<"stream" | "interactive">("stream")
+  const connectingRef = useRef(false)
   const paused = state.aiPaused
 
   const connect = async () => {
+    if (connectingRef.current) return
     if (!portalUrl) {
       setMessage("This service does not have an approved portal URL yet.")
       return
     }
+    connectingRef.current = true
     try {
       setLoading(true)
       const host = new URL(portalUrl).hostname
-      const session = await createBrowserSession({ applicationId, portalUrl, allowedDomains: [host] })
+      const session = await createBrowserSession({ applicationId, serviceId, portalUrl, allowedDomains: [host] })
       setSessionId(session.browser_session_id)
-      setStreamEndpoint(session.stream_endpoint)
+      if (!session.stream_url) throw new Error("Core API did not return the live browser stream address. Restart the local services and try again.")
+      setStreamEndpoint(session.stream_url)
       const connected = await browserAgentReady()
       setMessage(
         connected.mode === "playwright"
-          ? "Playwright browser session connected. Inspect the page to view interactive form fields."
+          ? "Live portal opened in a Chromium window on this computer. Inspect it here, or take manual control to use the Chromium window directly."
           : "Simulated browser session connected. This view does not open a live government portal."
       )
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Could not connect to Browser Agent")
     } finally {
+      connectingRef.current = false
       setLoading(false)
     }
   }
@@ -82,9 +87,8 @@ export function BrowserViewer({
 
   useEffect(() => {
     if (!streamEndpoint) return
-    const base = new URL("/", process.env.NEXT_PUBLIC_BROWSER_AGENT_URL || "http://localhost:8002")
-    base.protocol = base.protocol === "https:" ? "wss:" : "ws:"
-    const socket = new WebSocket(new URL(streamEndpoint, base).toString())
+    let disposed = false
+    const socket = new WebSocket(streamEndpoint)
     socket.onmessage = (event) => {
       try {
         const payload = JSON.parse(event.data)
@@ -92,17 +96,28 @@ export function BrowserViewer({
           setFrame(`data:${payload.mime_type};base64,${payload.data}`)
         } else if (payload.event_type === "stream_unavailable") {
           setMessage(payload.message)
+          setSessionId(undefined)
+          setStreamEndpoint(undefined)
+          setFrame(undefined)
         }
       } catch {}
     }
-    socket.onerror = () => setMessage("Browser stream reconnecting...")
-    return () => socket.close()
+    socket.onerror = () => setMessage("Live browser preview disconnected.")
+    socket.onclose = () => {
+      if (!disposed) {
+        setSessionId(undefined)
+        setStreamEndpoint(undefined)
+        setFrame(undefined)
+        setMessage("Browser preview disconnected. Connect a new live session to continue.")
+      }
+    }
+    return () => {
+      disposed = true
+      socket.close()
+    }
   }, [streamEndpoint])
 
-  const refresh = () => {
-    setLoading(true)
-    window.setTimeout(() => setLoading(false), 450)
-  }
+  const refresh = () => sessionId ? void inspect() : setMessage("Connect the browser before refreshing its view.")
 
   const inspect = async () => {
     if (!sessionId) return
@@ -149,9 +164,24 @@ export function BrowserViewer({
     try {
       await setBrowserControl(sessionId, taken ? "return-control" : "take-control")
       setTaken(!taken)
-      setMessage(taken ? "Control returned to CivicFlow Browser Agent." : "Manual citizen takeover active. You now control the portal.")
+      update({ userControl: !taken })
+      setMessage(taken ? "Control returned to CivicFlow Browser Agent." : "Manual control is active. Use the visible CivicFlow Chromium window to interact with the portal.")
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Control change failed")
+    }
+  }
+
+  const togglePause = async () => {
+    if (!sessionId) {
+      setMessage("Connect a browser session before pausing browser assistance.")
+      return
+    }
+    try {
+      await setBrowserControl(sessionId, paused ? "resume" : "pause")
+      update({ aiPaused: !paused })
+      setMessage(paused ? "Browser assistance resumed." : "Browser assistance paused.")
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "Could not change browser assistance state.")
     }
   }
 
@@ -210,12 +240,6 @@ export function BrowserViewer({
       <Card className="cf-browser-viewport">
         {/* Navigation / Control Bar */}
         <div className="flex flex-wrap items-center gap-2 rounded-xl bg-[#f7f4ec] p-2">
-          <Button variant="ghost" className="px-2 py-1" aria-label="Back" disabled>
-            <ArrowLeft size={16} />
-          </Button>
-          <Button variant="ghost" className="px-2 py-1" aria-label="Forward" disabled>
-            <ArrowRight size={16} />
-          </Button>
           <Button variant="ghost" className="px-2 py-1" onClick={refresh} aria-label="Refresh browser">
             <LoaderCircle className={loading ? "size-4 animate-spin text-[#08785e]" : "size-4"} />
           </Button>
@@ -252,7 +276,7 @@ export function BrowserViewer({
               }`}
             >
               <Globe size={13} />
-              Direct
+                Official site
             </button>
           </div>
 
@@ -271,13 +295,10 @@ export function BrowserViewer({
 
         {/* View Content */}
         {viewMode === "interactive" && portalUrl ? (
-          <div className="mt-3 overflow-hidden rounded-xl border border-[#e9e1d5] bg-white shadow-xs">
-            <iframe
-              src={portalUrl}
-              title="Government Portal Direct Interactive View"
-              className="h-[640px] w-full border-0"
-              sandbox="allow-same-origin allow-scripts allow-forms allow-popups"
-            />
+          <div className="mt-3 flex min-h-64 flex-col items-center justify-center gap-4 rounded-xl border border-[#e9e1d5] bg-white p-6 text-center">
+            <Globe className="size-8 text-[#08785e]" />
+            <p className="max-w-lg text-sm leading-6 text-[#60756f]">Open the official portal in a separate tab. This tab is separate from the controlled Chromium session; use the live browser view and its manual-control button to work in the CivicFlow session.</p>
+            <a href={portalUrl} target="_blank" rel="noreferrer" className="rounded-lg bg-[#08785e] px-4 py-2.5 text-sm font-semibold text-white">Open official portal</a>
           </div>
         ) : frame ? (
           <div className="mt-3 overflow-hidden rounded-xl border border-[#e9e1d5] bg-white shadow-xs">
@@ -300,7 +321,7 @@ export function BrowserViewer({
             </h2>
             <p className="max-w-md text-xs leading-5 text-[#60756f]">
               {portalUrl
-                ? `Establishing a browser session to ${portalUrl}. Real-time frames will appear if Playwright is active.`
+                ? `Opening a live Chromium session to ${portalUrl}. A visible browser window will open on this computer.`
                 : "No portal URL assigned to this service."}
             </p>
             {!sessionId && (
@@ -414,11 +435,11 @@ export function BrowserViewer({
         </div>
 
         <div className="mt-6 flex flex-col gap-2">
-          <Button variant="secondary" onClick={() => update({ aiPaused: !paused })}>
+          <Button variant="secondary" onClick={togglePause} disabled={!sessionId}>
             {paused ? <Play size={15} className="mr-2" /> : <Pause size={15} className="mr-2" />}
-            {paused ? "Resume AI" : "Pause AI"}
+            {paused ? "Resume browser assistance" : "Pause browser assistance"}
           </Button>
-          <Button variant="secondary" onClick={() => update({ userControl: !state.userControl })}>
+          <Button variant="secondary" onClick={handoff} disabled={!sessionId}>
             <UserRound size={15} className="mr-2" />
             {state.userControl ? "Return control" : "Take manual control"}
           </Button>

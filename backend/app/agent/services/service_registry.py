@@ -1,5 +1,6 @@
 import json
 import os
+import re
 from pathlib import Path
 from typing import Iterable
 
@@ -32,6 +33,7 @@ class ServiceRegistry:
         name = normalized.get("name")
         if isinstance(name, str) and name not in aliases:
             aliases.append(name)
+            aliases.extend(alias for alias in re.findall(r"\(([^)]+)\)", name) if alias not in aliases)
         normalized["aliases"] = aliases
         docs_url = normalized.get("official_docs_url")
         sources = list(normalized.get("official_sources") or [])
@@ -50,9 +52,12 @@ class ServiceRegistry:
         records = list(cls.from_json(data_path).all())
         configured = os.getenv("CIVICFLOW_SERVICE_CATALOG", "").strip()
         catalog_path = Path(configured) if configured else data_path.parent / "service_catalog.json"
+        if configured and not catalog_path.is_file():
+            raise ValueError("CIVICFLOW_SERVICE_CATALOG does not point to a file")
+        by_id = {record.service_id: record for record in records}
         if catalog_path.is_file():
-            records.extend(cls.from_json(catalog_path).all())
-        return cls(records)
+            by_id.update({record.service_id: record for record in cls.from_json(catalog_path).all()})
+        return cls(by_id.values())
 
     def all(self) -> tuple[ServiceRecord, ...]:
         return self._services

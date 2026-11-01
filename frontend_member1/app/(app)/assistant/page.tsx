@@ -7,7 +7,7 @@ import { sendAssistantMessage } from "@/lib/civicflow-api"
 import { Button, Card, PageHeader, Status } from "@/components/page-primitives"
 
 export default function AssistantPage() {
-  const { state, appendChat, startNewChat, openChat, deleteChat } = useCivicFlow()
+  const { state, chatReady, appendChat, startNewChat, openChat, deleteChat } = useCivicFlow()
   const [text, setText] = useState("")
   const [sending, setSending] = useState(false)
   const [sendError, setSendError] = useState("")
@@ -15,19 +15,20 @@ export default function AssistantPage() {
   async function send(event: FormEvent) {
     event.preventDefault()
     const question = text.trim()
-    if (!question || sending) return
+    if (!question || sending || !chatReady) return
     setSending(true)
     setSendError("")
     const history = state.chat.slice(-20).map(({ role, text }) => ({ role, content: text }))
-    appendChat([{ role: "user", text: question }])
+    const conversationId = state.conversationId
+    appendChat(conversationId, [{ role: "user", text: question }])
     setText("")
     try {
-      const result = await sendAssistantMessage(question, state.conversationId, history)
-      appendChat([{ role: "assistant", text: result.message }])
+      const result = await sendAssistantMessage(question, conversationId, history)
+      appendChat(conversationId, [{ role: "assistant", text: result.message }])
     } catch (error) {
       const message = error instanceof Error ? error.message : "CivicFlow could not reach the assistant service."
       setSendError(message)
-      appendChat([{ role: "assistant", text: "I couldn’t reach the assistant service just now. Please try again in a moment." }])
+      appendChat(conversationId, [{ role: "assistant", text: "I couldn’t reach the assistant service just now. Please try again in a moment." }])
     } finally {
       setSending(false)
     }
@@ -96,7 +97,7 @@ export default function AssistantPage() {
             />
             <button
               aria-label="Send message"
-              disabled={sending}
+              disabled={sending || !chatReady}
               className="grid size-11 place-items-center rounded-xl bg-[#08785e] text-white hover:bg-[#065f4a] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08785e] disabled:opacity-60"
             >
               <Send className="size-4" />

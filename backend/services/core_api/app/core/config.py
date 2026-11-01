@@ -41,6 +41,8 @@ class Settings(BaseSettings):
 
     # --- Service Communication ---
     SERVICE_REQUEST_TIMEOUT: int = 30  # seconds
+    AGENT_TURN_TIMEOUT: int = 180
+    AI_REQUEST_TIMEOUT: int = 200
     SERVICE_RETRY_MAX: int = 3
 
     # --- Mock Mode ---

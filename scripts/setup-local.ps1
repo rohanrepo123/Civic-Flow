@@ -41,6 +41,7 @@ if ($pythonLauncher) {
 Push-Location $repoRoot
 try {
     $packages = @(
+        "-r", "./requirements.txt",
         "-e", "./backend/contracts/civicflow_contracts",
         "-e", "./backend/services/core_api",
         "-e", "./backend/services/ai_agent",
@@ -53,6 +54,9 @@ try {
     }
     if ($LASTEXITCODE -ne 0) { throw "Python service dependencies failed to install." }
 
+    & $venvPython -m playwright install chromium
+    if ($LASTEXITCODE -ne 0) { throw "Chromium installation failed. Rerun setup on a machine with package/browser download access." }
+
     $pnpm = Get-Command pnpm -ErrorAction SilentlyContinue
     if (-not $pnpm) {
         $corepack = Get-Command corepack -ErrorAction SilentlyContinue
@@ -62,11 +66,20 @@ try {
         & $pnpm.Source --dir frontend_member1 install --frozen-lockfile
     }
     if ($LASTEXITCODE -ne 0) { throw "Frontend dependencies failed to install." }
+
+    if ($pnpm) {
+        & $pnpm.Source --dir frontend_member1 exec next build --webpack
+    } else {
+        & $corepack.Source pnpm --dir frontend_member1 exec next build --webpack
+    }
+    if ($LASTEXITCODE -ne 0) { throw "Frontend production build failed." }
 } finally {
     Pop-Location
 }
 
 Write-Host "Local dependencies are installed in $venvPython."
+Write-Host "Live Chromium is installed. The browser opens in a visible local window during an application session."
 Write-Host "For source-grounded service requests, cache BGE-M3 once using:"
+Write-Host "  `$env:HF_HOME = Join-Path (Get-Location).Path 'runtime\huggingface'"
 Write-Host "  $venvPython -m backend.app.agent.services.embeddings --download-model"
-Write-Host "This model download is separate and can use substantial disk space."
+Write-Host "The local launcher uses the same cache under runtime\huggingface (ignored by Git). The model download is several gigabytes."

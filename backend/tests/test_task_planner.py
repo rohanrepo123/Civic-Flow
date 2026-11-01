@@ -124,7 +124,7 @@ def test_observed_authentication_page_requires_manual_user_intervention() -> Non
         PlannerInput(
             service=service(portal="https://portal.example.gov.in", verified=True),
             requirements=requirements(),
-            browser_observation=observation,
+            browser_observation=observation.model_dump(mode="json"),
         )
     )
     assert any(step.step_id == "citizen-handle-authentication" for step in result.plan.steps)

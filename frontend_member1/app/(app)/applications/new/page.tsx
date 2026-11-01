@@ -16,7 +16,7 @@ export default function NewApplicationPage() {
   const { createApplication } = useCivicFlow()
   const [query, setQuery] = useState("")
   const shown = query ? serviceCatalog.filter((item) => `${item.title} ${item.description}`.toLowerCase().includes(query.toLowerCase())) : []
-  const start = (serviceId: string) => { const application = createApplication(serviceId); if (application) router.push(`/applications/${application.id}/workspace`) }
+  const start = async (serviceId: string) => { try { const application = await createApplication(serviceId); if (application) router.push(`/applications/${application.id}/workspace`) } catch (error) { window.alert(error instanceof Error ? error.message : "Could not create the application. Please try again.") } }
 
   return <>
     <PageHeader eyebrow="New application" title="What service do you need?" description="Choose any government or public-service process. CivicFlow will guide you through it." />

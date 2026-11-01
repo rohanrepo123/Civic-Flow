@@ -122,6 +122,36 @@ async def create_application(body: CreateApplicationRequest):
     return _to_detail(record)
 
 
+@router.post("/{application_id}/ensure", response_model=ApplicationDetail)
+async def ensure_legacy_application(application_id: str, body: CreateApplicationRequest):
+    """Adopt a browser-local draft so Core API and Browser Agent share its ID."""
+    if not application_id.startswith("app-") or len(application_id) > 80:
+        raise HTTPException(status_code=422, detail="Invalid application identifier")
+    existing = _applications.get(application_id)
+    if existing:
+        if existing["service_id"] != body.service_id:
+            raise HTTPException(status_code=409, detail="Application identifier belongs to a different service")
+        return _to_detail(existing)
+    ts = _now()
+    docs = [{"document_id": f"{body.service_id}-doc-{i}", "name": name,
+             "file_type": "PDF / JPG", "status": DocumentStatus.pending.value}
+            for i, name in enumerate(_DEFAULT_DOCUMENTS.get(body.service_id, []))]
+    service = next((item for item in _SERVICE_CATALOG if item["id"] == body.service_id), None)
+    portal = service.get("official_url") if service else None
+    _applications[application_id] = {
+        "id": application_id, "service_id": body.service_id, "user_id": "user-aarav-patil",
+        "status": ApplicationStatus.draft.value, "current_step": 0, "progress": 0,
+        "form_data": body.form_data or {}, "documents": docs,
+        "review_state": {key: False for key in ("personal", "education", "financial", "documents")},
+        "approval_state": "not_started", "tracking": {"demo_mode": True},
+        "created_at": ts, "updated_at": ts, "selected_scholarship": body.selected_scholarship,
+        "portal_url": portal, "allowed_domains": [urlparse(portal).hostname] if portal else [],
+        "application_mode": "catalog",
+        "activity": [{"id": f"{application_id}-adopted", "label": "Application workspace restored", "timestamp": ts, "tone": "blue"}],
+    }
+    return _to_detail(_applications[application_id])
+
+
 @router.get("", response_model=list[ApplicationSummary])
 async def list_applications():
     return [

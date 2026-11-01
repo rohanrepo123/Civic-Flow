@@ -157,11 +157,13 @@ export function ServiceDirectory() {
     })
     .sort((a, b) => (sort === "name" ? a.title.localeCompare(b.title) : 0))
 
-  const start = (id: string) => {
-    const application = createApplication(id)
+  const start = async (id: string) => {
+    try {
+    const application = await createApplication(id)
     if (application) {
       router.push(`/applications/${application.id}/workspace`)
     }
+    } catch { window.alert("Could not create the application. Check that Core API is running, then try again.") }
   }
 
   const clear = () => {

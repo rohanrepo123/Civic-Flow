@@ -54,7 +54,8 @@ def test_graph_runs_to_verifiedly_labeled_preparation_completion():
     result = asyncio.run(run_task(graph, {"user_id": "user-1", "user_request": "Tell me about the certificate"}, task_id="task-complete"))
 
     assert result["task_status"] is TaskStatus.COMPLETED
-    assert "No final application was submitted" in result["final_summary"]
+    assert "does not provide enough verified detail" in result["final_summary"]
+    assert "applicant_profile" not in result
     assert result["events"][-1].type.value == "task.completed"
 
 
@@ -68,7 +69,7 @@ def test_out_of_scope_request_finishes_with_a_safe_conversational_response():
 
 
 def test_missing_information_interrupt_can_resume():
-    graph = _graph(_intent(missing_information=["age"]), [_service("certificate_mh", "Certificate")])
+    graph = _graph(_intent(intent=IntentType.APPLY_FOR_SERVICE, missing_information=["age"]), [_service("certificate_mh", "Certificate")])
     initial = asyncio.run(run_task(graph, {"user_id": "user-1", "user_request": "Help with certificate"}, task_id="task-resume"))
 
     assert initial["__interrupt__"][0].value["type"] == "information.required"

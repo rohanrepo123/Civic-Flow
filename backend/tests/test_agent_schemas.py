@@ -88,7 +88,7 @@ def test_shared_browser_model_imports_from_both_services_and_contract_package() 
     kwargs = {
         "task_id": "task-1",
         "start_url": "https://example.gov.in",
-        "viewport": Viewport(width=1280, height=800),
+        "viewport": Viewport(width=1280, height=800).model_dump(mode="json"),
     }
     assert SharedBrowserSessionCreate(**kwargs).task_id == "task-1"
     assert AgentBrowserSessionCreate(**kwargs).task_id == "task-1"

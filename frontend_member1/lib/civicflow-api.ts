@@ -1,8 +1,8 @@
 "use client";
 
-const baseUrl = (process.env.NEXT_PUBLIC_CORE_API_URL || "http://localhost:8000").replace(/\/$/, "");
+const baseUrl = "/api/core";
 
-export const isCoreApiConfigured = Boolean(baseUrl);
+export const isCoreApiConfigured = true;
 
 export interface GeoState {
   state_code: string;
@@ -72,6 +72,7 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const url = `${baseUrl}${path}`;
   const response = await fetch(url, {
     ...init,
+    credentials: "include",
     headers: { "Content-Type": "application/json", ...(init?.headers || {}) },
   });
   if (!response.ok) {
@@ -79,6 +80,10 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
     throw new Error(`Core API request failed (${response.status}): ${errorText || response.statusText}`);
   }
   return response.json() as Promise<T>;
+}
+
+export function getChatIdentity() {
+  return request<{ scope: string }>("/api/v1/assistant/session");
 }
 
 export interface AssistantTurnResult {
@@ -170,9 +175,10 @@ export function browserAgentReady(): Promise<{ status: string; mode: string }> {
   return request<{ status: string; mode: string }>("/api/v1/browser/health");
 }
 
-export function createBrowserSession(input: { applicationId: string; portalUrl: string; allowedDomains: string[] }): Promise<{ browser_session_id: string; session_status: string; stream_endpoint?: string; stream_token?: string }> {
+export function createBrowserSession(input: { applicationId: string; serviceId: string; portalUrl: string; allowedDomains: string[] }): Promise<{ browser_session_id: string; session_status: string; stream_endpoint?: string; stream_url?: string; stream_token?: string }> {
   return request(`/api/v1/applications/${encodeURIComponent(input.applicationId)}/browser-sessions`, {
     method: "POST",
+    body: JSON.stringify({ service_id: input.serviceId, form_data: {} }),
   });
 }
 

@@ -73,7 +73,8 @@ class HTTPServiceClient:
         last_error = None
         for attempt in range(attempts):
             try:
-                async with httpx.AsyncClient(timeout=settings.SERVICE_REQUEST_TIMEOUT) as client:
+                timeout = max(settings.AI_REQUEST_TIMEOUT, settings.AGENT_TURN_TIMEOUT + 20) if isinstance(self, HTTPAIServiceClient) else settings.SERVICE_REQUEST_TIMEOUT
+                async with httpx.AsyncClient(timeout=httpx.Timeout(timeout, connect=10)) as client:
                     response = await client.request(method, f"{self.base_url}{path}", json=body, headers=headers)
                 response.raise_for_status(); data = response.json()
                 break

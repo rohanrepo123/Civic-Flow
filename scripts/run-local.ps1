@@ -1,4 +1,5 @@
 param(
+    [switch]$MockBrowser,
     [switch]$WithPlaywright
 )
 
@@ -8,12 +9,23 @@ $activeVenvPython = if ($env:VIRTUAL_ENV) { Join-Path $env:VIRTUAL_ENV "Scripts\
 $venvPython = if ($activeVenvPython -and (Test-Path $activeVenvPython)) { $activeVenvPython } else { Join-Path $repoRoot ".venv\Scripts\python.exe" }
 $node = Get-Command node -ErrorAction SilentlyContinue
 $nextCli = Join-Path $repoRoot "frontend_member1\node_modules\next\dist\bin\next"
+$frontendBuildId = Join-Path $repoRoot "frontend_member1\.next\BUILD_ID"
 $runtimeDir = Join-Path $repoRoot "runtime"
 $logsDir = Join-Path $repoRoot "runtime_logs"
 $stateFile = Join-Path $runtimeDir "local-services.json"
 
-if (-not (Test-Path $venvPython) -or -not (Test-Path $nextCli) -or -not $node) {
+if ($MockBrowser -and $WithPlaywright) {
+    throw "Choose either -MockBrowser or -WithPlaywright, not both."
+}
+
+if (-not (Test-Path $venvPython) -or -not (Test-Path $nextCli) -or -not (Test-Path $frontendBuildId) -or -not $node) {
     throw "Run .\scripts\setup-local.ps1 first."
+}
+if (-not $MockBrowser) {
+    $chromiumExecutable = & $venvPython -c "from playwright.sync_api import sync_playwright; p=sync_playwright().start(); print(p.chromium.executable_path); p.stop()" 2>$null
+    if ($LASTEXITCODE -ne 0 -or -not (Test-Path $chromiumExecutable)) {
+        throw "Live Chromium is not installed. Run .\scripts\setup-local.ps1 with package and browser download access, or explicitly use -MockBrowser for a simulated UI demo."
+    }
 }
 if (Test-Path $stateFile) {
     throw "Local services already have a process record. Run .\scripts\stop-local.ps1 first."
@@ -53,6 +65,7 @@ if (Test-Path $envFile) {
         }
     }
 }
+$env:HF_HOME = if ($env:HF_HOME) { $env:HF_HOME } else { Join-Path $runtimeDir "huggingface" }
 
 $env:PYTHONPATH = (Join-Path $repoRoot "backend\contracts\civicflow_contracts") + ";" + $repoRoot
 $env:LOCAL_DEMO_MODE = "true"
@@ -62,6 +75,7 @@ $env:DATABASE_URL = "postgresql+asyncpg://civicflow:civicflow@127.0.0.1:5432/civ
 $env:REDIS_URL = "redis://127.0.0.1:6379/0"
 $env:AI_AGENT_URL = "http://127.0.0.1:$aiPort"
 $env:BROWSER_AGENT_URL = "http://127.0.0.1:$browserPort"
+$env:CORE_API_URL = "http://127.0.0.1:$corePort"
 $env:BROWSER_AGENT_API_TOKEN = [guid]::NewGuid().ToString("N")
 $env:CORS_ORIGINS = @("http://localhost:$frontendPort", "http://127.0.0.1:$frontendPort") | ConvertTo-Json -Compress
 $ollamaBaseUrl = if ($env:OLLAMA_BASE_URL) { $env:OLLAMA_BASE_URL } else { "http://localhost:11434" }
@@ -73,10 +87,9 @@ $env:OPENAI_API_KEY = ""
 $env:EMBEDDING_PROVIDER = if ($env:EMBEDDING_PROVIDER) { $env:EMBEDDING_PROVIDER } else { "sentence_transformers" }
 $env:EMBEDDING_MODEL = if ($env:EMBEDDING_MODEL) { $env:EMBEDDING_MODEL } else { "BAAI/bge-m3" }
 $env:EMBEDDING_ALLOW_DOWNLOAD = "false"
-$env:CIVICFLOW_BROWSER_RUNTIME = if ($WithPlaywright) { "playwright" } else { "mock" }
-$env:CIVICFLOW_ALLOW_LOCAL_MOCK = "true"
-$env:NEXT_PUBLIC_CORE_API_URL = "http://localhost:$corePort"
-$env:NEXT_PUBLIC_BROWSER_AGENT_URL = "http://localhost:$browserPort"
+$env:CIVICFLOW_BROWSER_RUNTIME = if ($MockBrowser) { "mock" } else { "playwright" }
+$env:CIVICFLOW_ALLOW_LOCAL_MOCK = if ($MockBrowser) { "true" } else { "false" }
+$env:BROWSER_HEADLESS = "false"
 
 $started = [System.Collections.Generic.List[object]]::new()
 function Start-LocalService([string]$Name, [string]$Exe, [string[]]$Arguments, [string]$WorkingDirectory) {
@@ -101,7 +114,7 @@ try {
         (Join-Path $repoRoot "backend\services\ai_agent")
     Start-LocalService "core-api" $venvPython @("-m", "uvicorn", "app.main:app", "--host", "127.0.0.1", "--port", "$corePort") `
         (Join-Path $repoRoot "backend\services\core_api")
-    Start-LocalService "frontend" $node.Source @((('"{0}"' -f $nextCli)), "dev", "--hostname", "127.0.0.1", "--port", "$frontendPort") `
+    Start-LocalService "frontend" $node.Source @((('"{0}"' -f $nextCli)), "start", "--hostname", "127.0.0.1", "--port", "$frontendPort") `
         (Join-Path $repoRoot "frontend_member1")
 
     $started | ConvertTo-Json | Set-Content -Path $stateFile -Encoding utf8
@@ -129,6 +142,7 @@ try {
     Write-Host "AI Agent:     http://localhost:$aiPort/health/ready"
     Write-Host "Browser:      http://localhost:$browserPort/health/ready"
     Write-Host "Browser mode: $env:CIVICFLOW_BROWSER_RUNTIME"
+    if ($MockBrowser) { Write-Host "Mock mode is enabled; no live government portal will open." }
     Write-Host "Logs:         $logsDir"
     Write-Host "Stop with:    .\scripts\stop-local.ps1"
 } catch {

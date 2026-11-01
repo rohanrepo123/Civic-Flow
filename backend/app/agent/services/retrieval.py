@@ -1,4 +1,7 @@
 from typing import Protocol
+from pathlib import Path
+from uuid import uuid4
+import os
 
 import faiss
 import numpy as np
@@ -45,6 +48,28 @@ class FaissVectorIndex:
 
     def size(self) -> int:
         return len(self._chunks)
+
+    def save_cache(self, path: Path) -> None:
+        if self._index is None:
+            return
+        path.parent.mkdir(parents=True, exist_ok=True)
+        temporary = path.with_suffix(f".{uuid4().hex}.tmp")
+        try:
+            with temporary.open("wb") as stream:
+                np.save(stream, self._index.reconstruct_n(0, self._index.ntotal), allow_pickle=False)
+            os.replace(temporary, path)
+        finally:
+            temporary.unlink(missing_ok=True)
+
+    @classmethod
+    def from_cache(cls, path: Path, chunks: list[RetrievedChunk]) -> "FaissVectorIndex":
+        # Numpy numeric data only: never load pickle or an untrusted FAISS binary.
+        matrix = np.load(path, allow_pickle=False)
+        if matrix.ndim != 2 or matrix.shape[0] != len(chunks) or not np.isfinite(matrix).all():
+            raise ValueError("Invalid cached vectors")
+        index = cls()
+        index.add(matrix.tolist(), chunks)
+        return index
 
     def search(self, vector: list[float], limit: int) -> list[tuple[RetrievedChunk, float]]:
         if limit <= 0:
