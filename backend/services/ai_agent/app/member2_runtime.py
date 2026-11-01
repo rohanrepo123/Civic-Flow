@@ -308,6 +308,15 @@ class Member2Runtime:
         )
         if service is not None:
             selected = _service_context(service, requirements, citations)
+            if service.official_portal and all(
+                citation.url != str(service.official_portal) for citation in citations
+            ):
+                citations.append(
+                    SourceCitation(
+                        title=f"{service.name} portal",
+                        url=str(service.official_portal),
+                    )
+                )
 
         # Keep distinct, compact memories for the intent, service resolver, and
         # knowledge stages. They contain service/source metadata, not applicant PII.
@@ -390,6 +399,8 @@ class Member2Runtime:
             missing.extend(field for field in intent.missing_information if field not in missing)
         if missing and pending_value is None:
             message = f"{message}\n\nWe can continue when you are ready. Still needed: {', '.join(missing)}."
+        if service is not None and service.official_portal and pending_value is None:
+            message += f"\n\nPortal: {service.official_portal}"
         uncertainty = list(getattr(requirements, "uncertainties", []) or [])
         if not citations:
             uncertainty.append("No source citation was retrieved for this response.")
