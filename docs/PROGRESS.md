@@ -184,3 +184,8 @@ The Windows environment emits known Pydantic/Python 3.14 and experimental NumPy 
 - Added `EMBEDDING_PROVIDER=lexical` as a deliberate low-memory mode that bypasses BGE/Torch and uses the existing lexical retrieval fallback. Local defaults remain BGE-M3. Added a direct provider smoke check.
 - Documented Render's free-plan limitations and the setup steps. Free instances sleep, use limited RAM and ephemeral filesystems; Core application records and Browser sessions remain volatile. This deployment is a demo, not production citizen-data hosting.
 - Validation: Render YAML parsed with PyYAML, all four service references resolve, every service is set to a free native runtime, Python compilation and `git diff --check` passed. The direct lexical-retrieval end-to-end smoke attempt stalled during retrieval initialization and was stopped; the lightweight lexical provider check passed. Render account/API credentials and Vercel credentials are not configured in this workspace, so no cloud resources could be created or given the secret.
+
+## Render frontend start command fix (2026-11-01)
+
+- Fixed the frontend start command to invoke `next start` through `pnpm exec` directly. The previous `pnpm start -- ...` forwarded an extra `--` argument, which Next.js interpreted as the project directory `--hostname` and caused the Render service to exit.
+- Validation: confirmed the command form matches the frontend's installed Next.js binary invocation; Render deployment still needs to rebuild from this commit.
