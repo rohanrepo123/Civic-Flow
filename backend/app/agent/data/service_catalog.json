@@ -1,0 +1,29 @@
+[
+  {
+    "service_id": "scholarship_001",
+    "name": "Post Matric Scholarship (MahaDBT)",
+    "category": "education",
+    "jurisdiction": "Maharashtra",
+    "official_portal": "https://mahadbt.maharashtra.gov.in/",
+    "description": "Direct Benefit Transfer portal for post-matric scholarships and tuition fee waivers in Maharashtra.",
+    "official_docs_url": "https://mahadbt.maharashtra.gov.in/SchemeData/SchemeData?str=E9DDFA703C38E51AA07C7E01997E4885"
+  },
+  {
+    "service_id": "scholarship_002",
+    "name": "National Scholarship Portal (NSP)",
+    "category": "education",
+    "jurisdiction": "Central",
+    "official_portal": "https://scholarships.gov.in/",
+    "description": "Centralized portal for central sector, UGC, and AICTE student scholarship schemes.",
+    "official_docs_url": "https://scholarships.gov.in/public/schemeGuidelines"
+  },
+  {
+    "service_id": "scholarship_003",
+    "name": "Post Matric Scholarship Portal (PMS Bihar)",
+    "category": "education",
+    "jurisdiction": "Bihar",
+    "official_portal": "https://pmsonline.bih.nic.in/",
+    "description": "Education Department Bihar portal for SC, ST, BC, and EBC post-matric student scholarships.",
+    "official_docs_url": "https://pmsonline.bih.nic.in/pmsedu/pms/Default.aspx"
+  }
+]

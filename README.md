@@ -73,4 +73,10 @@ scripts\stop-local.cmd
 
 The launcher reads provider settings from the root `.env`, uses Ollama Nemotron (`OLLAMA_CHAT_MODEL=nemotron-3-super:cloud`) and keeps OpenAI disabled. Sign in to Ollama on the host before chatting. For source-grounded service requests, download BGE-M3 once after setup with `python -m backend.app.agent.services.embeddings --download-model`; the model is large and is not fetched automatically. The browser starts in clearly labeled simulated mode so Chromium is not downloaded. To use real Playwright browsing after installing Chromium with `python -m playwright install chromium`, start with `scripts\run-local.cmd -WithPlaywright`.
 
+### Adding a service catalogue JSON
+
+The AI service loads additional catalogue entries from `backend/app/agent/data/service_catalog.json` when it starts. You can replace that file with a JSON array containing `service_id`, `name`, `category`, `jurisdiction`, `official_portal`, `description`, and `official_docs_url`. To use another file, set `CIVICFLOW_SERVICE_CATALOG` to its path before starting the AI service.
+
+For each entry, CivicFlow creates a service-context chunk in the in-memory FAISS index. A request then goes through catalogue retrieval, LLM relevance judging, and a guarded fetch of the configured official documentation URL. The fetched text is chunked and passed to the requirements and eligibility stages. Only HTTPS `gov.in` URLs are fetched; portal and documentation URLs are returned as source citations. Restart the AI service after changing the catalogue.
+
 The Core API uses in-memory application records in this local demo, so those records reset when it stops. Browser sessions are isolated in the Browser Agent process and also end when stopped. The existing Member 2 Vite app and source files remain preserved.

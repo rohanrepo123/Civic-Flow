@@ -158,7 +158,7 @@ class LLMIntentExtractor:
                 "form or scheme are in scope even when the exact service is unknown. "
                 "Allowed intent values: casual_conversation, out_of_scope, find_service, get_information, check_eligibility, "
                 "apply_for_service, track_application. Allowed service_category values: "
-                "certificate, scholarship, benefit, license, registration, other. "
+                "education, certificate, scholarship, benefit, license, registration, other. "
                 "Return JSON with intent, service_category, service_name, jurisdiction, "
                 "goal, requires_browser, eligibility_is_personal, collected_information, and missing_information. "
                 "Set eligibility_is_personal true only when the user asks whether THEY personally qualify; "

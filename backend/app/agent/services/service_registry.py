@@ -1,4 +1,5 @@
 import json
+import os
 from pathlib import Path
 from typing import Iterable
 
@@ -20,12 +21,38 @@ class ServiceRegistry:
             raise ValueError(f"unable to load service registry: {path}") from exc
         if not isinstance(records, list):
             raise ValueError("service registry JSON must contain a list")
-        return cls(ServiceRecord.model_validate(record) for record in records)
+        return cls(ServiceRecord.model_validate(cls._normalize_record(record)) for record in records)
+
+    @staticmethod
+    def _normalize_record(record: object) -> dict:
+        if not isinstance(record, dict):
+            raise ValueError("each service catalogue entry must be an object")
+        normalized = dict(record)
+        aliases = list(normalized.get("aliases") or [])
+        name = normalized.get("name")
+        if isinstance(name, str) and name not in aliases:
+            aliases.append(name)
+        normalized["aliases"] = aliases
+        docs_url = normalized.get("official_docs_url")
+        sources = list(normalized.get("official_sources") or [])
+        if isinstance(docs_url, str) and not any(item.get("url") == docs_url for item in sources if isinstance(item, dict)):
+            sources.append({
+                "source_id": f"{normalized.get('service_id', 'service')}:official-docs",
+                "title": f"{name or 'Service'} official guidance",
+                "url": docs_url,
+            })
+        normalized["official_sources"] = sources
+        return normalized
 
     @classmethod
     def default(cls) -> "ServiceRegistry":
         data_path = Path(__file__).parent.parent / "data" / "services.json"
-        return cls.from_json(data_path)
+        records = list(cls.from_json(data_path).all())
+        configured = os.getenv("CIVICFLOW_SERVICE_CATALOG", "").strip()
+        catalog_path = Path(configured) if configured else data_path.parent / "service_catalog.json"
+        if catalog_path.is_file():
+            records.extend(cls.from_json(catalog_path).all())
+        return cls(records)
 
     def all(self) -> tuple[ServiceRecord, ...]:
         return self._services

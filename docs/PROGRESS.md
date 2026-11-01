@@ -118,3 +118,11 @@ The Windows environment emits known Pydantic/Python 3.14 and experimental NumPy 
 - Fixed the 502/503 failure path when the local BGE-M3 model is not cached. Curated knowledge now falls back to service-scoped lexical retrieval until BGE-M3 is downloaded; semantic retrieval resumes automatically after restart. The AI service continues to expose only a safe error message to the user and does not log user content.
 - Added a deterministic intent fallback when Nemotron/Ollama is temporarily unavailable or returns malformed JSON, so a transient model failure no longer turns a normal chat message into a 503/502.
 - Validation for this change is pending TypeScript and Python static checks.
+
+## JSON service catalogue and official document retrieval
+
+- Added `backend/app/agent/data/service_catalog.json` with the supplied Maharashtra MahaDBT, Central NSP, and Bihar PMS entries.
+- Extended `ServiceRecord` to accept education services, descriptions, and `official_docs_url`. The registry loads the built-in catalogue plus an optional file configured by `CIVICFLOW_SERVICE_CATALOG`.
+- Each catalogue entry becomes a service-context chunk in the existing FAISS/BGE retrieval layer. The graph now runs catalogue retrieval and LLM relevance judgment for every service request, then fetches the configured official document and chunks its HTML or PDF content before requirements, eligibility, and portal guidance.
+- Official document fetching is restricted to HTTPS `gov.in` hosts, follows only government-domain redirects, caps response size, and returns no content when the fetch fails. Source URLs remain attributable in the response.
+- Validation: Python compilation, service-catalogue JSON validation, ServiceRegistry loading, and frontend TypeScript compilation passed.

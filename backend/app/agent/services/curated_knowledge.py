@@ -9,6 +9,7 @@ from backend.app.agent.schemas.source import RetrievedChunk, SourceVerificationS
 from backend.app.agent.schemas.common import SourceReference
 from backend.app.agent.services.embeddings import EmbeddingProvider, build_embedding_provider
 from backend.app.agent.services.retrieval import SourceRetriever
+from backend.app.agent.services.service_registry import ServiceRegistry
 
 
 class CuratedKnowledge:
@@ -32,6 +33,29 @@ class CuratedKnowledge:
         chunks_data = json.loads((data_dir / "curated_chunks.json").read_text(encoding="utf-8"))
         raw_requirements = json.loads((data_dir / "curated_requirements.json").read_text(encoding="utf-8"))
         chunks = [RetrievedChunk.model_validate(row) for row in chunks_data]
+        catalog_path = data_dir / "service_catalog.json"
+        if catalog_path.is_file():
+            for service in ServiceRegistry.from_json(catalog_path).all():
+                source_url = service.official_docs_url or service.official_portal
+                if source_url is None:
+                    continue
+                chunks.append(
+                    RetrievedChunk(
+                        chunk_id=f"{service.service_id}:catalog",
+                        source_id=f"{service.service_id}:catalog",
+                        service_id=service.service_id,
+                        source_title=service.name,
+                        source_url=source_url,
+                        chunk_index=0,
+                        text=(
+                            f"{service.name}. Category: {service.category.value}. "
+                            f"Jurisdiction: {service.jurisdiction}. {service.description} "
+                            f"Official portal: {service.official_portal or 'not provided'}. "
+                            f"Official documentation: {service.official_docs_url or 'not provided'}."
+                        ),
+                        verification_status=SourceVerificationStatus.UNVERIFIED,
+                    )
+                )
         requirements = {
             service_id: ServiceRequirements.model_validate(row)
             for service_id, row in raw_requirements.items()

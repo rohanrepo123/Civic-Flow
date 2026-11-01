@@ -29,6 +29,8 @@ class ServiceCandidateMatcher:
                 "category": service.category.value,
                 "jurisdiction": service.jurisdiction,
                 "department": service.department,
+                "description": service.description,
+                "official_docs_url": str(service.official_docs_url) if service.official_docs_url else None,
             }
             for service in services
         ]

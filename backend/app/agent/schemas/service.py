@@ -6,6 +6,7 @@ from backend.app.agent.schemas.common import ContractModel, SourceReference
 
 
 class ServiceCategory(StrEnum):
+    EDUCATION = "education"
     CERTIFICATE = "certificate"
     SCHOLARSHIP = "scholarship"
     BENEFIT = "benefit"
@@ -30,11 +31,13 @@ class ServiceRecord(ContractModel):
     name: str = Field(min_length=1)
     category: ServiceCategory
     jurisdiction: str = Field(min_length=1)
+    description: str = ""
     aliases: list[str] = Field(default_factory=list)
     verification_status: VerificationStatus = VerificationStatus.UNVERIFIED
     requirements_status: RequirementsStatus = RequirementsStatus.NOT_YET_VERIFIED
     department: str | None = None
     official_portal: HttpUrl | None = None
+    official_docs_url: HttpUrl | None = None
     official_sources: list[SourceReference] = Field(default_factory=list)
     requirements_ref: str | None = None
     eligibility_config: dict[str, object] = Field(default_factory=dict)

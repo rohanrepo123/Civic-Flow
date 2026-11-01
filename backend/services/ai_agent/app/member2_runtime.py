@@ -35,6 +35,7 @@ from backend.app.agent.services.service_resolver import ServiceResolver
 from backend.app.agent.services.service_discovery import ServiceCandidateMatcher
 from backend.app.agent.services.llm import build_chat_client
 from backend.app.agent.services.source_fallback import SourceRelevanceJudge, TavilyOfficialSearch
+from backend.app.agent.services.official_documents import OfficialDocumentFetcher
 
 
 _SECRET_KEY = re.compile(
@@ -85,6 +86,7 @@ def _service_context(
             service_id=service.service_id,
             name=service.name,
             category=service.category.value,
+            description=service.description,
             jurisdiction=service.jurisdiction,
             portal_url=str(service.official_portal) if service.official_portal else None,
             allowed_domains=(
@@ -162,6 +164,7 @@ class Member2Runtime:
                 service_matcher=service_matcher,
                 source_relevance_judge=relevance_judge,
                 web_search=TavilyOfficialSearch.from_environment(),
+                official_document_fetcher=OfficialDocumentFetcher(),
             )
         )
         return cls(

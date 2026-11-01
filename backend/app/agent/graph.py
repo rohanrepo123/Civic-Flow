@@ -53,6 +53,7 @@ class WorkflowDependencies:
         service_matcher: AsyncOrSync | None = None,
         source_relevance_judge: AsyncOrSync | None = None,
         web_search: AsyncOrSync | None = None,
+        official_document_fetcher: AsyncOrSync | None = None,
         profile_loader: AsyncOrSync | None = None,
         document_analyzer: AsyncOrSync | None = None,
         browser_client: BrowserClient | None = None,
@@ -69,6 +70,7 @@ class WorkflowDependencies:
         self.service_matcher = service_matcher
         self.source_relevance_judge = source_relevance_judge
         self.web_search = web_search
+        self.official_document_fetcher = official_document_fetcher
         self.profile_loader = profile_loader
         self.document_analyzer = document_analyzer
         self.browser_client = browser_client
@@ -300,6 +302,34 @@ def create_civicflow_graph(
         if not chunks:
             chunks = list(state.get("official_sources", []))
         return {"official_sources": chunks}
+
+    async def fetch_official_documents(state: CivicFlowState) -> dict[str, Any]:
+        if dependencies.official_document_fetcher is None:
+            return {}
+        try:
+            fetched = await _call(
+                dependencies.official_document_fetcher,
+                state["selected_service"],
+                state["user_request"],
+            )
+        except Exception:
+            fetched = []
+        existing = list(state.get("official_sources", []))
+        known_ids = {chunk.chunk_id for chunk in existing}
+        added = (
+            [chunk for chunk in fetched if isinstance(chunk, RetrievedChunk) and chunk.chunk_id not in known_ids]
+            if isinstance(fetched, list)
+            else []
+        )
+        events = _event(
+            state,
+            AgentEventType.SOURCES_RETRIEVED,
+            {
+                "service_id": state["selected_service"].service_id,
+                "document_chunk_count": len(added),
+            },
+        )
+        return {"official_sources": existing + added, "events": events}
 
     async def answer_eligibility_information(state: CivicFlowState) -> dict[str, Any]:
         service = state["selected_service"]
@@ -733,6 +763,7 @@ def create_civicflow_graph(
     builder.add_node("retrieve_sources", retrieve_sources)
     builder.add_node("judge_retrieval", judge_retrieval)
     builder.add_node("web_search_fallback", web_search_fallback)
+    builder.add_node("fetch_official_documents", fetch_official_documents)
     builder.add_node("eligibility_information", answer_eligibility_information)
     builder.add_node("requirements", extract_requirements)
     builder.add_node("profile", load_profile)
@@ -754,9 +785,6 @@ def create_civicflow_graph(
     def route_after_intent(state: CivicFlowState) -> str:
         return "summary" if state["intent"].intent in {IntentType.CASUAL_CONVERSATION, IntentType.OUT_OF_SCOPE} else "service"
 
-    def route_after_retrieval(state: CivicFlowState) -> str:
-        return "judge_retrieval" if state["intent"].intent is IntentType.CHECK_ELIGIBILITY else "requirements"
-
     def route_after_requirements(state: CivicFlowState) -> str:
         if state["intent"].intent is IntentType.CHECK_ELIGIBILITY and not state["intent"].eligibility_is_personal:
             return "eligibility_information"
@@ -764,9 +792,10 @@ def create_civicflow_graph(
 
     builder.add_conditional_edges("intent", route_after_intent, {"summary": "summary", "service": "service"})
     builder.add_edge("service", "retrieve_sources")
-    builder.add_conditional_edges("retrieve_sources", route_after_retrieval, {"judge_retrieval": "judge_retrieval", "requirements": "requirements"})
+    builder.add_edge("retrieve_sources", "judge_retrieval")
     builder.add_edge("judge_retrieval", "web_search_fallback")
-    builder.add_edge("web_search_fallback", "requirements")
+    builder.add_edge("web_search_fallback", "fetch_official_documents")
+    builder.add_edge("fetch_official_documents", "requirements")
     builder.add_conditional_edges("requirements", route_after_requirements, {"eligibility_information": "eligibility_information", "profile": "profile"})
     builder.add_edge("eligibility_information", END)
     builder.add_edge("profile", "eligibility")
