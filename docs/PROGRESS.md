@@ -189,3 +189,8 @@ The Windows environment emits known Pydantic/Python 3.14 and experimental NumPy 
 
 - Fixed the frontend start command to invoke `next start` through `pnpm exec` directly. The previous `pnpm start -- ...` forwarded an extra `--` argument, which Next.js interpreted as the project directory `--hostname` and caused the Render service to exit.
 - Validation: confirmed the command form matches the frontend's installed Next.js binary invocation; Render deployment still needs to rebuild from this commit.
+
+## Render Browser Agent native build fix (2026-11-01)
+
+- Removed Playwright's `--with-deps` from the native Render Browser Agent build command. Render's build user cannot switch to root to install operating-system packages, so this step failed with `su: Authentication failure`. The command now downloads Chromium only.
+- Documented that a live Chromium session still needs runtime verification because the native build does not install OS-level browser libraries.

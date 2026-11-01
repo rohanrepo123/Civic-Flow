@@ -32,7 +32,7 @@ services:
     name: civicflow-browser
     runtime: python
     plan: free
-    buildCommand: pip install -e backend/contracts/civicflow_contracts && pip install -e backend/services/browser_agent && python -m playwright install --with-deps chromium
+    buildCommand: pip install -e backend/contracts/civicflow_contracts && pip install -e backend/services/browser_agent && python -m playwright install chromium
     startCommand: python -m uvicorn app.main:app --host 0.0.0.0 --port $PORT
     healthCheckPath: /health/ready
     envVars:

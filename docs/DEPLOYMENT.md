@@ -12,7 +12,7 @@ To fit the free AI service memory budget, its Blueprint sets `EMBEDDING_PROVIDER
 
 - Core API: demo mode, in-memory records, AI and Browser Agent public URLs, generated JWT and browser tokens.
 - AI Agent: `LLM_PROVIDER=groq`, `GROQ_MODEL=openai/gpt-oss-20b`, and secret `GROQ_API_KEY`.
-- Browser Agent: live headless Playwright/Chromium, with its stream URL returned to the browser UI.
+- Browser Agent: live headless Playwright/Chromium, with its stream URL returned to the browser UI. On Render's native runtime, the build downloads Chromium without `--with-deps` because that option tries to install OS packages as root, which Render's build user cannot do. Confirm a live browser session after deploy; if Chromium reports missing shared libraries, the native free runtime cannot supply those packages without a different hosting/runtime setup.
 - Frontend: Next.js web service, configured at runtime with `CORE_API_URL`.
 
 `BROWSER_AGENT_URL` is used by backend services. `BROWSER_AGENT_PUBLIC_URL` is returned to the user's browser for WebSocket streaming. No secret is exposed through a frontend `NEXT_PUBLIC_*` variable.
