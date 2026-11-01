@@ -194,3 +194,8 @@ The Windows environment emits known Pydantic/Python 3.14 and experimental NumPy 
 
 - Removed Playwright's `--with-deps` from the native Render Browser Agent build command. Render's build user cannot switch to root to install operating-system packages, so this step failed with `su: Authentication failure`. The command now downloads Chromium only.
 - Documented that a live Chromium session still needs runtime verification because the native build does not install OS-level browser libraries.
+
+## Hosted chat startup reliability (2026-11-01)
+
+- Removed the hosted chat send-button dependency on a preliminary Core API identity request. That request could remain pending while Render's free Core service was waking, leaving the send button disabled and the chat unable to submit.
+- Chat sessions now hydrate immediately from browser-local storage; the first actual message request lets the Core API establish its anonymous identity cookie. This keeps chat usable while free services wake and still surfaces API failures from the message request.

@@ -2,7 +2,6 @@
 
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react"
 import { serviceCatalog, type Service } from "@/src/data/serviceCatalog"
-import { getChatIdentity } from "@/lib/civicflow-api"
 import { appendSessionMessages } from "@/lib/chat-sessions"
 import { createCoreApplication } from "@/lib/civicflow-api"
 
@@ -75,6 +74,7 @@ type CivicFlowContext = {
 const defaultForm = { applicantName: "Aarav Patil", fatherName: "Rajesh Patil", income: "₹2,00,000", dob: "12/03/2004", category: "OBC" }
 const welcomeMessage: ChatMessage = { role: "assistant", text: "Hello Aarav. I can help you discover services, check eligibility, and complete applications." }
 const initialConversationId = "conversation-welcome"
+const chatStorageKey = "civicflow-chat:local"
 const initialChatSession: ChatSession = {
   id: initialConversationId,
   title: "New chat",
@@ -141,32 +141,18 @@ export function CivicFlowProvider({ children }: { children: ReactNode }) {
   const [storageKey, setStorageKey] = useState("")
 
   useEffect(() => {
-    let cancelled = false
-    async function hydrate() {
-      try {
-        const { scope } = await getChatIdentity()
-        const key = `civicflow-chat:${scope}`
-        let restored = { ...initialState, chatSessions: {} } as StoreState
-        try {
-          const saved = window.localStorage.getItem(key)
-          if (saved) restored = sanitizePersistedState(JSON.parse(saved))
-        } catch { /* A corrupt record must not stop a new conversation. */ }
-        const id = createConversationId()
-        const session = makeChatSession(id, [welcomeMessage])
-        if (!cancelled) {
-          setStorageKey(key)
-          setState({ ...restored, conversationId: id, chat: session.messages,
-            chatSessions: { ...restored.chatSessions, [id]: session } })
-          setHydrated(true)
-        }
-      } catch {
-        // Retry identity setup; do not send chat under a shared placeholder ID.
-        if (!cancelled) retry = window.setTimeout(hydrate, 3000)
-      }
-    }
-    let retry: number | undefined
-    void hydrate()
-    return () => { cancelled = true; window.clearTimeout(retry) }
+    let restored = { ...initialState, chatSessions: {} } as StoreState
+    try {
+      const saved = window.localStorage.getItem(chatStorageKey)
+      if (saved) restored = sanitizePersistedState(JSON.parse(saved))
+    } catch { /* A corrupt record must not stop a new conversation. */ }
+    const id = createConversationId()
+    const session = makeChatSession(id, [welcomeMessage])
+    const hydratedState = { ...restored, conversationId: id, chat: session.messages,
+      chatSessions: { ...restored.chatSessions, [id]: session } }
+    setStorageKey(chatStorageKey)
+    setState(hydratedState)
+    setHydrated(true)
   }, [])
 
   useEffect(() => {
