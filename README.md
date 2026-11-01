@@ -91,3 +91,13 @@ The AI service loads additional catalogue entries from `backend/app/agent/data/s
 For each entry, CivicFlow creates a service-context chunk in the in-memory FAISS index. A request then goes through catalogue retrieval, LLM relevance judging, and a guarded fetch of the configured official documentation URL. The fetched text is chunked and passed to the requirements and eligibility stages. Only HTTPS `gov.in` URLs are fetched; portal and documentation URLs are returned as source citations. Restart the AI service after changing the catalogue.
 
 The Core API uses in-memory application records in this local demo, so those records reset when it stops. Browser sessions are isolated in the Browser Agent process and also end when stopped. The existing Member 2 Vite app and source files remain preserved.
+
+## Free hosted demo (Render)
+
+`render.yaml` provisions the four services using Render's native runtimes, without containers. See [free deployment notes](docs/DEPLOYMENT.md) for the setup flow and free-tier limitations. Render asks for `GROQ_API_KEY` privately during initial deployment; never add `.env` to Git.
+
+Render free deployment uses four native (non-container) web services. Start the Blueprint from the Render dashboard after connecting the GitHub repository. Free instances sleep after 15 minutes, may take about a minute to wake, have 512 MB RAM, and share a monthly workspace allowance of 750 instance hours. Free filesystems are ephemeral and the Core API and Browser Agent keep state in memory, so this is only a demo and loses active records/sessions on restarts.
+
+The AI service uses `EMBEDDING_PROVIDER=lexical` on the free plan to avoid downloading/loading BGE-M3 in a memory-limited instance. Local development keeps BGE-M3 as the default. Chromium may exceed the Browser Agent's free RAM limit and must be verified after provisioning.
+
+The Render Blueprint keeps the Groq key out of Git and prompts for `GROQ_API_KEY` during initial setup. Vercel alone is not sufficient: it can host the frontend, but the Core API, AI Agent, and Chromium Browser Agent must run on separate services, and the browser WebSocket needs a reachable endpoint.

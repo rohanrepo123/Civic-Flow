@@ -33,3 +33,16 @@ def test_scholarship_knowledge_asks_for_exact_scheme_without_invented_rules():
     assert not requirements.required_documents
     assert any("exact scheme" in notice for notice in requirements.uncertainties)
     assert chunks[0].source_url.host == "mahadbt.maharashtra.gov.in"
+
+
+def test_lexical_embedding_mode_skips_model_loading_and_keeps_retrieval(monkeypatch):
+    monkeypatch.setenv("EMBEDDING_PROVIDER", "lexical")
+    monkeypatch.delenv("EMBEDDING_API_KEY", raising=False)
+    monkeypatch.delenv("EMBEDDING_URL", raising=False)
+    knowledge = CuratedKnowledge.default()
+    service = next(item for item in ServiceRegistry.default().all() if item.service_id == "maharashtra_scholarship")
+
+    chunks = asyncio.run(knowledge.retrieve(service, "Maharashtra scholarship eligibility"))
+
+    assert chunks
+    assert any(chunk.service_id == service.service_id for chunk in chunks)

@@ -31,6 +31,8 @@ class EmbeddingSettings:
             return None
         provider = os.getenv("EMBEDDING_PROVIDER", "sentence_transformers").strip().lower()
         model = os.getenv("EMBEDDING_MODEL", "BAAI/bge-m3").strip()
+        if provider == "lexical":
+            return cls(provider=provider, model=model or "lexical")
         if provider == "sentence_transformers":
             if not model:
                 raise ValueError("EMBEDDING_MODEL must name a Sentence Transformers model")
@@ -162,12 +164,21 @@ class HttpEmbeddingProvider:
         return [[float(value) for value in vector] for vector in vectors]
 
 
+class LexicalFallbackEmbeddingProvider:
+    """Disable model loading and let CuratedKnowledge use its lexical retrieval path."""
+
+    def embed(self, texts: list[str]) -> list[list[float]]:
+        raise RuntimeError("Semantic embeddings are disabled; use lexical source retrieval.")
+
+
 def build_embedding_provider(settings: EmbeddingSettings | None = None) -> EmbeddingProvider:
     configuration = settings or EmbeddingSettings.from_environment() or EmbeddingSettings(
         provider="sentence_transformers", model="BAAI/bge-m3"
     )
     if configuration.provider == "sentence_transformers":
         return BgeM3EmbeddingProvider(configuration)
+    if configuration.provider == "lexical":
+        return LexicalFallbackEmbeddingProvider()
     if configuration.provider in {"openai", "openai_compatible"}:
         return HttpEmbeddingProvider(configuration)
     raise ValueError("EMBEDDING_PROVIDER must be 'sentence_transformers' or an API provider")

@@ -1,0 +1,109 @@
+services:
+  - type: web
+    name: civicflow-ai
+    runtime: python
+    plan: free
+    buildCommand: pip install -e backend/contracts/civicflow_contracts && pip install -e backend/services/ai_agent
+    startCommand: python -m uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health/ready
+    envVars:
+      - key: PYTHONPATH
+        value: backend/services/ai_agent:backend/contracts/civicflow_contracts:.
+      - key: LLM_PROVIDER
+        value: groq
+      - key: GROQ_API_KEY
+        sync: false
+      - key: GROQ_MODEL
+        value: openai/gpt-oss-20b
+      - key: EMBEDDING_PROVIDER
+        value: lexical
+      - key: BROWSER_AGENT_URL
+        fromService:
+          type: web
+          name: civicflow-browser
+          envVarKey: RENDER_EXTERNAL_URL
+      - key: BROWSER_AGENT_API_TOKEN
+        fromService:
+          type: web
+          name: civicflow-browser
+          envVarKey: BROWSER_AGENT_API_TOKEN
+
+  - type: web
+    name: civicflow-browser
+    runtime: python
+    plan: free
+    buildCommand: pip install -e backend/contracts/civicflow_contracts && pip install -e backend/services/browser_agent && python -m playwright install --with-deps chromium
+    startCommand: python -m uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health/ready
+    envVars:
+      - key: PYTHONPATH
+        value: backend/services/browser_agent:backend/contracts/civicflow_contracts:.
+      - key: BROWSER_AGENT_API_TOKEN
+        generateValue: true
+      - key: CIVICFLOW_BROWSER_RUNTIME
+        value: playwright
+      - key: CIVICFLOW_ALLOW_LOCAL_MOCK
+        value: "false"
+      - key: BROWSER_HEADLESS
+        value: "true"
+      - key: CORS_ORIGINS
+        fromService:
+          type: web
+          name: civicflow-web
+          envVarKey: RENDER_EXTERNAL_URL
+
+  - type: web
+    name: civicflow-core
+    runtime: python
+    plan: free
+    buildCommand: pip install -e backend/contracts/civicflow_contracts && pip install -e backend/services/core_api
+    startCommand: python -m uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health/ready
+    envVars:
+      - key: PYTHONPATH
+        value: backend/services/core_api:backend/contracts/civicflow_contracts:.
+      - key: LOCAL_DEMO_MODE
+        value: "true"
+      - key: USE_MOCK_AI
+        value: "false"
+      - key: USE_MOCK_BROWSER
+        value: "false"
+      - key: JWT_SECRET_KEY
+        generateValue: true
+      - key: SERVICE_REQUEST_TIMEOUT
+        value: "120"
+      - key: AI_AGENT_URL
+        fromService:
+          type: web
+          name: civicflow-ai
+          envVarKey: RENDER_EXTERNAL_URL
+      - key: BROWSER_AGENT_URL
+        fromService:
+          type: web
+          name: civicflow-browser
+          envVarKey: RENDER_EXTERNAL_URL
+      - key: BROWSER_AGENT_PUBLIC_URL
+        fromService:
+          type: web
+          name: civicflow-browser
+          envVarKey: RENDER_EXTERNAL_URL
+      - key: BROWSER_AGENT_API_TOKEN
+        fromService:
+          type: web
+          name: civicflow-browser
+          envVarKey: BROWSER_AGENT_API_TOKEN
+
+  - type: web
+    name: civicflow-web
+    runtime: node
+    plan: free
+    rootDir: frontend_member1
+    buildCommand: pnpm install --frozen-lockfile && pnpm build
+    startCommand: pnpm start -- --hostname 0.0.0.0 --port $PORT
+    healthCheckPath: /
+    envVars:
+      - key: CORE_API_URL
+        fromService:
+          type: web
+          name: civicflow-core
+          envVarKey: RENDER_EXTERNAL_URL

@@ -1,25 +1,26 @@
-# Deployment notes
+# Free deployment
 
-## Source publication
+The repository includes a no-Docker Render Blueprint in `render.yaml`. It defines native Python/Node web services for the Core API, AI Agent, Chromium Browser Agent, and Next.js frontend. Render wires public HTTPS service URLs and the browser token between services. To provision it, create a Render account and start a Blueprint deployment for this GitHub repository. Render will ask for `GROQ_API_KEY`; enter it in Render's secret prompt. The key is not stored in Git or the Blueprint.
 
-Push the source to the configured GitHub repository. Keep `.env`, `.env.*` other than `.env.example`, API keys, browser tokens, and production secrets out of Git. Set the keys in each hosting provider's private environment-variable settings.
+## Free-tier behavior
 
-## Vercel frontend
+This is a hobby/demo deployment, not a reliable production host. Render's free web instances use 512 MB RAM, spin down after 15 minutes of inactivity, take about a minute to wake, and share a 750 free-instance-hour monthly workspace allowance. Free service filesystems are ephemeral. Core API applications and Browser Agent sessions are in memory, so restarts or idle spin-down lose them. Chromium may exceed the free Browser Agent's memory limit; smoke-test the Blueprint after Render provisions the services.
 
-Vercel can run the Next.js frontend in `frontend_member1`. Use Node.js 22, the `pnpm-lock.yaml` lockfile, and `pnpm build`. Set `CORE_API_URL` to a public HTTPS Core API endpoint. The frontend's `/api/core/*` route forwards to that API.
+To fit the free AI service memory budget, its Blueprint sets `EMBEDDING_PROVIDER=lexical`. Local installs still default to BGE-M3; the hosted demo uses lexical fallback retrieval and Groq chat. Change to BGE only on a host with enough RAM and a prepared model cache.
 
-The frontend alone is not the complete CivicFlow deployment. The Core API, AI Agent, and Browser Agent are separate long-running services. The Browser Agent needs Playwright with Chromium and a public WebSocket endpoint. Set the following backend variables:
+## Service wiring
 
-- Core API: `AI_AGENT_URL`, `BROWSER_AGENT_URL`, `BROWSER_AGENT_PUBLIC_URL`, `BROWSER_AGENT_API_TOKEN`, and `CORS_ORIGINS`.
-- AI Agent: `LLM_PROVIDER=groq`, `GROQ_API_KEY`, and `GROQ_MODEL=openai/gpt-oss-20b`.
-- Browser Agent: `BROWSER_AGENT_API_TOKEN`, live Playwright mode, and the configured safe portal policy.
+- Core API: demo mode, in-memory records, AI and Browser Agent public URLs, generated JWT and browser tokens.
+- AI Agent: `LLM_PROVIDER=groq`, `GROQ_MODEL=openai/gpt-oss-20b`, and secret `GROQ_API_KEY`.
+- Browser Agent: live headless Playwright/Chromium, with its stream URL returned to the browser UI.
+- Frontend: Next.js web service, configured at runtime with `CORE_API_URL`.
 
-`BROWSER_AGENT_URL` is the private service-to-service address. `BROWSER_AGENT_PUBLIC_URL` is the HTTPS browser-service address returned to the user's browser for WebSocket streaming. Do not put private service URLs or secrets in frontend `NEXT_PUBLIC_*` variables.
+`BROWSER_AGENT_URL` is used by backend services. `BROWSER_AGENT_PUBLIC_URL` is returned to the user's browser for WebSocket streaming. No secret is exposed through a frontend `NEXT_PUBLIC_*` variable.
 
-## Current production limitation
+## Vercel
 
-The Core API application records and Browser Agent sessions are currently held in memory. A process restart loses them. The app can be demonstrated on hosted services, but it is not ready for persistent citizen accounts or durable applications until these stores are backed by production persistence. Vercel cannot host the persistent Chromium worker as a standard Next.js function; deploy that worker to a long-running host that supports Chromium and WebSockets.
+Vercel Hobby can host the frontend, but it cannot act as CivicFlow's WebSocket server, and it does not host the long-running Core API, AI Agent, or Chromium Browser Agent. Use it only if those services are deployed elsewhere and configure the frontend's `CORE_API_URL` accordingly.
 
-## Groq provider
+## Groq check
 
-The workspace's Groq key was checked against Groq's model list and a minimal JSON chat completion. Do not include that key in the repository. Set it as `GROQ_API_KEY` in the AI Agent service's environment, and set `LLM_PROVIDER=groq`; `GROQ_MODEL` defaults to `openai/gpt-oss-20b`.
+The workspace's Groq key was checked against Groq's model list and a minimal JSON chat completion. The key is ignored locally and must be entered in the hosting provider's secret settings; never commit `.env`.
